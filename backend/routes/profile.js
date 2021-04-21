@@ -14,11 +14,9 @@ router.put("/profile", async function(req,res,next){
     await conn.beginTransaction();
  
     try {
-        await conn.query('SELECT * FROM user WHERE username = ? AND password = ?', [req.session.userdata.username, req.session.userdata.password])
-        console.log(req.session.userdata.f_name)    
-        res.send(req.session.userdata)
-        await conn.query('UPDATE user SET f_name = ?, l_name = ?, phone_number = ?, email = ?',[f_name, l_name, phone_number, email])
+        await conn.query('UPDATE user SET f_name=?, l_name=?, email=?, phone_number=? WHERE id=?', [f_name, l_name, email, phone_number, req.session.userdata.id])
         await conn.commit()
+        res.json('success')
       } catch (err) {
         await conn.rollback();
         return res.status(400).json(err);
