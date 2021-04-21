@@ -5,7 +5,7 @@
         <p class="aligncenter">Create an account or&nbsp;<a href="">sign in to </a></p>
         <br>
 
-        <div class="columns">
+        <div class="columns aligncenter">
             <div class="column is-4">
                 <input class="input is-primary" type="text" placeholder="First Name" v-model="f_name">
             </div>
@@ -94,13 +94,13 @@ export default {
         })
         .then(() => {
             if(this.usertype == 'Buyer'){axios.post("http://localhost:3000/register/buyer")
-            .then(()=>{this.$router.push({name: 'Home'})})
+            .then(()=>{this.$router.push({name: 'login'})})
             .catch((err) => {console.log(err);})}
             if(this.usertype == 'Seller'){axios.post("http://localhost:3000/register/seller")
-            .then(()=>{this.$router.push({name: 'Home'})})
+            .then(()=>{this.$router.push({name: 'login'})})
             .catch((err) => {console.log(err);})}
             if(this.usertype == 'Owner_Marketplace'){axios.post("http://localhost:3000/register/owner_marketplace")
-            .then(()=>{this.$router.push({name: 'Home'})})
+            .then(()=>{this.$router.push({name: 'login'})})
             .catch((err) => {console.log(err);})}
         })
         .catch((err) => {

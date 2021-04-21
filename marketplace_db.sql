@@ -162,3 +162,27 @@ INSERT INTO `owner_marketplace` (`id`) VALUES
 
 INSERT INTO `seller` (`id`) VALUES
 ('2');
+
+
+
+INSERT INTO `product` (`p_name`, `price`, `id`, `description`, `promotion_price`, `store_id`, `category_id`, `quantity`) 
+VALUES ('Bear', '3200.0', '1', 'BearBearBearBear', '100', '1.0', '1', '1'),
+       ('Bear', '3200.0', '2', 'BearBearBearBear', '100', '1.0', '1', '1');
+
+
+
+INSERT INTO `category` (`id`, `category_name`) 
+VALUES ('1', 'Toy');
+
+
+
+INSERT INTO `store` (`subscription_type`, `store_name`, `id`, `seller_id`, `owner_marketplace_id`) 
+VALUES ('normal', 'Earthshop', '1', '1', '1');
+
+
+
+INSERT INTO `product_picture` (`product_id`, `picture_no`, `category_name`) 
+VALUES ('1', '1', 'uploads/toy.jpg'),
+       ('2', '2', 'uploads/toy.jpg');;
+
+

@@ -23,7 +23,12 @@ const routes = [
     path: '/profile',
     name: 'profile',
     component: () => import('../views/profile.vue')// set login as path '/login'
-  }
+  },
+  {
+    path: '/changepassword',
+    name: 'changepassword',
+    component: () => import('../views/changepassword.vue')// set login as path '/login'
+  },
 ]
 
 const router = new VueRouter({

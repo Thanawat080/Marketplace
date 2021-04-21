@@ -14,7 +14,8 @@
     "core-js": "^3.6.5",
     "cors": "^2.8.5",
     "vue": "^2.6.11",
-    "vue-router": "^3.5.1"
+    "vue-router": "^3.5.1",
+    "w3-css": "file:node_modules/w3-css"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",

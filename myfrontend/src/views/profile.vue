@@ -8,8 +8,10 @@
                             หน้าหลัก
                         </p>
                         <ul class="menu-list">
-                            <li><a href="profile.html">หน้าหลัก</a></li>
-                            <li><a href="changepass.html">แก้ไขรหัส</a></li>
+                            <li><router-link class="card-footer-item" to="/profile">หน้าหลัก</router-link></li>
+                            <li><router-link class="card-footer-item" to="/changepassword">แก้ไขรหัส</router-link></li>
+
+                            
                         </ul>
                         <p class="menu-label">
                             ประวัติ
@@ -104,12 +106,16 @@ export default {
       })
 
       .then((res) => {
-        
+        this.f_name = this.newf_name
+        this.l_name = this.newl_name
+        this.phone_number = this.newphone_number
+        this.email = this.newemail
         console.log(res.data)
       })
       .catch((err) => {
         console.log(err);
       });
+      this.isActive =  'false'
     },
     togglemodal(){
       this.isActive =  'is-active'
@@ -119,6 +125,7 @@ export default {
     axios
       .get("http://localhost:3000/login")
       .then((res) => {
+       console.log(res.data)
        this.f_name = res.data.f_name
        this.l_name = res.data.l_name
        this.phone_number = res.data.phone_number
@@ -129,5 +136,6 @@ export default {
         console.log(err);
       });
   },
+
 };
 </script>

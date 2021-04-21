@@ -16,6 +16,10 @@ router.put("/profile", async function(req,res,next){
     try {
         await conn.query('UPDATE user SET f_name=?, l_name=?, email=?, phone_number=? WHERE id=?', [f_name, l_name, email, phone_number, req.session.userdata.id])
         await conn.commit()
+        req.session.userdata.f_name = req.body.f_name
+        req.session.userdata.l_name = req.body.f_name
+        req.session.userdata.email = req.body.email
+        req.session.userdata.phone_number = req.body.phone_number
         res.json('success')
       } catch (err) {
         await conn.rollback();
