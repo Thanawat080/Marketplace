@@ -40,7 +40,7 @@ export default {
           password: this.password,
         })
       .then((res) => {
-  
+        if(res.data === 'success'){
             axios
               .get("http://localhost:3000/login")
               .then(() => {
@@ -49,11 +49,7 @@ export default {
               .catch((err) => {
                 console.log(err);
               });
-   
-
-        console.log(res.data)
- 
-
+        } 
       })
         .catch((err) => {
           console.log(err);
