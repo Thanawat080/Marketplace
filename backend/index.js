@@ -48,6 +48,9 @@ app.use(changepasswordRouter.router)
 const indexRouter = require('./routes/index')
 app.use(indexRouter.router)
 
+const storeRouter = require('./routes/store')
+app.use(storeRouter.router)
+
 
 app.listen(3000, () => {
   console.log(`Example app listening at http://localhost:3000`)
