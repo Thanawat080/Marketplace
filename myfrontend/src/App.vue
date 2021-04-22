@@ -11,9 +11,7 @@
                 <a class="navbar-item mininav" href="help.html">
                     help
                 </a>
-                <a class="navbar-item mininav" href="Seller/index.html">
-                    Seller
-                </a>
+                <router-link class="navbar-item mininav" to="/seller">seller</router-link>
                 <a class="navbar-item mininav" href="Admin/index.html">
                     Admin
                 </a>
