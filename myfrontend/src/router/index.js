@@ -35,6 +35,27 @@ const routes = [
     name: 'order',
     component: () => import('../views/order.vue')// set login as path '/login'
   },
+  ,
+  {
+    path: '/seller',
+    name: 'seller',
+    component: () => import('../views/seller/mainseller.vue')// set login as path '/profile'
+  },
+  {
+    path: '/seller/addstore',
+    name: 'selleradd',
+    component: () => import('../views/seller/addstore.vue')// set login as path '/profile'
+  },
+  {
+    path: '/seller/addproduct',
+    name: 'addproduct',
+    component: () => import('../views/seller/addproduct.vue')// set login as path '/profile'
+  },
+  {
+    path: '/seller/edit',
+    name: 'editproduct',
+    component: () => import('../views/seller/editproduct.vue')
+  }
 ]
 
 const router = new VueRouter({
