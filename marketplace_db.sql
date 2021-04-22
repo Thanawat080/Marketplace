@@ -119,7 +119,7 @@ DROP TABLE IF EXISTS `product_picture`;
 CREATE TABLE `product_picture` (
   `product_id` int(10) not null,
   `picture_no` int(10) AUTO_INCREMENT,
-  `category_name` varchar(255) not null,
+  `picture` varchar(255) not null,
   PRIMARY KEY (`picture_no`),
   FOREIGN KEY (`product_id`) 
   REFERENCES `product`(`id`)
