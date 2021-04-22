@@ -19,11 +19,16 @@ router.post("/login", async function(req, res, next){
     let result = await conn.query('SELECT * FROM user WHERE username = ? AND password = ?', [username, password])
         if (result[0].length > 0) {
           req.session.userdata = result[0][0]
+          if(req.session.userdata.usertype == 'buyer'){
+            await conn.query("INSERT INTO `order`(`buyer_id`, `order_price`, `date`, `address`) VALUES(?, ?, ?, ?);", 
+            [req.session.userdata.id, null, null, null]) 
+          }
           res.send("success")   
         } else {
           res.send('Incorrect Username and/or Password!');
         }
     await conn.commit()
+    console.log(req.body.username)
   } catch (err) {
     await conn.rollback();
     return res.status(400).json(err);
@@ -42,7 +47,5 @@ router.get("/login", function(req,res,next){
   }
 
 })
-
-
 
 exports.router = router;

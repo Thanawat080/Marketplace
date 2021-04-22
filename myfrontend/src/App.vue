@@ -3,7 +3,7 @@
            <div class="navbar-menu">
             <div class="navbar-start">
                 <!-- navbar items -->
-
+                <router-link class="card-footer-item navbar-item mininav" to="/">Home</router-link>
             </div>
 
             <div class="navbar-end">
@@ -17,7 +17,7 @@
                 <a class="navbar-item mininav" href="Admin/index.html">
                     Admin
                 </a>
-                <router-link class="card-footer-item navbar-item mininav" to="/login">Sign in</router-link>
+                <router-link class="card-footer-item navbar-item mininav" to="/login">login</router-link>
                 <router-link class="card-footer-item navbar-item mininav" to="/register">Register</router-link>
                 <a class="navbar-item mininav">
                     <i class="fas fa-shopping-cart"></i>&nbsp;0

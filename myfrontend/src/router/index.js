@@ -29,6 +29,12 @@ const routes = [
     name: 'changepassword',
     component: () => import('../views/changepassword.vue')// set login as path '/login'
   },
+
+  {
+    path: '/order',
+    name: 'order',
+    component: () => import('../views/order.vue')// set login as path '/login'
+  },
 ]
 
 const router = new VueRouter({

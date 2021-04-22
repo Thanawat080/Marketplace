@@ -1,5 +1,6 @@
 <template>
-                <div class="container is-max-desktop">
+         <div class="container is-max-desktop">
+             <br>
             <div class="is-multiline columns is-variable notification is-order">
                 <div class="column is-half">
 

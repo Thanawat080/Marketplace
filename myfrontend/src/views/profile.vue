@@ -58,7 +58,7 @@
                                     <input class="input" type="text" placeholder="LastName" v-model="newl_name"><br><br>
                                     <input class="input" type="text" placeholder="Phone" v-model="newphone_number"><br><br>
                                     <input class="input" type="text" placeholder="Email" v-model="newemail"><br><br>
-                                    <input class="input" type="text" placeholder="Username" disabled>
+                                    <input class="input" type="text" placeholder="Username" disabled v-model="newusername">
                                 </section>
                                 <footer class="modal-card-foot">
                                     <button class="button is-success" @click="saveChange">บันทึก</button>
@@ -119,6 +119,11 @@ export default {
     },
     togglemodal(){
       this.isActive =  'is-active'
+       this.newf_name = this.f_name
+       this.newl_name = this.l_name
+       this.newphone_number = this.phone_number
+       this.newusername = this.username
+       this.newemail = this.email
     },
   },
   created() {

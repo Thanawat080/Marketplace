@@ -167,7 +167,11 @@ INSERT INTO `seller` (`id`) VALUES
 
 INSERT INTO `product` (`p_name`, `price`, `id`, `description`, `promotion_price`, `store_id`, `category_id`, `quantity`) 
 VALUES ('Bear', '3200.0', '1', 'BearBearBearBear', '100', '1.0', '1', '1'),
-       ('Bear', '3200.0', '2', 'BearBearBearBear', '100', '1.0', '1', '1');
+       ('Cat', '3200.0', '2', 'BearBearBearBear', '100', '1.0', '1', '1'),
+       ('Dog', '3200.0', '3', 'BearBearBearBear', '100', '1.0', '1', '1'),
+       ('Bird', '3200.0', '4', 'BearBearBearBear', '100', '1.0', '1', '1'),
+       ('Snake', '3200.0', '5', 'BearBearBearBear', '100', '1.0', '1', '1'),
+       ('Ant', '3200.0', '6', 'BearBearBearBear', '100', '1.0', '1', '1');
 
 
 
@@ -183,6 +187,10 @@ VALUES ('normal', 'Earthshop', '1', '1', '1');
 
 INSERT INTO `product_picture` (`product_id`, `picture_no`, `category_name`) 
 VALUES ('1', '1', 'uploads/toy.jpg'),
-       ('2', '2', 'uploads/toy.jpg');;
+       ('2', '2', 'uploads/toy.jpg'),
+       ('3', '3', 'uploads/toy.jpg'),
+       ('4', '4', 'uploads/toy.jpg'),
+       ('5', '5', 'uploads/toy.jpg'),
+       ('6', '6', 'uploads/toy.jpg');
 
 

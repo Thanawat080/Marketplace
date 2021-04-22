@@ -2,7 +2,8 @@
     <div class="container">
         <br>
         <h1 class="title">Register</h1>
-        <p class="aligncenter">Create an account or&nbsp;<a href="">sign in to </a></p>
+        <p class="aligncenter">Create an account or &nbsp;<router-link to="/login">sign in to</router-link>
+        <br>
         <br>
 
         <div class="columns aligncenter">
