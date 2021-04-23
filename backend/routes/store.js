@@ -23,7 +23,7 @@ router.put("/addstore", async function(req, res, next){
   await conn.beginTransaction();
   try {
     await conn.query("INSERT INTO store (subscription_type, store_name, description, seller_id, owner_marketplace_id) VALUES(?, ?, ?, ?, ?);", 
-    [rent_type, storename,description, 2, 1])
+    [rent_type, storename,description, req.session.userdata.id, 1])
     await conn.commit()
     res.json("addstorecomplete")
   } catch (err) {
