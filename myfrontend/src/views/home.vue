@@ -60,7 +60,7 @@
                 <figure class="image is-1by1">
                   <img
                     style="height: 120px"
-                    :src="'http://localhost:3000/' + product.category_name"
+                    :src="'http://localhost:3000/' + product.picture"
                     alt="Placeholder image"
                   />
                 </figure>
