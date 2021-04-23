@@ -1,3 +1,6 @@
 # Marketplace_management
 
-# npm install joi bcrypt
+# Backend
+## npm install joi bcrypt
+# Frontend
+## npm install vuelidate
