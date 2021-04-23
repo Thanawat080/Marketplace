@@ -22,7 +22,7 @@ router.get("/index", async function(req,res,next){
       }
       else{
         await conn.commit()
-        res.send('noproduct')
+        res.send([])
       }
       
       } catch (err) {
@@ -43,7 +43,7 @@ router.post("/search", async function (req, res, next) {
   try {
     const rows1 = await pool.query(
       `SELECT a.*, b.picture FROM product AS a LEFT JOIN 
-            (SELECT * FROM product_picture) AS b ON a.id = b.product_id where p_name in (?);`,[search]
+            (SELECT * FROM product_picture) AS b ON a.id = b.product_id where p_name like ?;`,['%'+search+'%']
     );
     res.send(rows1[0])
     console.log(search)
