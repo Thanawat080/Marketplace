@@ -8,17 +8,18 @@
                             หน้าหลัก
                         </p>
                         <ul class="menu-list">
-                            <router-link to="/seller">หน้าหลัก</router-link>
+                            <li><a href="index.html">หน้าหลัก</a></li>
+                            <li><a href="rent.html">เช่าเปิดร้าน</a></li>
                             <li>
-                            <router-link to="/seller/addstore">กรอกข้อมูลร้านค้า</router-link>
+                            <router-link class="navbar-item mininav" to="/seller/addstore">กรอกข้อมูลร้านค้า</router-link>
                             </li>
                         </ul>
                         <p class="menu-label">
                             สินค้า
                         </p>
                         <ul class="menu-list">
-                            <router-link to="/seller/addproduct">เพิ่มสินค้า</router-link>
-                            <router-link to="/seller/edit">แก้ไขสินค้า</router-link>
+                            <router-link class="navbar-item mininav" to="/seller/addproduct">เพิ่มสินค้า</router-link>
+                            <router-link class="navbar-item mininav" to="/seller/edit">แก้ไขสินค้า</router-link>
                         </ul>
                     </aside>
                 </div>
@@ -34,76 +35,70 @@
                             <!-- Your table content -->
                             <tbody>
                                 <tr>
-                                    <th>1</th>
-                                    <td style="width: 100%;">Test</td>
-                                    <td><button class="button is-warning">แก้ไข</button></td>
-                                    <td><button class="button is-danger">ลบสินค้า</button></td>
+                                  <td>ลำดับ</td>
+                                  <td>ชื่อสินค้า</td>
+                                  <td>จำนวนคงเหลือ</td>
+                                  <td></td>
+                                  <td></td>
+                                </tr>
+                                <tr v-for='(value, index) in product' :key='value.id'>
+                                    <th>{{index+1}}</th>
+                                    <td style="width: 70%;">{{value.p_name}}</td>
+                                    <td style="width: 100%;">{{value.quantity}}</td>
+                                    <td><button class="button is-warning" @click="editproduct(value.id)">แก้ไข</button></td>
+                                    <td><button class="button is-danger" @click="deleteproduct(value.id)">ลบสินค้า</button></td>
                                 </tr>
                             </tbody>
                         </table>
 
-                        <div class="modal">
+                        <div class="modal" :class="{'is-active': deletestatus}">
                             <div class="modal-background"></div>
                             <div class="modal-card">
                                 <header class="modal-card-head">
                                     <p class="modal-card-title">ลบสินค้า</p>
-                                    <button class="delete" aria-label="close"></button>
+                                    <button class="delete" aria-label="close" @click="deletestatus = false"></button>
                                 </header>
                                 <footer class="modal-card-foot">
-                                    <button class="button is-danger">ลบ</button>
-                                    <button class="button">ยกเลิก</button>
+                                    <button class="button is-danger" @click="confirmDelete">ลบ</button>
+                                    <button class="button" @click="deletestatus = false">ยกเลิก</button>
                                 </footer>
                             </div>
                         </div>
 
-                        <div class="modal is-active-">
+                        <div class="modal" :class="{'is-active': editstatus}">
                             <div class="modal-background"></div>
                             <div class="modal-card">
                               <header class="modal-card-head">
                                 <p class="modal-card-title">แก้ไขสินค้า</p>
-                                <button class="delete" aria-label="close"></button>
+                                <button class="delete" aria-label="close" @click="(editstatus = false)"></button>
                               </header>
-                              <section class="modal-card-body">
+                              <section class="modal-card-body ">
                                 <!-- Content ... -->
                                 <div class="column is-full">
-                        
-                                    <div class="file is-info is-boxed aligncenter">
-                                        <label class="file-label">
-                                          <input class="file-input" type="file" name="resume">
-                                          <span class="file-cta">
-                                            <span class="file-icon">
-                                              <i class="fas fa-cloud-upload-alt"></i>
-                                            </span>
-                                            <span class="file-label">
-                                              Upload pic…
-                                            </span>
-                                          </span>
-                                        </label>
-                                      </div>
             
-                                    ชื่อสินค้า<input class="input" type="text" placeholder="ชื่อสินค้า">
+                                    ชื่อสินค้า<input class="input" type="text" placeholder="ชื่อสินค้า" v-model="productEdit.p_name">
                                     <div class="columns">
                                         <div class="column">
-                                            ราคา<input class="input" type="text" placeholder="ราคา">
+                                            ราคา<input class="input" type="text" placeholder="ราคา" v-model="productEdit.price">
                                         </div>
                                         <div class="column">
-                                            ราคาโปรโมชั่น *ใส่หรือไม่ใส่ก็ได้*<input class="input" type="text" placeholder="ราคาโปรโมชั่น">
+                                            ราคาโปรโมชั่น *ใส่หรือไม่ใส่ก็ได้*<input class="input" type="text" placeholder="ราคาโปรโมชั่น" v-model="productEdit.promotion_price">
                                         </div>
                                     </div>
-                                    รายละเอียดสินค้า<textarea class="textarea" placeholder="รายละเอียดสินค้า" rows="5"></textarea>
+                                    จำนวน<input class="input" type="number" placeholder="จำนวน" v-model="productEdit.quantity">
+                                    รายละเอียดสินค้า<textarea class="textarea" placeholder="รายละเอียดสินค้า" rows="5" v-model="productEdit.description"></textarea>
                                     <br>
                                     <div class="select is-primary">
-                                        <select>
-                                          <option>Select categories</option>
-                                          <option>XXX</option>
+                                        <select v-model="category_name">
+                                          <option v-for='value in category' :key='value.id'>{{value.category_name}}</option>
                                         </select>
                                       </div>
             
                                 </div>
                               </section>
                               <footer class="modal-card-foot">
-                                <button class="button is-success">ยืนยัน</button>
-                                <button class="button">ยกเลิก</button>
+                                <button class="button is-success" @click='confirmEdit'>ยืนยัน</button>
+                                <button class="button" @click="editstatus = false">ยกเลิก</button>
                               </footer>
                             </div>
                           </div>
@@ -116,31 +111,81 @@
         </div>
 </template>
 <script>
-// import axios from "axios";
+import axios from "axios";
 export default {
   data() {
     return {
-      product:[]
+      product:[],
+      deletestatus: false,
+      idproduct:'',
+      editstatus: false,
+      category: [],
+      productEdit:{},
+      category_name: ''
     };
   },
-//   created(){
-//       this.getproduct()
-//   },
-//   methods:{
-//     addstore(){
-//       axios
-//       .put("http://localhost:3000/addstore",{
-//           storename: this.store_name,
-//           description: this.store_detail,
-//           rent_type: this.rent_type
-//       })
-//       .then((res) => {
-//         console.log(res)
-//       })
-//       .catch((err) => {
-//          console.log(err);
-//       });
-//     }
-//   }
+  mounted(){
+      this.getp()
+      axios
+      .get("http://localhost:3000/category")
+      .then((res) => {
+        this.category = res.data.name
+      })
+      .catch((err) => {
+         console.log(err);
+      });
+  },
+  methods:{
+    getp(){
+      axios
+      .get("http://localhost:3000/getproduct")
+      .then((res) => {
+        this.product = res.data
+        console.log(res.data)
+      })
+      .catch((err) => {
+         console.log(err);
+      });
+    },
+    deleteproduct(id){
+      this.deletestatus = true
+      this.idproduct = id
+      console.log(id)
+    },
+    confirmDelete(){
+      axios.delete(`http://localhost:3000/deleteproduct/${this.idproduct}`)
+      .then((res)=>{
+        console.log(res)
+        this.getp()
+        this.deletestatus = false
+      }).catch((eer)=>{console.log(eer);});
+    },
+    editproduct(id){
+      this.editstatus = true
+      axios.get(`http://localhost:3000/getproduct/${id}`)
+      .then((res)=>{
+        console.log(res.data)
+        this.productEdit = res.data
+      })
+      .catch((eer)=>{console.log(eer)});
+    },
+    confirmEdit(){
+      axios.post(`http://localhost:3000/editproduct/${this.productEdit.id}`,{
+        p_name: this.productEdit.p_name,
+        price: this.productEdit.price,
+        description: this.productEdit.description,
+        quantity: this.productEdit.quantity,
+        promotion_price: this.productEdit.promotion_price,
+        category: this.category_name
+      })
+      .then((res)=>{
+        console.log(res)
+        this.editstatus = false
+        this.getp()
+      })
+      .catch((eer)=>{console.log(eer)});
+      
+    }
+  }
 };
 </script>
