@@ -26,7 +26,7 @@ CREATE TABLE `user` (
   `username` varchar(250) NOT NULL,
   `password` varchar(250) not null,
   `email` varchar(250),
-  `phone_number` int(10),
+  `phone_number` char(10),
   `usertype` enum('owner_marketplace','seller', 'buyer') not null,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
