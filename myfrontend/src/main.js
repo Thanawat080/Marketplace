@@ -4,11 +4,13 @@ import 'bulma/css/bulma.css'
 import router from './router/index'
 import 'cookie/index'
 import axios from "axios";
+import Vuelidate from 'vuelidate'
 
 import '@fortawesome/fontawesome-free/css/all.css'
 axios.defaults.withCredentials = true
 
 Vue.config.productionTip = false
+Vue.use(Vuelidate)
 
 
 new Vue({
