@@ -8,18 +8,17 @@
                             หน้าหลัก
                         </p>
                         <ul class="menu-list">
-                            <li><a href="index.html">หน้าหลัก</a></li>
-                            <li><a href="rent.html">เช่าเปิดร้าน</a></li>
+                            <router-link to="/seller">หน้าหลัก</router-link>
                             <li>
-                            <router-link class="navbar-item mininav" to="/seller/addstore">กรอกข้อมูลร้านค้า</router-link>
+                            <router-link to="/seller/addstore">กรอกข้อมูลร้านค้า</router-link>
                             </li>
                         </ul>
                         <p class="menu-label">
                             สินค้า
                         </p>
                         <ul class="menu-list">
-                            <router-link class="navbar-item mininav" to="/seller/addproduct">เพิ่มสินค้า</router-link>
-                            <router-link class="navbar-item mininav" to="/seller/edit">แก้ไขสินค้า</router-link>
+                            <router-link to="/seller/addproduct">เพิ่มสินค้า</router-link>
+                            <router-link to="/seller/edit">แก้ไขสินค้า</router-link>
                         </ul>
                     </aside>
                 </div>
