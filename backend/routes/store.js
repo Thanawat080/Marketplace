@@ -22,10 +22,21 @@ router.put("/addstore", async function(req, res, next){
   const conn = await pool.getConnection();
   await conn.beginTransaction();
   try {
+    const rows = await pool.query(
+      "SELECT seller_id FROM store WHERE seller_id = ?",
+      [req.session.userdata.id]
+    )
+    
+    if(rows[0] < 1){
     await conn.query("INSERT INTO store (subscription_type, store_name, description, seller_id, owner_marketplace_id) VALUES(?, ?, ?, ?, ?);", 
-    [rent_type, storename,description, req.session.userdata.id, 1])
+    [rent_type, storename,description, req.session.userdata.id, 1]) 
+    res.send("Success")
+    }else{
+      throw res.status(400).json(err);
+    }
     await conn.commit()
-    res.json("addstorecomplete")
+
+    
   } catch (err) {
     await conn.rollback();
     return res.status(400).json(err);
