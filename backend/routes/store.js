@@ -181,7 +181,24 @@ router.post("/editproduct/:productId", async function (req, res, next) {
   }
 })
 
-
+router.get("/getproduct1/:productId", async function(req, res, next){
+  const conn = await pool.getConnection();
+  await conn.beginTransaction();
+  try{
+    // const product = await pool.query("SELECT * FROM product WHERE id = ?", [req.params.productId])
+    const product = await pool.query("SELECT * FROM product join product_picture on (product.id = product_picture.product_id) where id = ?", [req.params.productId])
+    await conn.commit()
+    res.send(product[0][0])
+  }catch (err) {
+    console.log(err)
+    await conn.rollback();
+    return res.status(500).json(err);
+  } finally {
+    conn.release();
+  }
+})
 
 
 exports.router = router;
+
+
