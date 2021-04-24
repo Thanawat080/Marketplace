@@ -54,7 +54,7 @@
           class="column is-one-quarter"
           v-for="product in product"
           :key="product.id">
-           <router-link to="/order"><a @click="selectProduct(product)">
+           <router-link :to="`/order/${product.id}`"><a>
             <div class="card">
               <div class="card-image">
                 <figure class="image is-1by1">
