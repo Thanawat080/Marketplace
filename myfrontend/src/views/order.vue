@@ -9,7 +9,7 @@
           <li class="slide-container">
             <div class="slide">
               <img
-                src="https://www.prachachat.net/wp-content/uploads/2021/02/cat-938667_1920-728x409.jpg"
+                 :src="'http://localhost:3000' + product.picture"
               />
             </div>
             <div class="nav">
@@ -26,7 +26,7 @@
           <li class="slide-container">
             <div class="slide">
               <img
-                src="https://www.kobkid.com/wp-content/uploads/2020/11/cat.jpg"
+                 :src="'http://localhost:3000' + product.picture"
               />
             </div>
             <div class="nav">
@@ -40,10 +40,10 @@
           </li>
 
           <input type="radio" name="radio-btn" id="img-3" />
-          <li class="slide-container">
+          <li class="slide-container" >
             <div class="slide">
               <img
-                src="http://www.sarakadee.com/blog/oneton/wp-content/uploads/2017/12/cat-cute-e1533862828469.jpg"
+                 :src="'http://localhost:3000' + product.picture" 
               />
             </div>
             <div class="nav">
@@ -109,7 +109,6 @@
 
  <script>
 import axios from "axios";
-
 export default {
   data() {
     return {
@@ -145,11 +144,9 @@ export default {
 .slides input {
   display: none;
 }
-
 .slide-container {
   display: block;
 }
-
 .slide {
   top: 0;
   opacity: 0;
@@ -158,13 +155,11 @@ export default {
   transform: scale(0);
   transition: all 0.7s ease-in-out;
 }
-
 .slide img {
   width: 100%;
   height: 100%;
   display: block;
 }
-
 .nav label {
   display: none;
   position: absolute;
@@ -173,29 +168,23 @@ export default {
   text-align: center;
   margin-top: 29%;
 }
-
 .nav label:hover {
   color: #000;
 }
-
 .nav .next {
   right: 5px;
 }
-
 .nav .prev {
   left: 5px;
 }
-
 input:checked + .slide-container .slide {
   opacity: 1;
   transform: scale(1);
   transition: opacity 1s ease-in-out;
 }
-
 input:checked + .slide-container .nav label {
   display: block;
 }
-
 .nav-dots {
   width: 100%;
   height: 11px;
@@ -204,7 +193,6 @@ input:checked + .slide-container .nav label {
   text-align: center;
   margin-top: 63%;
 }
-
 .nav-dots .nav-dot {
   width: 11px;
   height: 11px;
@@ -214,12 +202,10 @@ input:checked + .slide-container .nav label {
   display: inline-block;
   background-color: rgba(0, 0, 0, 0.6);
 }
-
 .nav-dots .nav-dot:hover {
   cursor: pointer;
   background-color: rgba(0, 0, 0, 0.8);
 }
-
 input#img-1:checked ~ .nav-dots label#img-dot-1,
 input#img-2:checked ~ .nav-dots label#img-dot-2,
 input#img-3:checked ~ .nav-dots label#img-dot-3,
@@ -228,5 +214,4 @@ input#img-5:checked ~ .nav-dots label#img-dot-5,
 input#img-6:checked ~ .nav-dots label#img-dot-6 {
   background: rgba(0, 0, 0, 0.8);
 }
-
 </style>
