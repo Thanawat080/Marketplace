@@ -70,9 +70,14 @@ export default {
           rent_type: this.rent_type
       })
       .then((res) => {
+          alert("Add store is success.")
+          this.rent_type = ''
+          this.store_detail = ''
+          this.store_name = ''
         console.log(res)
       })
       .catch((err) => {
+          alert("1 user can add 1 store.")
          console.log(err);
       });
     }
