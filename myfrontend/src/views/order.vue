@@ -33,13 +33,13 @@
                 </div>
                 <div class="column is-half">
                     <br>
-                    <p id="title" class="title is-4">Google Home</p>
-                    <span class="tag is-success">Price : 3000 Baht</span>
-                    <span class="tag is-warning is-light">Sold : 1</span>
+                    <p id="title" class="title is-4">{{product.p_name}}</p>
+                    <span class="tag is-success">Price : {{product.price}} Baht</span>
+                    <!-- <span class="tag is-warning is-light">Sold : 1</span> -->
                     <br><br>
                     <p>รายละเอียด</p>
                     <br>
-                    Quantity : <input class="input is-primary is-small" type="text" value="1" style="width: 40px;">
+                    Quantity : <input class="input is-primary is-small" type="text" v-model="product.quantity" style="width: 40px;">
                     <br><br>
                     <button class="button is-primary"><i class="fas fa-cart-plus"></i> Add to cart</button>
                 </div>
@@ -66,39 +66,29 @@
         </div>
 </template>
 
-// <script>
-// import axios from "axios";
+ <script>
+import axios from "axios";
 
-// export default {
-//   data() {
-//     return {
-//         password:'',
-//         cf_password:'',
-//         new_password:'',
+export default {
+  data() {
+    return {
+        product:{}
 
-//     };
-//   },
-//   methods: {
-//     savePassword(){
-//         if(this.password == this.cf_password){
-//             console.log("test")
-//         axios
-//         .put("http://localhost:3000/changepassword",{
-//           password:this.new_password,
-//       })
-//       .then((res) => {
-//         console.log(res.data)
-//       })
-//       .catch((err) => {
-//         console.log(err);
-//       });
+    };
+  },
+  created(){
+      this.getproduct(this.$route.params.productId)
+  },
+  methods: {
+    getproduct(id){
+        axios.get(`http://localhost:3000/getproduct/${id}`)
+        .then((res)=>{
+        this.product = res.data
+        console.log(this.product)
+      })
+      .catch((eer)=>{console.log(eer)});
+    }
+  },
 
-//         }
-//         this.password = ''
-//         this.cf_password = ''
-//         this.new_password = ''
-//     }
-//   },
-
-// };
-// </script>
+};
+</script>
