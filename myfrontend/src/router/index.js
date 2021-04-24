@@ -31,11 +31,10 @@ const routes = [
   },
 
   {
-    path: '/order',
+    path: '/order/:productId',
     name: 'order',
     component: () => import('../views/order.vue')// set login as path '/login'
   },
-  ,
   {
     path: '/seller',
     name: 'seller',
