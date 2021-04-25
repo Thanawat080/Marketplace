@@ -51,6 +51,9 @@ app.use(indexRouter.router)
 const storeRouter = require('./routes/store')
 app.use(storeRouter.router)
 
+const store_sellerRouter = require('./routes/store_seller')
+app.use(store_sellerRouter.router)
+
 
 app.listen(3000, () => {
   console.log(`Example app listening at http://localhost:3000`)
