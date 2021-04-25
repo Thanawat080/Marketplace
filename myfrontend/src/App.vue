@@ -3,8 +3,9 @@
            <div class="navbar-menu">
             <div class="navbar-start">
                 <!-- navbar items -->
-                <router-link class="card-footer-item navbar-item mininav" to="/">Home</router-link>
+                <router-link to="/"><img src="../logo.png" alt="" style="width:150px;"></router-link>
             </div>
+            
 
             <div class="navbar-end">
                 <!-- navbar items -->
@@ -12,7 +13,7 @@
                     help
                 </a>
                 <router-link class="navbar-item mininav" to="/seller">seller</router-link>
-                <a class="navbar-item mininav" href="Admin/index.html">
+                <a class="navbar-item mininav" href="Admin/index.html" >
                     Admin
                 </a>
                 <router-link class="card-footer-item navbar-item mininav" to="/login">login</router-link>
@@ -28,6 +29,8 @@
           <div class="content has-text-centered">
         <p>
             <strong>MarketPlace</strong>
+
+            
         </p>
     </div>
   </footer>
