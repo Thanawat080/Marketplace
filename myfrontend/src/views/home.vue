@@ -9,7 +9,6 @@
             height="28"
           />
         </a>
-
         <a
           role="button"
           class="navbar-burger"
@@ -22,7 +21,6 @@
           <span aria-hidden="true"></span>
         </a>
       </div>
-
       <div id="navbarBasicExample" class="navbar-menu">
         <input
           class="input is-primary"
@@ -53,14 +51,14 @@
         <div
           class="column is-one-quarter"
           v-for="product in product"
-          :key="product.id">
+          :key="product.id"> 
            <router-link :to="`/order/${product.id}`"><a>
             <div class="card">
               <div class="card-image">
                 <figure class="image is-1by1">
                   <img
                     style="height: 120px"
-                    :src="'http://localhost:3000/' + product.picture"
+                    :src="'http://localhost:3000' + product.picture"
                     alt="Placeholder image"
                   />
                 </figure>
@@ -76,15 +74,16 @@
                 </div>
               </div>
             </div>
-          </a></router-link>
+          </a></router-link>  
         </div>
-
         <!-- End สินค้า -->
+            <div v-for="seller in detail_seller" :key="seller.store_name">
+        <router-link :to="`/store_seller/${seller.id}`"><a>{{seller.store_name}}</a></router-link> 
+      </div>
       </div>
     </div>
   </div>
 </template>
-
 <script>
 import axios from "axios";
 export default {
@@ -93,7 +92,7 @@ export default {
       product: null,
       search: "",
       keep_all_product: [],
-      pp:[]
+      detail_seller:[]
     };
   },
   created() {
@@ -102,6 +101,14 @@ export default {
       .then((response) => {
         this.product = response.data;
         this.keep_all_product = response.data;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+      axios
+      .get("http://localhost:3000/index/seller/store")
+      .then((response) => {
+        this.detail_seller = response.data;
       })
       .catch((err) => {
         console.log(err);
@@ -130,6 +137,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-</style>
