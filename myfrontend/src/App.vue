@@ -3,7 +3,7 @@
            <div class="navbar-menu">
             <div class="navbar-start">
                 <!-- navbar items -->
-                <router-link to="/"><img src="../logo.png" alt="" style="width:150px;"></router-link>
+                <router-link to="/"><img src="./assets/Market.png" alt="" style="width:150px;"></router-link>
             </div>
             
 
