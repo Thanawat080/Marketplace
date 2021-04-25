@@ -58,6 +58,26 @@ router.post("/search", async function (req, res, next) {
 })
 
 
+router.get("/index/seller/store", async function(req,res,next){
+  const conn = await pool.getConnection();
+  await conn.beginTransaction();
+  try {
+      const rows = await pool.query(
+        `select * from store`
+      );
+      console.log(rows[0])
+    await conn.commit()
+    res.send(rows[0])
+    
+    } catch (err) {
+      await conn.rollback();
+      return res.status(400).json(err);
+    } finally {
+      console.log("finally");
+      conn.release();
+    }
+
+})
 
 
 
