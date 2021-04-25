@@ -165,3 +165,9 @@ INSERT INTO `seller` (`id`) VALUES
 ('2');
 
 
+
+INSERT INTO `category` (`category_name`) VALUES
+('toy');
+
+
+
