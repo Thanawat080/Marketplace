@@ -55,7 +55,15 @@ const routes = [
     name: 'editproduct',
     component: () => import('../views/seller/editproduct.vue')
   }
+  ,
+  {
+    path: '/store_seller/:sellerId',
+    name: 'store_seller',
+    component: () => import('../views/store_seller.vue')
+  }
 ]
+
+
 
 const router = new VueRouter({
   mode: 'history',
