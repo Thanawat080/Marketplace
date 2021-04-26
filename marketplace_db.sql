@@ -41,6 +41,9 @@ CREATE TABLE `owner_marketplace` (
 DROP TABLE IF EXISTS `seller`;
 CREATE TABLE `seller` (
   `id` int(10),
+  `cardId` char(13),
+  `cardId_pic` varchar(255),
+  `status` boolean,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`id`) 
   REFERENCES `user`(`id`)
@@ -83,6 +86,7 @@ CREATE TABLE `store` (
   `store_name` varchar(255) not null,
   `description` varchar(255),
   `id` int(10) AUTO_INCREMENT,
+  `reportnumber` int(10),
   `seller_id` int(10) not null,
   `owner_marketplace_id` int(10) not null,
   PRIMARY KEY (`id`),
