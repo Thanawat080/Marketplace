@@ -48,4 +48,33 @@ router.get("/login", function(req,res,next){
 
 })
 
+router.delete('/logout', async (req, res, next)=>{
+  if(req.session.userdata.usertype === 'buyer'){
+    const conn = await pool.getConnection();
+    await conn.beginTransaction();
+    try{
+      const checkk = await pool.query("SELECT * from `order_detail` where order_id = (SELECT MAX(order_id) FROM `order`)")
+      if(checkk[0].length === 0){
+        const id = await pool.query("SELECT MAX(order_id) id FROM `order`")
+        await pool.query("DELETE FROM `order` where order_id = ?", [id[0][0].id])
+      }
+      console.log('test')
+      req.session.destroy()
+      await conn.commit()
+      res.json(checkk)
+    }catch (err) {
+      await conn.rollback();
+      return res.status(400).json(err);
+    } finally {
+      console.log("finally");
+      conn.release();
+    }
+  }
+  else{
+    req.session.destroy()
+  }
+
+  
+})
+
 exports.router = router;
