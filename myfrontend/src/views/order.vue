@@ -76,11 +76,11 @@
         <input
           class="input is-primary is-small"
           type="text"
-          v-model="product.quantity"
+          v-model="quantity"
           style="width: 40px"
         />
         <br /><br />
-        <button class="button is-primary">
+        <button class="button is-primary" @click="addToCart">
           <i class="fas fa-cart-plus"></i> Add to cart
         </button>
       </div>
@@ -113,6 +113,7 @@ export default {
   data() {
     return {
       product: {},
+      quantity: 1,
     };
   },
   created() {
@@ -130,6 +131,18 @@ export default {
           console.log(eer);
         });
     },
+    addToCart(){
+      this.$parent._data.count++
+      axios.put(`http://localhost:3000/addorder/${this.$route.params.productId}`,{
+        quantity: this.quantity,
+        price: this.product.price
+      })
+      .then(()=>{
+        this.$router.push({ name: "Home" });
+      }
+      )
+      .catch((eer) => {console.log(eer)})
+    }
   },
 };
 </script>
