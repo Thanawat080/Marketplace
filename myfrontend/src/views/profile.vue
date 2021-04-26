@@ -41,7 +41,8 @@
                                 <p style="margin-top:10px;">Email : {{email}}</p>
                                 <br>
                                 <button class="button is-warning" @click="togglemodal">แก้ไขข้อมูล</button>
-                                
+                                <br>
+                                <a @click="logout">Logout</a>
                             </div>
                         </div>
 
@@ -125,6 +126,18 @@ export default {
        this.newusername = this.username
        this.newemail = this.email
     },
+    logout(){
+        axios.delete("http://localhost:3000/logout")
+        .then((res) => {
+            console.log(res)
+            this.f_name = ''
+            this.l_name = ''
+            this.phone_number = ''
+            this.username = ''
+            this.email = ''
+        })
+        .catch((eer) => console.log(eer))
+    }
   },
   created() {
     axios
