@@ -23,6 +23,7 @@
                               <p><font size="2">จำนวนสินค้า : {{count_product}}</font></p>
                               <p><font size="2">จำนวนคำสั่งซื้อ : x</font></p>
                             </div>
+                            <button class="button is-small is-danger" @click="report">Report Store</button>
                           </div>
                     </div>
                 </div>
@@ -47,8 +48,6 @@
                                 </div>
                             </a></router-link> 
                         </div>
-                        <!-- End สินค้า -->
-
                     </div>
                 </div>
             </div>
@@ -65,6 +64,7 @@ export default {
       store_name:'',
       count_product:0,
       store_type:'',
+      id:'',
     };
   },
   created() {
@@ -75,6 +75,7 @@ export default {
       axios
         .get(`http://localhost:3000/store/product/${id}`)
         .then((res) => {
+          this.id = res.data[0].id
             if(res.data[0].price != null){
           this.seller_store_product = res.data;
           this.count_product = res.data.length
@@ -82,6 +83,17 @@ export default {
           this.count_product = 0
           this.store_name =  res.data[0].store_name}
           this.store_type = res.data[0].subscription_type
+        })
+        .catch((eer) => {
+          console.log(eer);
+        });
+    },report(){
+      axios.put(`http://localhost:3000/report`,{
+        id:this.id 
+      })
+        .then((res) => {
+          alert(res.data)
+
         })
         .catch((eer) => {
           console.log(eer);
