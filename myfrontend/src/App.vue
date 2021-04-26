@@ -19,7 +19,7 @@
                 <router-link class="card-footer-item navbar-item mininav" to="/login">login</router-link>
                 <router-link class="card-footer-item navbar-item mininav" to="/register">Register</router-link>
                 <a class="navbar-item mininav">
-                    <i class="fas fa-shopping-cart"></i>&nbsp;0
+                    <i class="fas fa-shopping-cart"></i>&nbsp;{{count}}
                 </a>
                 <router-link class="card-footer-item navbar-item mininav" to="/profile"><i class="fas fa-user"></i>&nbsp;</router-link>
             </div>
@@ -36,3 +36,12 @@
   </footer>
   </div>
 </template>
+<script>
+export default {
+    data(){
+        return{
+            count: 0
+        }
+    }
+}
+</script>
