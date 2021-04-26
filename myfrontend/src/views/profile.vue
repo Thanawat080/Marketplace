@@ -40,18 +40,21 @@
                                 <p style="margin-top:10px;">Username : {{username}}</p>
                                 <p style="margin-top:10px;">Email : {{email}}</p>
                                 <br>
-                                <button class="button is-warning" @click="togglemodal">แก้ไขข้อมูล</button>
-                                <br>
-                                <a @click="logout">Logout</a>
+                                <div class="columns">
+                                    <div class="column"><button class="button is-warning" @click="togglemodal">แก้ไขข้อมูล</button></div>
+                                 <div class="column"><router-link class="card-footer-item" to="/login"><button class="button is-danger" style="margin-top:-10px;" @click="logout">Logout</button></router-link></div>
+                                </div>
+                                <br>          
                             </div>
+                            
                         </div>
 
                         <div class="modal" v-bind:class='isActive'>
                             <div class="modal-background"></div>
                             <div class="modal-card">
-                                <header class="modal-card-head">
+                                <header class="modal-card-head">                           
                                     <p class="modal-card-title">แก้ไขข้อมูล</p>
-                                    <button class="delete" aria-label="close" @click="isActive = !isActive"></button>
+                                    <button class="delete" aria-label="close" @click="isActive = !isActive"></button>                             
                                 </header>
                                 <section class="modal-card-body">
                                     <!-- Content ... -->
