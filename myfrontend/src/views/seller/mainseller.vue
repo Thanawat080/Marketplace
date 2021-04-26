@@ -38,33 +38,49 @@
                                     Choose a file…
                                 </span>
                             </span>
-                            <span class="file-name">
-                                Screen Shot 2017-07-29 at 15.54.25.png
-                            </span>
+                              <input class="file-input" type="file" name="resume" accept="image/png, image/jpeg, image/webp" @change="selectImages"> 
                         </label>
                     </div>
-                    เลขบัตรประชาชน<input class="input" type="text" placeholder="เลขบัตรประชาชน">
-                    <div class="columns">
-                        <div class="column is-half">
-                            วัน/เดือน/ปีเกิด<input class="input" type="date" placeholder="วันหมดอายุ">
-                        </div>
-                        <div class="column">
-                            เลขหลังบัตรประชาชน<input class="input" type="text" placeholder="เลขหลังบัตรประชาชน">
-                        </div>
-                    </div>
-                    ที่อยู่ปัจจุบัน<textarea class="textarea" placeholder="ที่อยู่ปัจจุบัน"></textarea>
+                    เลขบัตรประชาชน<input class="input" type="text" placeholder="เลขบัตรประชาชน" v-model="idcard_number">
                     <hr>
-                    <button class="button is-warning">ยืนยันตัวตน</button>
+                    <button class="button is-warning" @click='confirm'>ยืนยันตัวตน</button>
                 </div>
-
-                <!-- <div class="column is-two-thirds notification is-primary is-light">
-                    <div class="message-header">
-                        <p>ยืนยันตัวตนเพื่อเปิดร้าน</p>
-                    </div>
-                    <br>
-                    สถานะยืนยันตัวตน : สำเร็จ/กำลังดำเนินการ
-                </div> -->
             </div>
 
         </div>
 </template>
+
+
+<script>
+import axios from "axios";
+
+export default {
+  data() {
+    return {
+      idcard_number: "",
+      pic: "",
+    };
+  },
+  methods: {
+    selectImages(event){
+        this.pic = event.target.files;
+    },
+    confirm() {
+      let formData = new FormData();
+      formData.append("cardId", this.idcard_number);
+     this.pic.forEach((value) => {
+        formData.append("Pic", value);
+      });
+      axios
+        .put("http://localhost:3000/addcheck/openstore", formData)
+        .then((res) => {
+          console.log(res)
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
+    },
+  },
+};
+</script>
