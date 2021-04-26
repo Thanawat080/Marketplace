@@ -66,6 +66,11 @@ const routes = [
     path: '/mainadmin',
     name: 'mainadmin',
     component: () => import('../views/admin/mainadmin.vue')
+  },
+  {
+    path: '/checkout',
+    name: 'checkout',
+    component: () => import('../views/checkout.vue')
   }
 ]
 
