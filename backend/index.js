@@ -58,6 +58,10 @@ const orderRouter = require('./routes/order')
 app.use(orderRouter.router)
 
 
+const adminRouter = require('./routes/admin')
+app.use(adminRouter.router)
+
+
 app.listen(3000, () => {
   console.log(`Example app listening at http://localhost:3000`)
 })
