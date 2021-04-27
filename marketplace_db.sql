@@ -89,6 +89,7 @@ CREATE TABLE `store` (
   `reportnumber` int(10),
   `seller_id` int(10) not null,
   `owner_marketplace_id` int(10) not null,
+  `picture` varchar(255),
   PRIMARY KEY (`id`),
   FOREIGN KEY (`seller_id`) 
   REFERENCES `seller`(`id`),
