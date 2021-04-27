@@ -82,4 +82,27 @@ router.get("/index/seller/store", async function(req,res,next){
 
 
 
+router.post("/search/type", async function(req,res,next){
+  const search_type = req.body.search_type;
+  console.log(search_type)
+  const conn = await pool.getConnection();
+  await conn.beginTransaction();
+  try {
+    const rows1 = await pool.query(
+      `select *,product.id from product join product_picture on(product.id = product_picture.product_id) join category on (product.category_id = category.id) where category_name = ?`,[search_type]
+    );
+    await conn.commit()
+    res.send(rows1[0]) 
+    } catch (err) {
+      await conn.rollback();
+      return res.status(400).json(err);
+    } finally {
+      console.log("finally");
+      conn.release();
+    }
+
+})
+
+
+
 exports.router = router;
