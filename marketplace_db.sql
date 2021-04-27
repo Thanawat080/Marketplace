@@ -172,7 +172,11 @@ INSERT INTO `seller` (`id`) VALUES
 
 
 INSERT INTO `category` (`category_name`) VALUES
-('toy');
+('toy'),
+('toy1'),
+('toy2'),
+('toy3'),
+('toy4');
 
 
 
