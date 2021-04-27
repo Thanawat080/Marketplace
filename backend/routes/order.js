@@ -94,6 +94,24 @@ router.put("/order", async (req, res, next) => {
   }
 })
 
+router.post("/product/:productId", async (req, res, next) => {
+  const quantity = req.body.quantity
+  const conn = await pool.getConnection();
+  await conn.beginTransaction();
+
+  try{
+    await conn.query('UPDATE product SET quantity = ? WHERE id = ?', [quantity, req.params.productId])
+    conn.commit()
+    res.json('succress')
+  }catch (err) {
+    await conn.rollback();
+    return res.status(400).json(err);
+  } finally {
+    console.log("finally");
+    conn.release();
+  }
+})
+
 exports.router = router
 
 
