@@ -132,16 +132,31 @@ export default {
         });
     },
     addToCart(){
-      this.$parent._data.count++
-      axios.put(`http://localhost:3000/addorder/${this.$route.params.productId}`,{
-        quantity: this.quantity,
-        price: this.product.price
-      })
-      .then(()=>{
-        this.$router.push({ name: "Home" });
+      if(this.quantity > this.product.quantity){
+        alert("This product have only " + this.product.quantity + "piece")
       }
-      )
-      .catch((eer) => {console.log(eer)})
+      else{
+        this.$parent._data.count++
+        axios.put(`http://localhost:3000/addorder/${this.$route.params.productId}`,{
+          quantity: this.quantity,
+          price: this.product.price
+        })
+        .then(()=>{
+          axios
+          .post(`http://localhost:3000/product/${this.$route.params.productId}`,{
+            quantity: this.product.quantity - this.quantity
+          })
+          .then((res) => {
+            console.log(res)
+          })
+          .catch((eer) => {
+            console.log(eer);
+          });
+          this.$router.push({ name: "Home" });
+        })
+        .catch((eer) => {console.log(eer)})
+      }
+      
     }
   },
 };
