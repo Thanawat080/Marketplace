@@ -13,7 +13,8 @@ router.get("/index", async function(req,res,next){
       if(result[0].length > 0){
         const [rows, fields] = await pool.query(
           `SELECT a.*, b.picture FROM product AS a LEFT JOIN 
-          (SELECT * FROM product_picture) AS b ON a.id = b.product_id;`
+          (SELECT DISTINCT * FROM product_picture) AS b ON a.id = b.product_id
+          group by id;`
         );
         console.log(rows)
       
