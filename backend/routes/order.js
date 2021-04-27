@@ -112,6 +112,22 @@ router.post("/product/:productId", async (req, res, next) => {
   }
 })
 
+router.get("/orderhistory", async (req, res, next) => {
+  const conn = await pool.getConnection();
+  await conn.beginTransaction();
+  try{
+    const result = await conn.query("SELECT * FROM `order` WHERE buyer_id = ?", req.session.userdata.id)
+    conn.commit()
+    res.json(result[0])
+  }catch (err) {
+    await conn.rollback();
+    return res.status(400).json(err);
+  } finally {
+    console.log("finally");
+    conn.release();
+  }
+})
+
 exports.router = router
 
 
