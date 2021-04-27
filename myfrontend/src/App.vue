@@ -13,9 +13,7 @@
                     help
                 </a>
                 <router-link class="navbar-item mininav" to="/seller">seller</router-link>
-                <a class="navbar-item mininav" href="Admin/index.html" >
-                    Admin
-                </a>
+                 <router-link class="navbar-item mininav" to="/mainadmin">admin</router-link>
                 <router-link class="card-footer-item navbar-item mininav" to="/login">login</router-link>
                 <router-link class="card-footer-item navbar-item mininav" to="/register">Register</router-link>
                 <router-link class="card-footer-item navbar-item mininav" to="/checkout"><i class="fas fa-shopping-cart"></i>&nbsp;{{count}}</router-link>

@@ -21,7 +21,7 @@
                               <p><font size="2">ประเภทร้านค้า : {{this.store_type}}</font></p>
                               <p><font size="2">สถานะร้าน : เปิด</font></p>
                               <p><font size="2">จำนวนสินค้า : {{count_product}}</font></p>
-                              <p><font size="2">จำนวนคำสั่งซื้อ : x</font></p>
+                              <span v-show="this.status" style="color:green;"><i class="fas fa-check" style="color:green;"></i> ยืนยันตัวตนแล้ว</span>
                             </div>
                             <button class="button is-small is-danger" @click="report">Report Store</button>
                           </div>
@@ -65,10 +65,20 @@ export default {
       count_product:0,
       store_type:'',
       id:'',
+      status:null,
     };
   },
   created() {
-    this.getseller_store_product(this.$route.params.sellerId);   
+    this.getseller_store_product(this.$route.params.sellerId);
+      axios.post(`http://localhost:3000/checkstatus`,{
+        id:this.$route.params.sellerId
+      })
+        .then((res) => {
+          this.status = res.data.status
+        })
+        .catch((eer) => {
+          console.log(eer);
+        });
   },
   methods: {
     getseller_store_product(id) {

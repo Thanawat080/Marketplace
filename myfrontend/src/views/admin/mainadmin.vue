@@ -6,7 +6,7 @@
         <aside class="menu">
           <p class="menu-label">จัดการ</p>
           <ul class="menu-list">
-            <li><a href="index.html">จัดการร้าน</a></li>
+            <router-link to="/mainadmin"><li>จัดการร้าน</li></router-link>
             <li><a href="event.html">จัดการกิจกรรม</a></li>
           </ul>
         </aside>
@@ -21,43 +21,42 @@
           style="width: 100%"
         >
           <!-- Your table content -->
-          <tbody>
+          <tbody v-for="store in stores" :key='store.id'>
             <tr>
-              <th>1</th>
-              <td style="width: 25%">ชื่อร้าน</td>
-              <td style="width: 25%">Report : 0</td>
+              <th>{{store.id}}</th>
+              <td style="width: 25%">{{store.store_name}}</td>
+              <td style="width: 25%">Report : {{store.reportnumber}}</td>
               <td style="width: 25%">
-                <button class="button is-warning">ยืนยันตัวตน</button
-                ><button class="button is-warning" disabled>
-                  ยืนยันตัวตนสำเร็จ
-                </button>
+                <button class="button is-warning" @click="precon(store.seller_id)">ยืนยันตัวตน</button>
+                <div v-if="seller_status == null"><span v-show="store.status" style="color:green;"><i class="fas fa-check" style="color:green;"></i> ยืนยันตัวตนแล้ว</span></div>
+                <div v-else><span v-show="seller_status" style="color:green;"><i class="fas fa-check" style="color:green;"></i> ยืนยันตัวตนแล้ว</span></div>
               </td>
               <td style="width: 25%">
-                <button class="button is-danger">ลบร้านค้า</button>
+                <!-- <button class="button is-danger" @click="deletestore(store.id)">ลบร้านค้า</button> -->
               </td>
             </tr>
           </tbody>
         </table>
 
-        <div class="modal">
+        <div class="modal" v-bind:class='isActive'>
           <div class="modal-background"></div>
           <div class="modal-card">
             <header class="modal-card-head">
               <p class="modal-card-title">ยืนยันตัวตน</p>
-              <button class="delete" aria-label="close"></button>
+              <button class="delete" aria-label="close" @click="isActive = !isActive"></button>
             </header>
             <section class="modal-card-body">
               <!-- Content ... -->
               <center>
                 <img
-                  src="https://www.snnleasing.com/images/credit/namecard.png"
+                 :src="'http://localhost:3000' + picidcard"
                 />
-                <p>เลขบัตรประชาชน : {{ ID - Card }}</p>
+                <p>เลขบัตรประชาชน :  {{idcard}} </p>
               </center>
             </section>
             <footer class="modal-card-foot">
-              <button class="button is-success">ยืนยัน</button>
-              <button class="button">ปฎิเสธ</button>
+              <button class="button is-success" @click="confirm">ยืนยัน</button>
+              <button class="button" @click="cancle">ปฎิเสธ</button>
             </footer>
           </div>
         </div>
@@ -72,33 +71,80 @@ import axios from "axios";
 export default {
   data() {
     return {
-      username: "",
-      password: "",
+      stores:null,
+      isActive: false,
+      getid:'',
+      idcard:'',
+      picidcard:'',
+      seller_status:null
     };
   },
   methods: {
-    cf_login() {
+    // deletestore(id){
+    //    axios
+    //     .delete(`http://localhost:3000/admin/deletestore/${id}`)
+    //     .then((res) => {
+    //       alert(res.data)
+    //     })
+    //     .catch((err) => {
+    //       console.log(err);
+    //     });
+    // },
+    precon(id){
+      this.getid = id
+      this.isActive = 'is-active'
       axios
-        .post("http://localhost:3000/login", {
-          username: this.username,
-          password: this.password,
+        .post("http://localhost:3000/admin/getseller", {
+          id: this.getid,
         })
         .then((res) => {
-          if (res.data === "success") {
-            axios
-              .get("http://localhost:3000/login")
-              .then(() => {
-                this.$router.push({ name: "Home" });
-              })
-              .catch((err) => {
-                console.log(err);
-              });
-          }
+          this.idcard = res.data.cardId
+          this.picidcard = res.data.cardId_pic
         })
         .catch((err) => {
           console.log(err);
         });
     },
+    confirm() {
+      this.isActive = 'false'
+      axios
+        .post("http://localhost:3000/admin/status/true",{
+          id: this.getid,
+        })
+        .then((res) => {
+          alert("Confirmed success")
+          this.seller_status = res.data.status
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+      cancle() {
+      this.isActive = 'false'
+      axios
+        .post("http://localhost:3000/admin/status/false",{
+          id: this.getid,
+        })
+        .then((res) => {
+          alert("Cancle success")
+          this.seller_status = res.data.status     
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+  },
+    created() {
+      axios
+      .get("http://localhost:3000/admin/main")
+      .then((response) => {
+        this.stores = response.data
+        console.log(response.data)
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
   },
 };
 </script>

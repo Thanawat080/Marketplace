@@ -40,9 +40,12 @@
                                 <p style="margin-top:10px;">Username : {{username}}</p>
                                 <p style="margin-top:10px;">Email : {{email}}</p>
                                 <br>
-                                <button class="button is-warning" @click="togglemodal">แก้ไขข้อมูล</button>
+                               <div class="columns">
+                                <div class="column"><button class="button is-warning" @click="togglemodal">แก้ไขข้อมูล</button></div>
+                                 <div class="column"><router-link class="card-footer-item" to="/login"><button class="button is-danger" style="margin-top:-10px;" @click="logout">Logout</button></router-link></div>
+                                </div>
                                 <br>
-                                <a @click="logout">Logout</a>
+                               
                             </div>
                         </div>
 
