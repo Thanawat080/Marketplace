@@ -245,6 +245,23 @@ router.put("/report", async function(req, res, next){
   }
 })
 
+router.get("/picture/:productId", async (req,res,next)=>{
+  const conn = await pool.getConnection();
+  await conn.beginTransaction
+  try{
+    const result = await pool.query("SELECT * FROM product_picture WHERE product_id = ?", [req.params.productId])
+
+    await conn.commit()
+    res.send(result[0])
+  }catch (err) {
+    console.log(err)
+    await conn.rollback();
+    return res.status(500).json(err);
+  } finally {
+    conn.release();
+  }
+})
+
 
 exports.router = router;
 
