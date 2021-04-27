@@ -7,7 +7,7 @@
           <p class="menu-label">จัดการ</p>
           <ul class="menu-list">
             <router-link to="/mainadmin"><li>จัดการร้าน</li></router-link>
-            <li><a href="event.html">จัดการกิจกรรม</a></li>
+            <router-link to="/event"><li>จัดกิจกรรม</li></router-link>
           </ul>
         </aside>
       </div>
