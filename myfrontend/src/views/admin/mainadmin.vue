@@ -28,8 +28,7 @@
               <td style="width: 25%">Report : {{store.reportnumber}}</td>
               <td style="width: 25%">
                 <button class="button is-warning" @click="precon(store.seller_id)">ยืนยันตัวตน</button>
-                <div v-if="seller_status == null"><span v-show="store.status" style="color:green;"><i class="fas fa-check" style="color:green;"></i> ยืนยันตัวตนแล้ว</span></div>
-                <div v-else><span v-show="seller_status" style="color:green;"><i class="fas fa-check" style="color:green;"></i> ยืนยันตัวตนแล้ว</span></div>
+                <div><span v-show="store.status" style="color:green;"><i class="fas fa-check" style="color:green;"></i> ยืนยันตัวตนแล้ว</span></div>
               </td>
               <td style="width: 25%">
                 <!-- <button class="button is-danger" @click="deletestore(store.id)">ลบร้านค้า</button> -->
@@ -76,7 +75,7 @@ export default {
       getid:'',
       idcard:'',
       picidcard:'',
-      seller_status:null
+      seller_status:null,
     };
   },
   methods: {
@@ -106,6 +105,7 @@ export default {
         });
     },
     confirm() {
+      console.log(this.test)
       this.isActive = 'false'
       axios
         .post("http://localhost:3000/admin/status/true",{
@@ -118,6 +118,8 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+        this.reStore()
+        this.reStore() 
     },
       cancle() {
       this.isActive = 'false'
@@ -132,9 +134,9 @@ export default {
         .catch((err) => {
           console.log(err);
         });
-    },
-  },
-    created() {
+        this.reStore()
+        this.reStore()
+    },reStore(){
       axios
       .get("http://localhost:3000/admin/main")
       .then((response) => {
@@ -144,7 +146,10 @@ export default {
       .catch((err) => {
         console.log(err);
       });
-
+    }
+  },
+    created() {
+    this.reStore()
   },
 };
 </script>
