@@ -15,28 +15,29 @@ var storage = multer.diskStorage({
 })
 const upload = multer({ storage: storage })
 
-router.put("/addstore", async function(req, res, next){
+router.put("/addstore", upload.single('Pic'),async function(req, res, next){
   const storename = req.body.storename;
   const description = req.body.description;
   const rent_type = req.body.rent_type;
   const conn = await pool.getConnection();
   await conn.beginTransaction();
   try {
+    console.log("DSadsa")
     const rows = await pool.query(
       "SELECT seller_id FROM store WHERE seller_id = ?",
       [req.session.userdata.id]
     )
-    
-    if(rows[0] < 1){
-    await conn.query("INSERT INTO store (subscription_type, store_name, description, seller_id, owner_marketplace_id) VALUES(?, ?, ?, ?, ?);", 
-    [rent_type, storename,description, req.session.userdata.id, 1]) 
+    console.log(rows[0])
+    const file = req.file;
+    if(rows[0].length < 1){
+    await conn.query("INSERT INTO store (subscription_type, store_name, description, seller_id, owner_marketplace_id, store_picture) VALUES(?, ?, ?, ?, ?,?);", 
+    [rent_type, storename,description, req.session.userdata.id, 1,file.path.substr(6)]) 
     res.send("Success")
     }else{
       throw res.status(400).json(err);
+      
     }
-    await conn.commit()
-
-    
+    await conn.commit() 
   } catch (err) {
     await conn.rollback();
     return res.status(400).json(err);
