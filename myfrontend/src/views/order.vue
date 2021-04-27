@@ -164,7 +164,7 @@ export default {
 
 <style>
 .slides {
-  width: 400px;
+  width: 426.666666667px;
   margin: 0 auto;
   position: relative;
   display: block;
@@ -182,6 +182,7 @@ export default {
   position: absolute;
   transform: scale(0);
   transition: all 0.7s ease-in-out;
+  height: 240px;
 }
 .slide img {
   width: 100%;
@@ -192,7 +193,7 @@ export default {
   display: none;
   position: absolute;
   cursor: pointer;
-  color: rgba(0, 0, 0, 0.5);
+  color: rgba(105, 105, 105, 0.959);
   text-align: center;
   margin-top: 29%;
 }
