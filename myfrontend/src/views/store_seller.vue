@@ -12,7 +12,7 @@
                         </header>
                         <div class="card-image">
                             <figure class="image is-2by2">
-                                <img src="https://bulma.io/images/placeholders/1280x960.png"
+                                <img :src="'http://localhost:3000' + picture"
                                     alt="Placeholder image">
                             </figure>
                         </div>
@@ -66,6 +66,7 @@ export default {
       store_type:'',
       id:'',
       status:null,
+      store_picture:'',
     };
   },
   created() {
@@ -93,6 +94,7 @@ export default {
           this.count_product = 0
           this.store_name =  res.data[0].store_name}
           this.store_type = res.data[0].subscription_type
+          this.picture = res.data[0].store_picture
         })
         .catch((eer) => {
           console.log(eer);
