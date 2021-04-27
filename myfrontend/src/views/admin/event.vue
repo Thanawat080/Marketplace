@@ -18,44 +18,100 @@
                         <p>จัดการกิจกรรม</p>
                     </div>
                     <br>
-                    ชื่อกิจกรรม <input class="input" type="text" placeholder="ชื่อกิจกรรม">
+                    ชื่อกิจกรรม <input class="input" type="text" placeholder="ชื่อกิจกรรม" v-model="event_name">
                     <br><br>
                     วันเริ่ม
                     <div class="columns">
                         <div class="column is-half">
-                            <input class="input" type="date" placeholder="Text input">
-                        </div>
-                        <div class="column">
-                            <input class="input" type="time" placeholder="Text input">
+                            <input class="input" type="date" placeholder="Text input" v-model="start_date">
                         </div>
                     </div>
                     วันสินสุด
                     <div class="columns">
-                        <div class="column is-half">
-                            <input class="input" type="date" placeholder="Text input">
-                        </div>
-                        <div class="column">
-                            <input class="input" type="time" placeholder="Text input">
-                        </div>
+                    <div class="column is-half">
+                            <input class="input" type="date" placeholder="Text input" v-model="end_date">
+                        </div>    
+                        
                     </div>
-                    <button class="button is-success">บันทึก</button>
+                    <button class="button is-success" @click="confirm">บันทึก</button>
 
                     <br><br>
                     <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth"
                         style="width: 100%;">
                         <!-- Your table content -->
                         <tbody>
-                            <tr>
-                                <td style="width: 25%;">ชื่อกิจกรรม</td>
-                                <td style="width: 25%;">เริ่ม</td>
-                                <td style="width: 25%;">สิ้นสุด</td>
-                                <td style="width: 25%;"><button class="button is-danger">ลบกิจกรรม</button></td>
+                            <tr v-for="event in events" :key="event.id">
+                                <td style="width: 25%;">{{event.event_name}}</td>
+                                <td style="width: 25%;">{{event.start_date.substr(0, 10)+" "+event.end_date.substr(10, 20)}}</td>
+                                <td style="width: 25%;">{{event.end_date.substr(0, 10)+" "+event.end_date.substr(10, 20)}}</td>
+                                <td style="width: 25%;"><button class="button is-danger" @click="deleteevent(event.id)">ลบกิจกรรม</button></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-
             </div>
-
         </div>
 </template>
+
+
+<script>
+import axios from "axios";
+
+export default {
+  data() {
+    return {
+      event_name: "",
+      start_date: "",
+      end_date: "",
+      events:null,
+    };
+  },
+  methods: {
+      deleteevent(id){
+        axios
+         .delete(`http://localhost:3000/admin/deleteevent/${id}`)
+         .then((res) => {
+           alert(res.data)
+            this.reevent()
+            this.reevent()
+         })
+         .catch((err) => {
+           console.log(err);
+         });
+         
+     },
+      reevent(){
+      axios
+      .get("http://localhost:3000/admin/event")
+      .then((response) => {
+        this.events = response.data
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    },
+    confirm() {
+      axios
+        .post("http://localhost:3000/admin/addevent", {
+          event_name: this.event_name,
+          start_date: this.start_date,
+          end_date: this.end_date,
+        })
+        .then((res) => {
+            this.reevent()
+            this.reevent()
+            alert(res.data)
+            this.event_name= ""
+            this.start_date= ""
+            this.end_date= ""
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+  },
+  created() {
+    this.reevent()
+  },
+};
+</script>
