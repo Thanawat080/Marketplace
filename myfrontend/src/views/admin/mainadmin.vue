@@ -114,12 +114,12 @@ export default {
         .then((res) => {
           alert("Confirmed success")
           this.seller_status = res.data.status
+          this.reStore()
+          this.reStore()
         })
         .catch((err) => {
           console.log(err);
         });
-        this.reStore()
-        this.reStore() 
     },
       cancle() {
       this.isActive = 'false'
@@ -129,13 +129,13 @@ export default {
         })
         .then((res) => {
           alert("Cancle success")
-          this.seller_status = res.data.status     
+          this.seller_status = res.data.status  
+          this.reStore()
+          this.reStore()   
         })
         .catch((err) => {
           console.log(err);
         });
-        this.reStore()
-        this.reStore()
     },reStore(){
       axios
       .get("http://localhost:3000/admin/main")

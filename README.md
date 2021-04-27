@@ -4,3 +4,4 @@
 ## npm install joi bcrypt
 # Frontend
 ## npm install vuelidate
+## npm install jquery
