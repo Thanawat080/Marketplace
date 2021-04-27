@@ -1,98 +1,110 @@
 <template>
   <div>
-    <nav class="navbar" role="navigation" aria-label="main navigation" style="margin-top:10px;">
-      <div class="navbar-brand">
-        <a class="navbar-item" href="https://bulma.io">
-          <img
-            src="https://bulma.io/images/bulma-logo.png"
-            width="112"
-            height="28"
+    <nav
+      class="navbar"
+      role="navigation"
+      aria-label="main navigation"
+      style="margin-top: 10px"
+    >
+      <div class="container">
+        <div id="navbarBasicExample" class="navbar-menu">
+          <input
+            class="input is-primary"
+            type="text"
+            placeholder="Search"
+            v-model="search"
           />
-        </a>
-        <a
-          role="button"
-          class="navbar-burger"
-          aria-label="menu"
-          aria-expanded="false"
-          data-target="navbarBasicExample"
-        >
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-        </a>
-      </div>
-      <div id="navbarBasicExample" class="navbar-menu">
-        <input
-          class="input is-primary"
-          type="text"
-          placeholder="Search"
-          v-model="search"
-        />
-        &nbsp;
-        <button class="button is-primary" @click="clickSearch">Search</button>
-        &nbsp;
-        <div class="select">
-          <select>
-            <option>All categories</option>
-            <option>Toy</option>
-            <option>Food</option>
-            <option>Fashion</option>
-            <option>Accessories</option>
-            <option>Electronic</option>
-            <option>Lifestyle</option>
-          </select>
+          &nbsp;
+          <button class="button is-primary" @click="clickSearch">Search</button>
+          &nbsp;
+          <div class="select">
+            <select>
+              <option>All categories</option>
+              <option>Toy</option>
+              <option>Food</option>
+              <option>Fashion</option>
+              <option>Accessories</option>
+              <option>Electronic</option>
+              <option>Lifestyle</option>
+            </select>
+          </div>
         </div>
       </div>
     </nav>
+    <div class="container">
+      <div class="columns">
+        <div class="column is-three-fifths
+is-offset-one-fifth">
+          <div id="slideshow">
+            <div v-for="seller in detail_seller" :key="seller.store_name">
+              <img :src="'http://localhost:3000' + seller.store_picture" style="width: 800px; height: 240px;" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="container is-max-desktop">
-      <br>
       <div class="is-multiline columns is-variable is-2">
         <!-- Start สินค้า -->
         <div
           class="column is-one-quarter"
           v-for="product in product"
-          :key="product.id"> 
-           <router-link :to="`/order/${product.id}`"><a>
-            <div class="card">
-              <div class="card-image">
-                <figure class="image is-1by1">
-                  <img
-                    style="height: 120px"
-                    :src="'http://localhost:3000' + product.picture"
-                    alt="Placeholder image"
-                  />
-                </figure>
-              </div>
-              <div class="card-content">
-                <div class="media">
-                  <div class="media-content">
-                    <p id="title" class="title is-4">{{ product.p_name }}</p>
-                    <p class="subtitle is-6 has-text-danger">
-                      {{ product.price }} บาท
-                    </p>
+          :key="product.id"
+        >
+          <router-link :to="`/order/${product.id}`"
+            ><a>
+              <div class="card">
+                <div class="card-image">
+                  <figure class="image is-1by1">
+                    <img
+                      style="height: 120px"
+                      :src="'http://localhost:3000' + product.picture"
+                      alt="Placeholder image"
+                    />
+                  </figure>
+                </div>
+                <div class="card-content">
+                  <div class="media">
+                    <div class="media-content">
+                      <p id="title" class="title is-4">{{ product.p_name }}</p>
+                      <p class="subtitle is-6 has-text-danger">
+                        {{ product.price }} บาท
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </a></router-link>  
+            </a></router-link
+          >
         </div>
         <!-- End สินค้า -->
-            <div v-for="seller in detail_seller" :key="seller.store_name">
-        <router-link :to="`/store_seller/${seller.id}`"><a>{{seller.store_name}}</a></router-link> 
-      </div>
       </div>
     </div>
+    <br />
   </div>
 </template>
 <script>
+import $ from "jquery";
+$("#slideshow > div:gt(0)").hide();
+
+setInterval(function () {
+  $("#slideshow > div:first")
+    .fadeOut(1000)
+    .next()
+    .fadeIn(1000)
+    .end()
+    .appendTo("#slideshow");
+}, 5000);
+
 import axios from "axios";
 export default {
   data() {
     return {
+      number_runner: 0,
       product: null,
       search: "",
       keep_all_product: [],
-      detail_seller:[]
+      detail_seller: [],
     };
   },
   created() {
@@ -105,7 +117,7 @@ export default {
       .catch((err) => {
         console.log(err);
       });
-      axios
+    axios
       .get("http://localhost:3000/index/seller/store")
       .then((response) => {
         this.detail_seller = response.data;
@@ -131,9 +143,22 @@ export default {
           console.log(err);
         });
     },
-    selectProduct(value){
-      console.log(value)
-    }
+    selectProduct(value) {
+      console.log(value);
+    },
   },
 };
 </script>
+
+<style>
+
+#slideshow {
+  position: relative;
+  width: 800px;
+  height: 240px;
+}
+
+#slideshow > div {
+  position: absolute;
+}
+</style>
