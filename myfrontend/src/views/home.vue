@@ -18,14 +18,13 @@
           <button class="button is-primary" @click="clickSearch">Search</button>
           &nbsp;
           <div class="select">
-            <select>
+            <select @change="category" v-model="select_type_product">
               <option>All categories</option>
               <option>Toy</option>
-              <option>Food</option>
-              <option>Fashion</option>
-              <option>Accessories</option>
-              <option>Electronic</option>
-              <option>Lifestyle</option>
+              <option>Toy1</option>
+              <option>Toy2</option>
+              <option>Toy3</option>
+              <option>Toy4</option>
             </select>
           </div>
         </div>
@@ -33,11 +32,15 @@
     </nav>
     <div class="container">
       <div class="columns">
-        <div class="column is-three-fifths
-is-offset-one-fifth">
-          <div id="slideshow">
+        <div class="column is-three-fifths is-offset-one-fifth">
+          <div v-if="detail_seller.length < 2">
             <div v-for="seller in detail_seller" :key="seller.store_name">
-              <img :src="'http://localhost:3000' + seller.store_picture" style="width: 800px; height: 240px;" />
+              <router-link :to="`/store_seller/${seller.id}`"><img :src="'http://localhost:3000' + seller.store_picture" style="width: 800px; height: 240px;" /></router-link>
+            </div>
+          </div>
+          <div id="slideshow" v-else>
+            <div v-for="seller in detail_seller" :key="seller.store_name">
+              <router-link :to="`/store_seller/${seller.id}`"><img :src="'http://localhost:3000' + seller.store_picture" style="width: 800px; height: 240px;" /></router-link>
             </div>
           </div>
         </div>
@@ -74,8 +77,7 @@ is-offset-one-fifth">
                   </div>
                 </div>
               </div>
-            </a></router-link
-          >
+            </a></router-link>
         </div>
         <!-- End สินค้า -->
       </div>
@@ -100,11 +102,11 @@ import axios from "axios";
 export default {
   data() {
     return {
-      number_runner: 0,
       product: null,
       search: "",
       keep_all_product: [],
       detail_seller: [],
+      select_type_product:''
     };
   },
   created() {
@@ -145,6 +147,22 @@ export default {
     },
     selectProduct(value) {
       console.log(value);
+    },
+    category(){
+        axios
+        .post("http://localhost:3000/search/type", {
+          search_type: this.select_type_product
+        })
+        .then((response) => {
+          if (this.select_type_product === "" || this.select_type_product === null || this.select_type_product === "All categories") {
+            this.product = this.keep_all_product;
+          } else {
+            this.product = response.data;
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
 };
