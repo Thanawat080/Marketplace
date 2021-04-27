@@ -112,5 +112,63 @@ router.post("/admin/status/false", async (req,res,next) => {
 //   })
 
 
+router.post("/admin/addevent", async (req,res,next) => {
+  const event_name = req.body.event_name;
+  const start_date = req.body.start_date;
+  const end_date = req.body.end_date;
+  const conn = await pool.getConnection();
+  await conn.beginTransaction();
+  try{
+      await conn.query("insert into event(event_name, start_date, end_date, owner_marketplace_id) values(?,?,?,?)",[event_name,start_date,end_date,1])  
+      conn.commit()
+      res.json("Add new event success!")
+  }
+  catch (err) {
+      await conn.rollback();
+      return res.status(400).json(err);
+    } finally {
+      console.log("finally");
+      conn.release();
+    }  
+})
+
+
+router.get("/admin/event", async (req,res,next) => {
+  const conn = await pool.getConnection();
+  await conn.beginTransaction();
+  try{
+      const event =  await conn.query("select * from event")  
+      conn.commit()
+      res.send(event[0])
+      console.log(event[0])
+  }
+  catch (err) {
+      await conn.rollback();
+      return res.status(400).json(err);
+    } finally {
+      console.log("finally");
+      conn.release();
+    }  
+})
+
+
+ router.delete("/admin/deleteevent/:eventId", async (req,res,next) => {
+     console.log(req.params.storeId)
+     const conn = await pool.getConnection();
+     await conn.beginTransaction();
+     try{
+          await conn.query("delete from `event` where id = ? ",[req.params.eventId])  
+         conn.commit()
+         res.json("Delete event Success!")
+     }
+     catch (err) {
+         await conn.rollback();
+         return res.status(400).json(err);
+       } finally {
+         console.log("finally");
+         conn.release();
+       }  
+   })
+
 
 exports.router = router;
