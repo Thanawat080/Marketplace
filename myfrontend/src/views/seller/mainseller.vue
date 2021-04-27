@@ -75,6 +75,9 @@ export default {
         .put("http://localhost:3000/addcheck/openstore", formData)
         .then((res) => {
           console.log(res)
+          alert("Fill in the information successfully, waiting for confirmation from admin.")
+          this.pic = ''
+          this.idcard_number = ''
         })
         .catch((err) => {
           console.log(err);
