@@ -31,8 +31,8 @@
                         
                         <div class="file is-info is-boxed aligncenter">
                             <label class="file-label">
-                              <input class="file-input" multiple type="file" name="resume" accept="image/png, image/jpeg, image/webp"
-                              @change="selectImages"> 
+                              <input class="file-input" type="file" name="resume" accept="image/png, image/jpeg, image/webp"
+        @change="selectImages"> 
                               <span class="file-cta">
                                 <span class="file-icon">
                                   <i class="fas fa-cloud-upload-alt"></i>
@@ -42,19 +42,7 @@
                                 </span>
                               </span>
                             </label>
-                         </div>
-                         <div v-if="pic" class="columns is-multiline">
-                            <div v-for="(image) in pic" :key="image.id" class="column is-one-quarter">
-                              <div class="card">
-                                <div class="card-image">
-                                  <figure class="image is-4by3">
-                                    <img :src="showSelectImage(image)" alt="Placeholder image" />
-                                  </figure>
-                                </div>
-                              </div>
-                            </div>
                           </div>
-                          
 
                         ชื่อสินค้า<input class="input" type="text" placeholder="ชื่อสินค้า" v-model="product_name">
                         <div class="columns">
@@ -101,7 +89,6 @@ export default {
   methods:{
     selectImages(event){
         this.pic = event.target.files;
-        console.log(this.pic)
     },
     getcategory(){
       axios
@@ -128,15 +115,19 @@ export default {
       .put("http://localhost:3000/addproduct", formData)
       .then((res) => {
         console.log(res)
+        this.product_name = ''
+        this.description = ''
+        this.price = ''
+        this.promotionPrice = ''
+        this.categoryType = ''
+        this.quantity = ''
+        this.pic = ''
+        alert("Successfully added new products!")
       })
       .catch((err) => {
          console.log(err);
       });
       
-    },
-    showSelectImage(image) {
-      // for preview only
-      return URL.createObjectURL(image);
     }
   },
   created(){
