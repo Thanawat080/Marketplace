@@ -30,6 +30,26 @@ router.get("/store/product/:sellerId", async function(req, res, next){
 
 })
 
+
+router.post("/checkstatus", async function(req, res, next){
+  const id = req.body.id
+  console.log(id)
+  const conn = await pool.getConnection();
+  await conn.beginTransaction();
+  try{
+    const seller = await pool.query("select seller_id from store where id = ?", [id])
+    const result = await pool.query("select status from seller where id = ?", [seller[0][0].seller_id])
+    await conn.commit()
+    res.send(result[0][0])
+  }catch (err) {
+    console.log(err)
+    await conn.rollback();
+    return res.status(500).json(err);
+  } finally {
+    conn.release();
+  }
+})
+
 exports.router = router;
 
 
