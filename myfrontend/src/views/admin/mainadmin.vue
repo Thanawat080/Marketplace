@@ -21,9 +21,9 @@
           style="width: 100%"
         >
           <!-- Your table content -->
-          <tbody v-for="store in stores" :key='store.id'>
-            <tr>
-              <th>{{store.id}}</th>
+          <tbody >
+            <tr v-for='(store,index) in stores' :key='store.id'>       
+              <th>{{index+1}}</th>
               <td style="width: 25%">{{store.store_name}}</td>
               <td style="width: 25%">Report : {{store.reportnumber}}</td>
               <td style="width: 25%">
