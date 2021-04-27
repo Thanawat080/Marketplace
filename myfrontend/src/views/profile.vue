@@ -17,7 +17,7 @@
                             ประวัติ
                         </p>
                         <ul class="menu-list">
-                            <li><a href="history.html">ประวัติการซื้อ</a></li>
+                            <li><router-link class="card-footer-item" to="/history">ประวัติการซื้อ</router-link></li>
                         </ul>
                     </aside>
                 </div>
