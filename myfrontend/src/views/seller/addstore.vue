@@ -28,8 +28,21 @@
                         <p>สร้างร้านค้า</p>
                     </div>
                     <br>
-                    <div class="columns">
+                    <p>รูปโปรไฟล์ร้าน</p>
+                    <div class="columns">    
                         <div class="column is-three-fifths">
+                          <label class="file-label">
+                            <input class="file-input" type="file" name="resume">
+                            <span class="file-cta">
+                                <span class="file-icon">
+                                    <i class="fas fa-upload"></i>
+                                </span>
+                                <span class="file-label">
+                                    Choose a file…
+                                </span>
+                            </span>
+                              <input class="file-input" type="file" name="resume" accept="image/png, image/jpeg, image/webp" @change="selectImages"> 
+                        </label>
                             ชื่อร้าน<input class="input" type="text" placeholder="ชื่อร้าน" v-model="store_name">
                             รายละเอียดร้านค้า<textarea class="textarea" placeholder="รายละเอียดร้านค้า" rows="5" v-model="store_detail"></textarea>
                             <p>ประเภทการเช่า</p>
@@ -59,21 +72,29 @@ export default {
       store_name:'',
       store_detail:'',
       rent_type: '',
+      pic:'',
     };
   },
   methods:{
+    selectImages(event){
+        this.pic = event.target.files;
+    },
     addstore(){
+        let formData = new FormData();
+        this.pic.forEach((value) => {
+        formData.append("Pic", value);
+      });
+        formData.append("storename", this.store_name);
+        formData.append("description", this.store_detail);
+        formData.append("rent_type", this.rent_type);
       axios
-      .put("http://localhost:3000/addstore",{
-          storename: this.store_name,
-          description: this.store_detail,
-          rent_type: this.rent_type
-      })
+      .put("http://localhost:3000/addstore",formData)
       .then((res) => {
           alert("Add store is success.")
           this.rent_type = ''
           this.store_detail = ''
           this.store_name = ''
+          this.pic = ''
         console.log(res)
       })
       .catch((err) => {
