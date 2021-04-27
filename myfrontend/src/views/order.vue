@@ -5,11 +5,12 @@
       <div class="column is-half">
 
         <ul class="slides">
-          <input type="radio" name="radio-btn" id="img-1" checked />
+          <label v-for="(value, index) in picture" :key="value.picture_no">
+          <input type="radio" name="radio-btn" :id="'img-'+(index+1)" checked />
           <li class="slide-container">
             <div class="slide">
               <img
-                 :src="'http://localhost:3000' + product.picture"
+                 :src="'http://localhost:3000' + value.picture"
               />
             </div>
             <div class="nav">
@@ -20,46 +21,11 @@
                 ><i class="fas fa-chevron-circle-right fa-3x"></i
               ></label>
             </div>
-          </li>
+          </li></label>
 
-          <input type="radio" name="radio-btn" id="img-2" />
-          <li class="slide-container">
-            <div class="slide">
-              <img
-                 :src="'http://localhost:3000' + product.picture"
-              />
-            </div>
-            <div class="nav">
-              <label for="img-1" class="prev"
-                ><i class="fas fa-chevron-circle-left fa-3x"></i
-              ></label>
-              <label for="img-3" class="next"
-                ><i class="fas fa-chevron-circle-right fa-3x"></i
-              ></label>
-            </div>
-          </li>
-
-          <input type="radio" name="radio-btn" id="img-3" />
-          <li class="slide-container" >
-            <div class="slide">
-              <img
-                 :src="'http://localhost:3000' + product.picture" 
-              />
-            </div>
-            <div class="nav">
-              <label for="img-2" class="prev"
-                ><i class="fas fa-chevron-circle-left fa-3x"></i
-              ></label>
-              <label for="img-4" class="next"
-                ><i class="fas fa-chevron-circle-right fa-3x"></i
-              ></label>
-            </div>
-          </li>
-
-          <li class="nav-dots">
-            <label for="img-1" class="nav-dot" id="img-dot-1"></label>
-            <label for="img-2" class="nav-dot" id="img-dot-2"></label>
-            <label for="img-3" class="nav-dot" id="img-dot-3"></label>
+          <li class="nav-dots" >
+            <label v-for="(value, index) in picture" :key="value.picture_no">
+            <label :for="'img-'+(index+1)" class="nav-dot" :id="'img-dot-'+(index+1)"></label></label>
           </li>
         </ul>
 
@@ -95,13 +61,26 @@ export default {
   data() {
     return {
       product: {},
+      picture:[],
       quantity: 1,
     };
   },
   created() {
     this.getproduct(this.$route.params.productId);
+    this.getpicture(this.$route.params.productId)
   },
   methods: {
+    getpicture(id){
+        axios
+        .get(`http://localhost:3000/picture/${id}`)
+        .then((res) => {
+          this.picture = res.data;
+          console.log(this.product);
+        })
+        .catch((eer) => {
+          console.log(eer);
+        });
+    },
     getproduct(id) {
       axios
         .get(`http://localhost:3000/getproduct1/${id}`)
@@ -143,3 +122,85 @@ export default {
   },
 };
 </script>
+<style>
+.slides {
+      width: 426.666666667px;
+      margin: 0 auto;
+      position: relative;
+      display: block;
+    }
+    .slides input {
+      display: none;
+    }
+    .slide-container {
+      display: block;
+    }
+    .slide {
+      top: 0;
+      opacity: 0;
+      display: block;
+      position: absolute;
+      transform: scale(0);
+      transition: all 0.7s ease-in-out;
+      height: 240px;
+    }
+    .slide img {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .nav label {
+      display: none;
+      position: absolute;
+      cursor: pointer;
+      color: rgba(105, 105, 105, 0.959);
+      text-align: center;
+      margin-top: 29%;
+    }
+    .nav label:hover {
+      color: #000;
+    }
+    .nav .next {
+      right: 5px;
+    }
+    .nav .prev {
+      left: 5px;
+    }
+    input:checked+.slide-container .slide {
+      opacity: 1;
+      transform: scale(1);
+      transition: opacity 1s ease-in-out;
+    }
+    input:checked+.slide-container .nav label {
+      display: block;
+    }
+    .nav-dots {
+      width: 100%;
+      height: 11px;
+      display: block;
+      position: absolute;
+      text-align: center;
+      margin-top: 63%;
+    }
+    .nav-dots .nav-dot {
+      width: 11px;
+      height: 11px;
+      margin: 0 4px;
+      position: relative;
+      border-radius: 100%;
+      display: inline-block;
+      background-color: rgba(0, 0, 0, 0.6);
+    }
+    .nav-dots .nav-dot:hover {
+      cursor: pointer;
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+    input#img-1:checked~.nav-dots label#img-dot-1,
+    input#img-2:checked~.nav-dots label#img-dot-2,
+    input#img-3:checked~.nav-dots label#img-dot-3,
+    input#img-4:checked~.nav-dots label#img-dot-4,
+    input#img-5:checked~.nav-dots label#img-dot-5,
+    input#img-6:checked~.nav-dots label#img-dot-6 {
+      background: rgba(0, 0, 0, 0.8);
+    }
+</style>
