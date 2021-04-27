@@ -143,3 +143,99 @@ export default {
   },
 };
 </script>
+<style>
+.slides {
+      width: 426.666666667px;
+      margin: 0 auto;
+      position: relative;
+      display: block;
+    }
+
+    .slides input {
+      display: none;
+    }
+
+    .slide-container {
+      display: block;
+    }
+
+    .slide {
+      top: 0;
+      opacity: 0;
+      display: block;
+      position: absolute;
+      transform: scale(0);
+      transition: all 0.7s ease-in-out;
+      height: 240px;
+    }
+
+    .slide img {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .nav label {
+      display: none;
+      position: absolute;
+      cursor: pointer;
+      color: rgba(105, 105, 105, 0.959);
+      text-align: center;
+      margin-top: 29%;
+    }
+
+    .nav label:hover {
+      color: #000;
+    }
+
+    .nav .next {
+      right: 5px;
+    }
+
+    .nav .prev {
+      left: 5px;
+    }
+
+    input:checked+.slide-container .slide {
+      opacity: 1;
+      transform: scale(1);
+      transition: opacity 1s ease-in-out;
+    }
+
+    input:checked+.slide-container .nav label {
+      display: block;
+    }
+
+    .nav-dots {
+      width: 100%;
+      height: 11px;
+      display: block;
+      position: absolute;
+      text-align: center;
+      margin-top: 63%;
+    }
+
+    .nav-dots .nav-dot {
+      width: 11px;
+      height: 11px;
+      margin: 0 4px;
+      position: relative;
+      border-radius: 100%;
+      display: inline-block;
+      background-color: rgba(0, 0, 0, 0.6);
+    }
+
+    .nav-dots .nav-dot:hover {
+      cursor: pointer;
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    input#img-1:checked~.nav-dots label#img-dot-1,
+    input#img-2:checked~.nav-dots label#img-dot-2,
+    input#img-3:checked~.nav-dots label#img-dot-3,
+    input#img-4:checked~.nav-dots label#img-dot-4,
+    input#img-5:checked~.nav-dots label#img-dot-5,
+    input#img-6:checked~.nav-dots label#img-dot-6 {
+      background: rgba(0, 0, 0, 0.8);
+    }
+</style>
