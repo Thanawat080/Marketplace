@@ -116,12 +116,21 @@ router.post("/admin/addevent", async (req,res,next) => {
   const event_name = req.body.event_name;
   const start_date = req.body.start_date;
   const end_date = req.body.end_date;
+  const discount = req.body.discount;
+  
   const conn = await pool.getConnection();
   await conn.beginTransaction();
   try{
-      await conn.query("insert into event(event_name, start_date, end_date, owner_marketplace_id) values(?,?,?,?)",[event_name,start_date,end_date,1])  
+    await conn.query("insert into event(event_name, start_date, end_date, owner_marketplace_id,discount) values(?,?,?,?,?)",[event_name,start_date,end_date,1,discount]) 
+    const event =  await conn.query("select * from event") 
+    const dis = ((100-event[0][0].discount)/100)
+    if(event[0].length < 2){ 
+      conn.query("update product set price = price*? where id > 0",[dis]) 
+    }else{
+      throw res.send("You can add only one event.")
+    }
       conn.commit()
-      res.json("Add new event success!")
+      res.send("Add new event success!")
   }
   catch (err) {
       await conn.rollback();
@@ -137,7 +146,7 @@ router.get("/admin/event", async (req,res,next) => {
   const conn = await pool.getConnection();
   await conn.beginTransaction();
   try{
-      const event =  await conn.query("select * from event")  
+      const event =  await conn.query("select * from event") 
       conn.commit()
       res.send(event[0])
       console.log(event[0])
@@ -156,8 +165,11 @@ router.get("/admin/event", async (req,res,next) => {
      console.log(req.params.storeId)
      const conn = await pool.getConnection();
      await conn.beginTransaction();
-     try{
-          await conn.query("delete from `event` where id = ? ",[req.params.eventId])  
+     try{    
+          const event =  await conn.query("select * from event") 
+          const dis = ((100-event[0][0].discount)/100)
+          conn.query("update product set price = price/? where id > 0",[dis]) 
+          await conn.query("delete from `event` where id = ? ",[req.params.eventId])     
          conn.commit()
          res.json("Delete event Success!")
      }

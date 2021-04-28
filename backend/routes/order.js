@@ -19,7 +19,7 @@ router.put("/addorder/:productId", async (req,res,next) => {
         [req.params.productId, orderId[0][0].id, quantity * price, quantity, price])
         }
         else{
-          await conn.query("UPDATE order_detail set total_price = ?, quantity = ? where id = ?", [orderD[0][0].total_price + (quantity*price), orderD[0][0].quantity + quantity, orderD[0][0].id])
+          await conn.query("UPDATE order_detail set total_price = ?, quantity = ? where id = ?", [orderD[0][0].total_price + (quantity*price), (parseInt(orderD[0][0].quantity) + parseInt(quantity)), orderD[0][0].id])
         }
         
         conn.commit()

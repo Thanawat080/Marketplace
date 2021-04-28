@@ -68,18 +68,33 @@ router.get("/category", async function(req, res, next){
 router.put("/addproduct", upload.array('Pic'), async function(req, res, next){
   const p_name = req.body.pame;
   const description = req.body.description;
-  const price = req.body.price;
-  const promoprice = req.body.promoprice;
+  const price1 = req.body.price;
   const categorys = req.body.category;
   const quantity = req.body.quantity;
   const conn = await pool.getConnection();
   await conn.beginTransaction();
   try {
+    const test = await conn.query("select * from event") 
+    console.log(test[0].length)
+    if(test[0].length === 1){ 
+      const file = req.files;
+      const store = await conn.query("SELECT * FROM store WHERE seller_id = ?", [req.session.userdata.id])
+      const category = await conn.query("SELECT * FROM category WHERE category_name = ?", [categorys])
+      await conn.query("INSERT INTO product (p_name, price, description, store_id, category_id, quantity) VALUES(?, ?, ?, ?, ?, ?);", 
+      [p_name, (price1*((100-test[0][0].discount)/100)), description, store[0][0].id, category[0][0].id, quantity])
+      if (file) {
+        console.log(file)
+        file.forEach(async function (value) {
+          const product = await conn.query("SELECT MAX(id) id FROM product") 
+          await conn.query("INSERT INTO product_picture (product_id, picture) VALUES(?, ?)", [product[0][0].id, value.path.substr(6)])
+        });
+      }
+    }else{
     const file = req.files;
     const store = await conn.query("SELECT * FROM store WHERE seller_id = ?", [req.session.userdata.id])
     const category = await conn.query("SELECT * FROM category WHERE category_name = ?", [categorys])
-    await conn.query("INSERT INTO product (p_name, price, description, promotion_price, store_id, category_id, quantity) VALUES(?, ?, ?, ?, ?, ?, ?);", 
-    [p_name, price, description, promoprice, store[0][0].id, category[0][0].id, quantity])
+    await conn.query("INSERT INTO product (p_name, price, description, store_id, category_id, quantity) VALUES(?, ?, ?, ?, ?, ?);", 
+    [p_name, price1, description, store[0][0].id, category[0][0].id, quantity])
     if (file) {
       console.log(file)
       file.forEach(async function (value) {
@@ -87,6 +102,8 @@ router.put("/addproduct", upload.array('Pic'), async function(req, res, next){
         await conn.query("INSERT INTO product_picture (product_id, picture) VALUES(?, ?)", [product[0][0].id, value.path.substr(6)])
       });
     }
+  }
+
     await conn.commit()
     res.json("addproductcomplete")
   } catch (err) {
@@ -166,12 +183,19 @@ router.post("/editproduct/:productId", async function (req, res, next) {
   const price = req.body.price
   const description = req.body.description
   const quantity = req.body.quantity
-  const promotion_price = req.body.promotion_price
   const categorys = req.body.category
   try{
+    const test = await conn.query("select * from event") 
+    console.log(test[0].length)
+    if(test[0].length === 1){ 
     const category = await conn.query("SELECT * FROM category WHERE category_name = ?", [categorys])
-    await conn.query('UPDATE product SET p_name=?, price=?, description=?, promotion_price=?, quantity=?, category_id=? WHERE id=?', 
-    [p_name, price, description, promotion_price, quantity, category[0][0].id, req.params.productId])
+    await conn.query('UPDATE product SET p_name=?, price=?, description=?,  quantity=?, category_id=? WHERE id=?', 
+    [p_name, (price*((100-test[0][0].discount)/100)), description, quantity, category[0][0].id, req.params.productId])
+  }else{
+    const category = await conn.query("SELECT * FROM category WHERE category_name = ?", [categorys])
+    await conn.query('UPDATE product SET p_name=?, price=?, description=?,  quantity=?, category_id=? WHERE id=?', 
+    [p_name, price, description, quantity, category[0][0].id, req.params.productId])
+  }
     res.send('update complete')
   }catch (err) {
     console.log(err)

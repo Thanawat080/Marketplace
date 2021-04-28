@@ -16,8 +16,6 @@ router.get("/index", async function(req,res,next){
           (SELECT DISTINCT * FROM product_picture) AS b ON a.id = b.product_id
           group by id;`
         );
-        console.log(rows)
-      
       await conn.commit()
       res.send(rows)
       }
@@ -66,7 +64,7 @@ router.get("/index/seller/store", async function(req,res,next){
       const rows = await pool.query(
         `select * from store`
       );
-      console.log(rows[0])
+
     await conn.commit()
     res.send(rows[0])
     
@@ -104,5 +102,25 @@ router.post("/search/type", async function(req,res,next){
 })
 
 
+
+router.get("/event", async function(req,res,next){
+  const conn = await pool.getConnection();
+  await conn.beginTransaction();
+  try {
+    const result = await pool.query("SELECT * FROM event")
+    
+    await conn.commit()
+    res.send(result[0])
+    console.log(result[0])
+    
+    } catch (err) {
+      await conn.rollback();
+      return res.status(400).json(err);
+    } finally {
+      console.log("finally");
+      conn.release();
+    }
+
+})
 
 exports.router = router;
