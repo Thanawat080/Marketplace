@@ -1,35 +1,22 @@
 <template>
   <div>
-    <nav
-      class="navbar"
-      role="navigation"
-      aria-label="main navigation"
-      style="margin-top: 10px"
-    >
       <div class="container">
-        <div id="navbarBasicExample" class="navbar-menu">
-          <input
-            class="input is-primary"
-            type="text"
-            placeholder="Search"
-            v-model="search"
-          />
-          &nbsp;
-          <button class="button is-primary" @click="clickSearch">Search</button>
-          &nbsp;
-          <div class="select">
-            <select @change="category" v-model="select_type_product">
-              <option>All categories</option>
-              <option>Toy</option>
-              <option>Toy1</option>
-              <option>Toy2</option>
-              <option>Toy3</option>
-              <option>Toy4</option>
-            </select>
+        <div class="columns">
+          <div class="column is-three-fifths is-offset-one-fifth">
+            <input class="input is-primary" type="text" placeholder="Search" v-model="search" style="width:550px;"/>
+            &nbsp;
+            <button class="button is-primary" @click="clickSearch">Search</button>
+            &nbsp;
+            <div class="select" style="width: 150px">
+              <select @change="category" v-model="select_type_product">
+                <option value=''>All categories</option>
+                <option v-for='value in categorys' :key='value.id'>{{value.category_name}}</option>
+              </select>
+            </div>
           </div>
         </div>
       </div>
-    </nav>
+
     <div class="container">
       <div class="columns">
         <div class="column is-three-fifths is-offset-one-fifth">
@@ -130,9 +117,18 @@ export default {
       isactive:false,
       event_name:'',
       discount:'',
+      categorys: null,
     };
   },
   created() {
+      axios
+      .get("http://localhost:3000/category")
+      .then((res) => {
+        this.categorys = res.data
+      })
+      .catch((err) => {
+        console.log(err);
+      });
       axios
       .get("http://localhost:3000/event")
       .then((res) => {
