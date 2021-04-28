@@ -123,4 +123,21 @@ router.get("/event", async function(req,res,next){
 
 })
 
+router.get("/category", async function(req,res,next){
+  const conn = await pool.getConnection();
+  await conn.beginTransaction();
+  try {
+    const result = await pool.query("SELECT * FROM category")
+    res.send(result[0])
+    console.log(result[0])
+    } catch (err) {
+      await conn.rollback();
+      return res.status(400).json(err);
+    } finally {
+      console.log("finally");
+      conn.release();
+    }
+
+})
+
 exports.router = router;
