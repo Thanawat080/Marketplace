@@ -29,16 +29,16 @@
                     <br>
                     <div class="column is-full">
                         
-                        <div class="file is-info is-boxed aligncenter">
+                        <div class="file is-info">
                             <label class="file-label">
                               <input class="file-input" type="file" name="resume" accept="image/png, image/jpeg, image/webp"
-        @change="selectImages"> 
+        @change="selectImages" multiple> 
                               <span class="file-cta">
                                 <span class="file-icon">
                                   <i class="fas fa-cloud-upload-alt"></i>
                                 </span>
                                 <span class="file-label">
-                                  Upload pic…
+                                  Upload picture
                                 </span>
                               </span>
                             </label>
