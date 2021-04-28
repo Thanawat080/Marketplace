@@ -64,6 +64,7 @@ CREATE TABLE `event` (
   `start_date` date,
   `end_date` date,
   `owner_marketplace_id` int(10),
+  `discount` int(10),
   PRIMARY KEY (`id`),
   FOREIGN KEY (`owner_marketplace_id`) 
   REFERENCES `owner_marketplace`(`id`)
@@ -103,7 +104,6 @@ CREATE TABLE `product` (
   `price` float(8,2) not null,
   `id` int(10) AUTO_INCREMENT,
   `description` text not null,
-  `promotion_price` float(8,2),
   `store_id` int(10) not null,
   `category_id` int(10) not null,
   `quantity` int(10) not null,
