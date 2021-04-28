@@ -35,12 +35,20 @@
         <div class="column is-three-fifths is-offset-one-fifth">
           <div v-if="detail_seller.length < 2">
             <div v-for="seller in detail_seller" :key="seller.store_name">
-              <router-link :to="`/store_seller/${seller.id}`"><img :src="'http://localhost:3000' + seller.store_picture" style="width: 800px; height: 240px;" /></router-link>
+              <router-link :to="`/store_seller/${seller.id}`"
+                ><img
+                  :src="'http://localhost:3000' + seller.store_picture"
+                  style="width: 800px; height: 240px"
+              /></router-link>
             </div>
           </div>
           <div id="slideshow" v-else>
             <div v-for="seller in detail_seller" :key="seller.store_name">
-              <router-link :to="`/store_seller/${seller.id}`"><img :src="'http://localhost:3000' + seller.store_picture" style="width: 800px; height: 240px;" /></router-link>
+              <router-link :to="`/store_seller/${seller.id}`"
+                ><img
+                  :src="'http://localhost:3000' + seller.store_picture"
+                  style="width: 800px; height: 240px"
+              /></router-link>
             </div>
           </div>
         </div>
@@ -77,11 +85,23 @@
                   </div>
                 </div>
               </div>
-            </a></router-link>
+            </a></router-link
+          >
         </div>
         <!-- End สินค้า -->
       </div>
     </div>
+
+    <div id="modal" class="modal is-active">
+      <div class="modal-background"></div>
+      <div class="modal-content">
+        <div class="box">
+          <!-- รายละเอียด Event -->
+        </div>
+      </div>
+      <button class="modal-close is-large" aria-label="close"></button>
+    </div>
+
     <br />
   </div>
 </template>
@@ -106,7 +126,7 @@ export default {
       search: "",
       keep_all_product: [],
       detail_seller: [],
-      select_type_product:''
+      select_type_product: "",
     };
   },
   created() {
@@ -148,13 +168,17 @@ export default {
     selectProduct(value) {
       console.log(value);
     },
-    category(){
-        axios
+    category() {
+      axios
         .post("http://localhost:3000/search/type", {
-          search_type: this.select_type_product
+          search_type: this.select_type_product,
         })
         .then((response) => {
-          if (this.select_type_product === "" || this.select_type_product === null || this.select_type_product === "All categories") {
+          if (
+            this.select_type_product === "" ||
+            this.select_type_product === null ||
+            this.select_type_product === "All categories"
+          ) {
             this.product = this.keep_all_product;
           } else {
             this.product = response.data;
@@ -169,7 +193,6 @@ export default {
 </script>
 
 <style>
-
 #slideshow {
   position: relative;
   width: 800px;
