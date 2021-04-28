@@ -79,9 +79,7 @@
                                     <div class="columns">
                                         <div class="column">
                                             ราคา<input class="input" type="text" placeholder="ราคา" v-model="productEdit.price">
-                                        </div>
-                                        <div class="column">
-                                            ราคาโปรโมชั่น *ใส่หรือไม่ใส่ก็ได้*<input class="input" type="text" placeholder="ราคาโปรโมชั่น" v-model="productEdit.promotion_price">
+                                            <span style="color:red;">**ราคาที่แสดงเป็นราคาที่คิดกับeventในช่วงเวลานั้นๆ**</span>
                                         </div>
                                     </div>
                                     จำนวน<input class="input" type="number" placeholder="จำนวน" v-model="productEdit.quantity">
@@ -174,7 +172,6 @@ export default {
         price: this.productEdit.price,
         description: this.productEdit.description,
         quantity: this.productEdit.quantity,
-        promotion_price: this.productEdit.promotion_price,
         category: this.category_name
       })
       .then((res)=>{

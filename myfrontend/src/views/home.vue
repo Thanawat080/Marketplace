@@ -92,14 +92,16 @@
       </div>
     </div>
 
-    <div id="modal" class="modal is-active">
+    <div id="modal" class="modal" :class="isactive">
       <div class="modal-background"></div>
       <div class="modal-content">
         <div class="box">
           <!-- รายละเอียด Event -->
+          <p>New Event: {{this.event_name}}</p>
+           <p>ลดราคา: {{this.discount}} %</p>
         </div>
       </div>
-      <button class="modal-close is-large" aria-label="close"></button>
+      <button class="modal-close is-large" aria-label="close" @click="isactive = !isactive"></button>
     </div>
 
     <br />
@@ -108,7 +110,6 @@
 <script>
 import $ from "jquery";
 $("#slideshow > div:gt(0)").hide();
-
 setInterval(function () {
   $("#slideshow > div:first")
     .fadeOut(1000)
@@ -117,7 +118,6 @@ setInterval(function () {
     .end()
     .appendTo("#slideshow");
 }, 5000);
-
 import axios from "axios";
 export default {
   data() {
@@ -127,9 +127,24 @@ export default {
       keep_all_product: [],
       detail_seller: [],
       select_type_product: "",
+      isactive:false,
+      event_name:'',
+      discount:'',
     };
   },
   created() {
+      axios
+      .get("http://localhost:3000/event")
+      .then((res) => {
+        if(res.data.length == 1){
+          this.isactive = 'is-active'
+          this.event_name = res.data[0].event_name
+          this.discount = res.data[0].discount
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     axios
       .get("http://localhost:3000/index")
       .then((response) => {
@@ -198,7 +213,6 @@ export default {
   width: 800px;
   height: 240px;
 }
-
 #slideshow > div {
   position: absolute;
 }

@@ -29,16 +29,16 @@
                     <br>
                     <div class="column is-full">
                         
-                        <div class="file is-info">
+                        <div class="file is-info is-boxed aligncenter">
                             <label class="file-label">
-                              <input class="file-input" type="file" name="resume" accept="image/png, image/jpeg, image/webp"
-        @change="selectImages" multiple> 
+                              <input class="file-input" multiple type="file" name="resume" accept="image/png, image/jpeg, image/webp"
+        @change="selectImages">  
                               <span class="file-cta">
                                 <span class="file-icon">
                                   <i class="fas fa-cloud-upload-alt"></i>
                                 </span>
                                 <span class="file-label">
-                                  Upload picture
+                                  Upload pic…
                                 </span>
                               </span>
                             </label>
@@ -47,10 +47,7 @@
                         ชื่อสินค้า<input class="input" type="text" placeholder="ชื่อสินค้า" v-model="product_name">
                         <div class="columns">
                             <div class="column">
-                                ราคา<input class="input" type="text" placeholder="ราคา" v-model="price">
-                            </div>
-                            <div class="column">
-                                ราคาโปรโมชั่น *ใส่หรือไม่ใส่ก็ได้*<input class="input" type="text" placeholder="ราคาโปรโมชั่น" v-model="promotionPrice">
+                                ราคา<input class="input" type="text" placeholder="ราคา" v-model="price1">
                             </div>
                         </div>
                         จำนวน<input class="input" type="number" placeholder="จำนวน" v-model="quantity">
@@ -79,9 +76,8 @@ export default {
       pic:'',
       product_name:'',
       description:'',
-      price: '',
+      price1: '',
       quantity:'',
-      promotionPrice: 0,
       category: [],
       categoryType:''
     };
@@ -104,8 +100,7 @@ export default {
       let formData = new FormData();
       formData.append("pame", this.product_name);
       formData.append("description", this.description);
-      formData.append("price", this.price);
-      formData.append("promoprice", this.promotionPrice);
+      formData.append("price", this.price1);
       formData.append("category", this.categoryType);
       formData.append("quantity", this.quantity)
       this.pic.forEach((value) => {
@@ -117,8 +112,7 @@ export default {
         console.log(res)
         this.product_name = ''
         this.description = ''
-        this.price = ''
-        this.promotionPrice = ''
+        this.price1 = ''
         this.categoryType = ''
         this.quantity = ''
         this.pic = ''

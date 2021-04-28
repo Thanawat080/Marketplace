@@ -20,18 +20,23 @@
                     <br>
                     ชื่อกิจกรรม <input class="input" type="text" placeholder="ชื่อกิจกรรม" v-model="event_name">
                     <br><br>
-                    วันเริ่ม
+
                     <div class="columns">
                         <div class="column is-half">
+                          วันเริ่ม
                             <input class="input" type="date" placeholder="Text input" v-model="start_date">
-                        </div>
+                        </div>   
+                        <div class="column is-half">
+                          ลดราคา %
+                            <input class="input" v-model="discount">
+                        </div>  
                     </div>
-                    วันสินสุด
+                    
                     <div class="columns">
                     <div class="column is-half">
+                      วันสินสุด
                             <input class="input" type="date" placeholder="Text input" v-model="end_date">
-                        </div>    
-                        
+                        </div>                  
                     </div>
                     <button class="button is-success" @click="confirm">บันทึก</button>
 
@@ -42,6 +47,7 @@
                         <tbody>
                             <tr v-for="event in events" :key="event.id">
                                 <td style="width: 25%;">{{event.event_name}}</td>
+                                <td style="width: 25%;">ลดราคา: {{event.discount}} %</td>
                                 <td style="width: 25%;">{{event.start_date.substr(0, 10)+" "+event.end_date.substr(10, 20)}}</td>
                                 <td style="width: 25%;">{{event.end_date.substr(0, 10)+" "+event.end_date.substr(10, 20)}}</td>
                                 <td style="width: 25%;"><button class="button is-danger" @click="deleteevent(event.id)">ลบกิจกรรม</button></td>
@@ -64,6 +70,7 @@ export default {
       start_date: "",
       end_date: "",
       events:null,
+      discount:'',
     };
   },
   methods: {
@@ -96,6 +103,7 @@ export default {
           event_name: this.event_name,
           start_date: this.start_date,
           end_date: this.end_date,
+          discount:this.discount,
         })
         .then((res) => {
             this.reevent()

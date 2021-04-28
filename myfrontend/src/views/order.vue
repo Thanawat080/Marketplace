@@ -36,9 +36,9 @@
         <span class="tag is-success">Price : {{ product.price }} Baht</span>
         <!-- <span class="tag is-warning is-light">Sold : 1</span> -->
         <br /><br />
-        <p>รายละเอียด</p>
+        <p>รายละเอียด : {{product.description}}</p>
         <br />
-        Quantity :
+        Quantity : 
         <input
           class="input is-primary is-small"
           type="text"
