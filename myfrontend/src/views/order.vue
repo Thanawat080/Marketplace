@@ -13,14 +13,7 @@
                  :src="'http://localhost:3000' + value.picture"
               />
             </div>
-            <div class="nav">
-              <label for="img-6" class="prev"
-                ><i class="fas fa-chevron-circle-left fa-3x"></i
-              ></label>
-              <label for="img-2" class="next"
-                ><i class="fas fa-chevron-circle-right fa-3x"></i
-              ></label>
-            </div>
+            
           </li></label>
 
           <li class="nav-dots" >
