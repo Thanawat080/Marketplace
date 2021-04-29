@@ -12,7 +12,7 @@ router.put("/addorder/:productId", async (req,res,next) => {
     await conn.beginTransaction();
 
     try{
-        const orderId = await conn.query("SELECT MAX(order_id) id FROM `order`")
+        const orderId = await conn.query("SELECT MAX(order_id) id FROM `order` where buyer_id = ?",[req.session.userdata.id])
         const orderD = await conn.query("SELECT * FROM order_detail where product_id = ? AND order_id = ?", [req.params.productId, orderId[0][0].id])
         if(orderD[0].length == 0){
           await conn.query("INSERT INTO order_detail(product_id, order_id, total_price, quantity, price) VALUES (?, ?, ?, ?, ?)",
@@ -43,7 +43,7 @@ router.get("/checkout", async (req, res, next) => {
   await conn.beginTransaction();
 
   try{
-    const result = await conn.query("SELECT * from `order` o join order_detail od using(order_id) join (select p_name, id from product) p on (p.id = product_id) where o.order_id = (select MAX(order_id) from `order`) AND buyer_id = ? ", req.session.userdata.id)
+    const result = await conn.query("SELECT *,od.id from `order` o join order_detail od using(order_id) join (select p_name, id from product) p on (p.id = product_id) where o.order_id in (select order_id from `order` where order_price is null) AND buyer_id = ? ", req.session.userdata.id)
     conn.commit()
     res.json(result[0])
   }catch (err) {
@@ -127,6 +127,58 @@ router.get("/orderhistory", async (req, res, next) => {
     conn.release();
   }
 })
+
+
+router.get("/sold/:productId", async (req, res, next) => {
+  const conn = await pool.getConnection();
+  await conn.beginTransaction();
+  try{
+    const result = await conn.query("SELECT sum(quantity) count FROM `order_detail` WHERE product_id = ?", req.params.productId)
+    conn.commit()
+    res.send(result[0])
+  }catch (err) {
+    await conn.rollback();
+    return res.status(400).json(err);
+  } finally {
+    console.log("finally");
+    conn.release();
+  }
+})
+
+
+router.delete("/delete/orderdetail/:orderId", async function(req,res,next){
+  const conn = await pool.getConnection();
+  await conn.beginTransaction();
+  try{
+    await conn.query("DELETE FROM `order_detail` WHERE `id` = ?", [req.params.orderId]);
+    await conn.commit()
+    res.send("success");
+  }catch (err) {
+    console.log(err)
+    await conn.rollback();
+    return res.status(500).json(err);
+  } finally {
+    conn.release();
+  }
+})
+
+router.post("/update/productquantity/:orderId", async function(req,res,next){
+  const conn = await pool.getConnection();
+  await conn.beginTransaction();
+  try{
+    const product = await conn.query("select * FROM `order_detail` WHERE `id` = ?", [req.params.orderId]);
+    await conn.query("update product set quantity = quantity + ? WHERE `id` = ?", [product[0][0].quantity,product[0][0].product_id]);
+    await conn.commit()
+    res.send("success");
+  }catch (err) {
+    console.log(err)
+    await conn.rollback();
+    return res.status(500).json(err);
+  } finally {
+    conn.release();
+  }
+})
+
 
 exports.router = router
 

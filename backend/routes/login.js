@@ -10,7 +10,6 @@ router = express.Router();
 
 
 router.post("/login", async function(req, res, next){
-
   const username = req.body.username;
   const password = req.body.password;
   const conn = await pool.getConnection();
@@ -20,8 +19,16 @@ router.post("/login", async function(req, res, next){
         if (result[0].length > 0) {
           req.session.userdata = result[0][0]
           if(req.session.userdata.usertype == 'buyer'){
+            let order = await conn.query('SELECT * FROM `order` WHERE buyer_id = ?', [req.session.userdata.id])
+            console.log(order[0].length)
+            if(order[0].length == 0){
             await conn.query("INSERT INTO `order`(`buyer_id`, `order_price`, `date`, `address`) VALUES(?, ?, ?, ?);", 
-            [req.session.userdata.id, null, null, null]) 
+            [req.session.userdata.id, null, null, null])
+            res.send("success") 
+            return
+          } else{
+            res.send("success") 
+          }
           }
           res.send("success")   
         } else {
@@ -53,11 +60,6 @@ router.delete('/logout', async (req, res, next)=>{
     const conn = await pool.getConnection();
     await conn.beginTransaction();
     try{
-      const checkk = await pool.query("SELECT * from `order_detail` where order_id = (SELECT MAX(order_id) FROM `order`)")
-      if(checkk[0].length === 0){
-        const id = await pool.query("SELECT MAX(order_id) id FROM `order`")
-        await pool.query("DELETE FROM `order` where order_id = ?", [id[0][0].id])
-      }
       console.log('test')
       req.session.destroy()
       await conn.commit()
