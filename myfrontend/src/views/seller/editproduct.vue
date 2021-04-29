@@ -122,7 +122,11 @@ export default {
     };
   },
   mounted(){
-      this.getp()
+      this.reset()
+  },
+  methods:{
+    reset(){
+       this.getp()
       axios
       .get("http://localhost:3000/category")
       .then((res) => {
@@ -131,8 +135,7 @@ export default {
       .catch((err) => {
          console.log(err);
       });
-  },
-  methods:{
+    },
     getp(){
       axios
       .get("http://localhost:3000/getproduct")
@@ -175,12 +178,15 @@ export default {
         category: this.category_name
       })
       .then((res)=>{
+        this.reset()
+        this.reset()
         console.log(res)
         this.editstatus = false
         this.getp()
       })
       .catch((eer)=>{console.log(eer)});
-      
+       this.reset()
+       this.reset()
     }
   }
 };
