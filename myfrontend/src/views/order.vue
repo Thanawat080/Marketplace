@@ -27,7 +27,8 @@
         <br />
         <p id="title" class="title is-4">{{ product.p_name }}</p>
         <span class="tag is-success">Price : {{ product.price }} Baht</span>
-        <!-- <span class="tag is-warning is-light">Sold : 1</span> -->
+        <span class="tag is-warning is-light" style="margin-left:20px;">In stock : {{product.quantity}}</span>
+        <span class="tag is-warning is-danger" style="margin-left:20px;">Sold : {{sold}}</span>
         <br /><br />
         <p>รายละเอียด : {{product.description}}</p>
         <br />
@@ -42,6 +43,10 @@
         <button class="button is-primary" @click="addToCart">
           <i class="fas fa-cart-plus"></i> Add to cart
         </button>
+        
+           <router-link :to="`/store_seller/${product.store_id}`" style="text-decoration: none;"><button class="button is-info " style="margin-left:50px;" >
+          <i class="fas fa-store"></i>Go to the store page
+        </button></router-link>
       </div>
     </div>
     <hr />
@@ -56,13 +61,25 @@ export default {
       product: {},
       picture:[],
       quantity: 1,
+      sold:'',
     };
   },
   created() {
     this.getproduct(this.$route.params.productId);
-    this.getpicture(this.$route.params.productId)
+    this.getpicture(this.$route.params.productId);
+    this.getSold(this.$route.params.productId);
   },
   methods: {
+    getSold(id){
+         axios.get(`http://localhost:3000/sold/${id}`)
+        .then((res) => {
+          this.sold = res.data[0].count
+          console.log(res.data)
+        })
+        .catch((eer) => {
+          console.log(eer);
+        });
+    },
     getpicture(id){
         axios
         .get(`http://localhost:3000/picture/${id}`)

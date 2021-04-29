@@ -4,9 +4,10 @@
                     <!-- Your table content -->
                     <tbody>
                         <tr v-for='value in orderdetail' :key="value.id">
-                            <td style="width: 20%;">{{value.p_name}}</td>
-                            <td style="width: 20%;">{{value.quantity}}</td>
-                            <td style="width: 20%;">{{value.total_price}}</td>
+                            <td style="width: 20%;"><span style="color:#66a266;">ชื่อสินค้า:</span> {{value.p_name}}</td>
+                            <td style="width: 20%;"><span style="color:#66a266;">จำนวนสินค้า:</span> {{value.quantity}}</td>
+                            <td style="width: 20%;"><span style="color:#66a266;">ราคารวม:</span> {{value.total_price}}</td>
+                            <td style="width: 1%;"><button class="button is-danger" @click="delete_orderdetail(value.id)">ลบออกจากตะกร้า</button></td>
                         </tr>
                     </tbody>
                 </table>
@@ -42,6 +43,28 @@ export default {
         this.getcheckout()
     },
     methods:{
+        delete_orderdetail(order_id){
+            this.getcheckout()
+            this.getcheckout()
+            console.log(order_id)
+           axios.delete(`http://localhost:3000/delete/orderdetail/${order_id}`)
+            .then(() => {
+                alert("Delete success")
+            })
+            .catch((eer) => {
+                console.log(eer);
+            }); 
+            this.getcheckout()
+            this.getcheckout()
+            axios.post(`http://localhost:3000/update/productquantity/${order_id}`)
+            .then(() => {
+            })
+            .catch((eer) => {
+                console.log(eer);
+            }); 
+
+
+        },
         getcheckout(){
             axios.get(`http://localhost:3000/checkout`)
             .then((res) => {

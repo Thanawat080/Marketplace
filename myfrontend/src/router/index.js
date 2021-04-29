@@ -77,6 +77,12 @@ const routes = [
     name: 'event',
     component: () => import('../views/admin/event.vue')
   }
+  ,
+  {
+    path: '/history',
+    name: 'history',
+    component: () => import('../views/orderHistory.vue')
+  }
 ]
 
 

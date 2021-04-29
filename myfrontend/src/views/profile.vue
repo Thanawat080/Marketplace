@@ -42,7 +42,7 @@
                                 <br>
                                <div class="columns">
                                 <div class="column"><button class="button is-warning" @click="togglemodal">แก้ไขข้อมูล</button></div>
-                                 <div class="column"><router-link class="card-footer-item" to="/login"><button class="button is-danger" style="margin-top:-10px;" @click="logout">Logout</button></router-link></div>
+                                 <div class="column"><router-link class="card-footer-item" to="/login" style="text-decoration: none;"><button class="button is-danger" style="margin-top:-10px;" @click="logout">Logout</button></router-link></div>
                                 </div>
                                 <br>
                                
