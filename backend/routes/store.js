@@ -255,10 +255,9 @@ router.put("/report", async function(req, res, next){
   const conn = await pool.getConnection();
   await conn.beginTransaction();
   try{
-    const result = await pool.query("select reportnumber from store where id = ?", [id])
-    const count = result[0][0].reportnumber + 1
-    await pool.query("update store set reportnumber = ? where id = ?", [count,id])
+    await pool.query("update store set reportnumber = reportnumber + 1 where id = ?", [id])
     await conn.commit()
+    console.log(id)
     res.send("Report success")
   }catch (err) {
     console.log(err)

@@ -56,27 +56,13 @@ router.get("/login", function(req,res,next){
 })
 
 router.delete('/logout', async (req, res, next)=>{
-  if(req.session.userdata.usertype === 'buyer'){
-    const conn = await pool.getConnection();
-    await conn.beginTransaction();
     try{
-      console.log('test')
       req.session.destroy()
-      await conn.commit()
-      res.json(checkk)
     }catch (err) {
-      await conn.rollback();
       return res.status(400).json(err);
     } finally {
       console.log("finally");
-      conn.release();
     }
-  }
-  else{
-    req.session.destroy()
-  }
-
-  
 })
 
 exports.router = router;
