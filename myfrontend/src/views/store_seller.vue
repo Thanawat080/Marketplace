@@ -66,7 +66,7 @@ export default {
       store_type:'',
       id:'',
       status:null,
-      store_picture:'',
+      picture:'',
     };
   },
   created() {
@@ -104,6 +104,7 @@ export default {
         id:this.id 
       })
         .then((res) => {
+      
           alert(res.data)
 
         })
