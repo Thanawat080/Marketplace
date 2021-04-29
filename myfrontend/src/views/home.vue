@@ -124,10 +124,10 @@ export default {
       axios
       .get("http://localhost:3000/category")
       .then((res) => {
-        this.categorys = res.data
+        this.categorys = res.data.name
       })
       .catch((err) => {
-        console.log(err);
+         console.log(err);
       });
       axios
       .get("http://localhost:3000/event")
