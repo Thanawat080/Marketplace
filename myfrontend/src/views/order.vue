@@ -35,21 +35,21 @@
         Quantity : 
         <input
           class="input is-primary is-small"
-          type="text"
+          type="number"
           v-model="quantity"
-          style="width: 40px"
+          style="width: 55px"
         />
         <br /><br />
         <button class="button is-primary" @click="addToCart">
-          <i class="fas fa-cart-plus"></i> Add to cart
+          <i class="fas fa-cart-plus"></i>{{'\xa0'}}Add to cart
         </button>
         
            <router-link :to="`/store_seller/${product.store_id}`" style="text-decoration: none;"><button class="button is-info " style="margin-left:50px;" >
-          <i class="fas fa-store"></i>Go to the store page
+          <i class="fas fa-store"></i>{{'\xa0'}}Go to the store page
         </button></router-link>
       </div>
     </div>
-    <hr />
+    <br>
   </div>
 </template>
 
