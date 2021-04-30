@@ -34,6 +34,7 @@
                                     <th>{{index + 1}}</th>
                                     <td style="width: 50%;">{{value.date}}</td>
                                     <td>{{value.order_price}} บาท</td>
+                                    <td style="width: 1%;"><button class="button is-info" @click="info(value.order_id)">รายละเอียด</button></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -41,7 +42,20 @@
                     </div>
                 </div>
             </div>
-     </div>
+            <div class="modal" :class="isactive">
+                <div class="modal-background"></div>
+                    <div class="modal-card">
+                    <header class="modal-card-head">
+                        <p class="modal-card-title">รายละเอียดการสั่งซื้อ</p>
+                        <button class="delete" aria-label="close" @click="isactive = !isactive"></button>
+                    </header>
+                <section class="modal-card-body">
+                    <!-- Content ... -->
+                    <span v-for="value in products" :key="value.id">ชื่อสินค้า : {{value.p_name}}</span>
+                </section>
+            </div>
+        </div>         
+     </div> 
 </template>
 
 <script>
@@ -50,7 +64,9 @@ export default {
     
     data(){
         return{
-            history: []
+            history: [],
+            products:[],
+            isactive:false,
         }
     },
     created(){
@@ -61,6 +77,16 @@ export default {
              axios.get("http://localhost:3000/orderhistory")
             .then((res) => {
                 this.history = res.data
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+        },info(order_id){
+            this.isactive = 'is-active'
+            axios.post(`http://localhost:3000/info/${order_id}`)
+            .then((res) => {
+                this.products = res.data
+                console.log(res.data)
             })
             .catch((err) => {
                 console.log(err);
