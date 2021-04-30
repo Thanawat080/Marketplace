@@ -25,9 +25,6 @@ router.post("/login", async function(req, res, next){
             await conn.query("INSERT INTO `order`(`buyer_id`, `order_price`, `date`, `address`) VALUES(?, ?, ?, ?);", 
             [req.session.userdata.id, null, null, null])
             res.send("success") 
-            return
-          } else{
-            res.send("success") 
           }
           }
           res.send("success")   
