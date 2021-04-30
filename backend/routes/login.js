@@ -9,28 +9,33 @@ router = express.Router();
 
 
 
-router.post("/login", async function(req, res, next){
+router.post("/login", async function (req, res, next) {
   const username = req.body.username;
   const password = req.body.password;
   const conn = await pool.getConnection();
   await conn.beginTransaction();
   try {
     let result = await conn.query('SELECT * FROM user WHERE username = ? AND password = ?', [username, password])
-        if (result[0].length > 0) {
-          req.session.userdata = result[0][0]
-          if(req.session.userdata.usertype == 'buyer'){
-            let order = await conn.query('SELECT * FROM `order` WHERE buyer_id = ?', [req.session.userdata.id])
-            console.log(order[0].length)
-            if(order[0].length == 0){
-            await conn.query("INSERT INTO `order`(`buyer_id`, `order_price`, `date`, `address`) VALUES(?, ?, ?, ?);", 
+    if (result[0].length > 0) {
+      req.session.userdata = result[0][0]
+      if (req.session.userdata.usertype == 'buyer') {
+        let order = await conn.query('SELECT * FROM `order` WHERE buyer_id = ?', [req.session.userdata.id])
+        console.log(order[0].length)
+        if (order[0].length == 0) {
+          await conn.query("INSERT INTO `order`(`buyer_id`, `order_price`, `date`, `address`) VALUES(?, ?, ?, ?);",
             [req.session.userdata.id, null, null, null])
-            res.send("success") 
-          }
-          }
-          res.send("success")   
-        } else {
-          res.send('Incorrect Username and/or Password!');
+          res.send("success")
         }
+        else{
+          res.send("success")
+        }
+      }
+      else{
+        res.send("success")
+      }
+    } else {
+      res.send('Incorrect Username and/or Password!');
+    }
     await conn.commit()
     console.log(req.body.username)
   } catch (err) {
@@ -43,23 +48,23 @@ router.post("/login", async function(req, res, next){
 
 })
 
-router.get("/login", function(req,res,next){
-  if(req.session.userdata){
+router.get("/login", function (req, res, next) {
+  if (req.session.userdata) {
     res.send(req.session.userdata)
-  }else{
+  } else {
     res.sendStatus(404)
   }
 
 })
 
-router.delete('/logout', async (req, res, next)=>{
-    try{
-      req.session.destroy()
-    }catch (err) {
-      return res.status(400).json(err);
-    } finally {
-      console.log("finally");
-    }
+router.delete('/logout', async (req, res, next) => {
+  try {
+    req.session.destroy()
+  } catch (err) {
+    return res.status(400).json(err);
+  } finally {
+    console.log("finally");
+  }
 })
 
 exports.router = router;
