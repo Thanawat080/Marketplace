@@ -23,21 +23,29 @@
                     <div class="message-header">
                         <p>ประวัติการซื้อ</p>
                     </div>
-                    <br>
                     <div class="column is-full">
-
-                        <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth"
-                            style="width: 100%;">
-                            <!-- Your table content -->
-                            <tbody>
-                                <tr v-for="(value, index) in history" :key="value.order_id" v-show="value.date != null">
-                                    <th>{{index + 1}}</th>
-                                    <td style="width: 50%;">{{value.date}}</td>
-                                    <td>{{value.order_price}} บาท</td>
-                                    <td style="width: 1%;"><button class="button is-info" @click="info(value.order_id)">รายละเอียด</button></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div class="box">
+                            <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth"
+                                style="width: 100%;">
+                                <!-- Your table content -->
+                                <thead>
+                                    <tr>
+                                        <th>ลำดับ</th>
+                                        <th>เวลา</th>
+                                        <th>ราคารวม</th>
+                                        <th>รายละเอียด</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(value, index) in history" :key="value.order_id" v-show="value.date != null">
+                                        <th>{{index + 1}}</th>
+                                        <td style="width: 50%;">{{value.date}}</td>
+                                        <td>{{value.order_price}} บาท</td>
+                                        <td style="width: 1%;"><button class="button is-info" @click="info(value.order_id)">รายละเอียด</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
 
                     </div>
                 </div>
@@ -51,7 +59,22 @@
                     </header>
                 <section class="modal-card-body">
                     <!-- Content ... -->
-                    <span v-for="value in products" :key="value.id">ชื่อสินค้า : {{value.p_name}}</span>
+                    <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth"
+                            style="width: 100%;">
+                            <!-- Your table content -->
+                            <thead>
+                                <tr>
+                                    <th style="text-align: center;">ชื่อสินค้า</th>
+                                    <th style="text-align: center;">จำนวน</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="value in products" :key="value.id">
+                                    <td style="text-align: center;">{{value.p_name}}</td>
+                                    <td style="text-align: center;">{{value.quantity}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
                 </section>
             </div>
         </div>         
