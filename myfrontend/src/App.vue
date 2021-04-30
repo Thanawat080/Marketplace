@@ -38,7 +38,7 @@
               <a class="navbar-link"> <i class="fas fa-user"></i>{{'\xa0'}}{{ name }} </a>
 
               <div class="navbar-dropdown">
-                <router-link class="navbar-link" to="/profile"
+                <router-link class="navbar-item" to="/profile"
                   >Profile</router-link
                 >
                 <a class="navbar-item"> Help </a>
