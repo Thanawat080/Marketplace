@@ -21,26 +21,26 @@
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `id` int(10) AUTO_INCREMENT,
-  `f_name` varchar(250) NOT NULL,
-  `l_name` varchar(250) NOT NULL,
-  `username` varchar(250) NOT NULL,
-  `password` varchar(250) not null,
+  `f_name` varchar(250),
+  `l_name` varchar(250),
+  `username` varchar(250),
+  `password` varchar(250),
   `email` varchar(250),
   `phone_number` char(10),
-  `usertype` enum('owner_marketplace','seller', 'buyer') not null,
+  `usertype` enum('owner_marketplace','seller', 'buyer'),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `owner_marketplace`;
 CREATE TABLE `owner_marketplace` (
-  `id` int(10),
+  `id` int(10) not null,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`id`) REFERENCES `user`(`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `seller`;
 CREATE TABLE `seller` (
-  `id` int(10),
+  `id` int(10) not null,
   `cardId` char(13),
   `cardId_pic` varchar(255),
   `status` boolean,
@@ -51,7 +51,7 @@ CREATE TABLE `seller` (
 
 DROP TABLE IF EXISTS `buyer`;
 CREATE TABLE `buyer` (
-  `id` int(10),
+  `id` int(10) not null,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`id`) 
   REFERENCES `user`(`id`)
@@ -63,28 +63,17 @@ CREATE TABLE `event` (
   `event_name` varchar(255),
   `start_date` date,
   `end_date` date,
-  `owner_marketplace_id` int(10),
+  `owner_marketplace_id` int(10) not null,
   `discount` int(10),
   PRIMARY KEY (`id`),
   FOREIGN KEY (`owner_marketplace_id`) 
   REFERENCES `owner_marketplace`(`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
-DROP TABLE IF EXISTS `payment`;
-CREATE TABLE `payment` (
-  `card_number` int(10) AUTO_INCREMENT,
-  `expiration_date` char(5),
-  `security_code` int(3),
-  `seller_id` int(10),
-  PRIMARY KEY (`card_number`),
-  FOREIGN KEY (`seller_id`) 
-  REFERENCES `seller`(`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
-
 DROP TABLE IF EXISTS `store`;
 CREATE TABLE `store` (
-  `subscription_type` enum('free', 'normal', 'epic') not null,
-  `store_name` varchar(255) not null,
+  `subscription_type` enum('free', 'normal', 'epic'),
+  `store_name` varchar(255),
   `description` varchar(255),
   `id` int(10) AUTO_INCREMENT,
   `reportnumber` int(10),
@@ -100,13 +89,13 @@ CREATE TABLE `store` (
 
 DROP TABLE IF EXISTS `product`;
 CREATE TABLE `product` (
-  `p_name` varchar(255) not null,
-  `price` float(8,2) not null,
+  `p_name` varchar(255),
+  `price` float(8,2),
   `id` int(10) AUTO_INCREMENT,
-  `description` text not null,
+  `description` text,
   `store_id` int(10) not null,
   `category_id` int(10) not null,
-  `quantity` int(10) not null,
+  `quantity` int(10),
   PRIMARY KEY (`id`),
   FOREIGN KEY (`store_id`) 
   REFERENCES `store`(`id`),
@@ -117,7 +106,7 @@ CREATE TABLE `product` (
 DROP TABLE IF EXISTS `category`;
 CREATE TABLE `category` (
   `id` int(10) AUTO_INCREMENT,
-  `category_name` varchar(255) not null,
+  `category_name` varchar(255),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
@@ -125,7 +114,7 @@ DROP TABLE IF EXISTS `product_picture`;
 CREATE TABLE `product_picture` (
   `product_id` int(10) not null,
   `picture_no` int(10) AUTO_INCREMENT,
-  `picture` varchar(255) not null,
+  `picture` varchar(255),
   PRIMARY KEY (`picture_no`),
   FOREIGN KEY (`product_id`) 
   REFERENCES `product`(`id`)
