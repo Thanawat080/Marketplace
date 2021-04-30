@@ -43,7 +43,7 @@
                 >
                 <a class="navbar-item"> Help </a>
                 <hr class="navbar-divider" />
-                <a class="navbar-item"> Logout </a>
+                <router-link class="card-footer-item" to="/login" style="text-decoration: none" @click="logout">Logout</router-link>
               </div>
             </div>
           </div>
