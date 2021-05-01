@@ -2,11 +2,19 @@
     <div class="container is-max-desktop">
                 <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth" style="width: 100%;">
                     <!-- Your table content -->
+                    <thead>
+                        <tr>
+                            <th>สินค้า</th>
+                            <th>จำนวน</th>
+                            <th>ราคารวม</th>
+                            <th>ลบสินค้า</th>
+                        </tr>
+                    </thead>
                     <tbody>
                         <tr v-for='value in orderdetail' :key="value.id">
-                            <td style="width: 20%;"><span style="color:#66a266;">ชื่อสินค้า:</span> {{value.p_name}}</td>
-                            <td style="width: 20%;"><span style="color:#66a266;">จำนวนสินค้า:</span> {{value.quantity}}</td>
-                            <td style="width: 20%;"><span style="color:#66a266;">ราคารวม:</span> {{value.total_price}}</td>
+                            <td style="width: 20%;">{{value.p_name}}</td>
+                            <td style="width: 20%;">{{value.quantity}}</td>
+                            <td style="width: 20%;">{{value.total_price}}</td>
                             <td style="width: 1%;"><button class="button is-danger" @click="delete_orderdetail(value.id)">ลบออกจากตะกร้า</button></td>
                         </tr>
                     </tbody>
@@ -27,6 +35,7 @@
                 </div>
                 <br>
                 <button class="button is-success" @click="checkout">สั่งซื้อ</button>
+                <br><br>
         </div>
 </template>
 
