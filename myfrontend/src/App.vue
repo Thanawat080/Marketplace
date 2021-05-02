@@ -18,24 +18,24 @@
 
         <div id="navbarExampleTransparentExample" class="navbar-menu">
           <div class="navbar-start">
-            <a class="navbar-item" href="http://localhost:8080/"> Home </a>
+            <router-link class="navbar-item" to="/">Home</router-link>
           </div>
 
           <div class="navbar-end">
             <!-- navbar items -->
-            <router-link class="navbar-item" to="/seller">seller</router-link>
-            <router-link class="navbar-item" to="/mainadmin">admin</router-link>
+            <router-link class="navbar-item" to="/seller" v-if='user.usertype == "seller"'>seller</router-link>
+            <router-link class="navbar-item" to="/mainadmin" v-if='user.usertype == "owner_marketplace"'>admin</router-link>
             <router-link class="card-footer-item navbar-item" to="/login"
-              >login</router-link
+              v-if='!user.id'>login</router-link
             >
             <router-link class="card-footer-item navbar-item" to="/register"
-              >Register</router-link
+               v-if='!user.id'>Register</router-link
             >
             <router-link class="card-footer-item navbar-item" to="/checkout"
               ><i class="fas fa-shopping-cart"></i>{{'\xa0'}}{{ count }}</router-link
             >
             <div class="navbar-item has-dropdown is-hoverable">
-              <a class="navbar-link"> <i class="fas fa-user"></i>{{'\xa0'}}{{ name }} </a>
+              <a class="navbar-link"> <i class="fas fa-user"></i>{{'\xa0'}} </a>
 
               <div class="navbar-dropdown">
                 <router-link class="navbar-item" to="/profile"
@@ -43,7 +43,7 @@
                 >
                 <a class="navbar-item"> Help </a>
                 <hr class="navbar-divider" />
-                <router-link class="card-footer-item" to="/login" style="text-decoration: none" @click="logout">Logout</router-link>
+                <router-link class="card-footer-item" to="/login" style="text-decoration: none" >Logout</router-link>
               </div>
             </div>
           </div>
@@ -51,7 +51,7 @@
       </nav>
     </div>
 
-    <router-view :key="$route.fullPath" />
+    <router-view :key="$route.fullPath" @auth-change="onAuthChange"/>
     <footer class="footer fix">
       <div class="content has-text-centered">
         <p>
@@ -62,11 +62,26 @@
   </div>
 </template>
 <script>
+import axios from "axios";
 export default {
   data() {
     return {
       count: 0,
+      user: {}
     };
   },
+  methods:{
+    onAuthChange(){
+      const token = localStorage.getItem('userId')
+      if (token) {
+        this.getUser()
+      }
+    },
+    getUser(){
+      axios.get('http://localhost:3000/login').then(res => {
+        this.user = res.data
+      })
+    }
+  }
 };
 </script>
