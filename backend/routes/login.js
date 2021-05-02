@@ -2,6 +2,7 @@ const express = require("express");
 const path = require("path");
 const pool = require("../config");
 const fs = require("fs");
+const { isLoggedIn } = require('../middlewares')
 
 
 
@@ -48,18 +49,15 @@ router.post("/login", async function (req, res, next) {
 
 })
 
-router.get("/login", function (req, res, next) {
-  if (req.session.userdata) {
-    res.send(req.session.userdata)
-  } else {
-    res.sendStatus(404)
-  }
+router.get("/login", isLoggedIn ,function (req, res, next) {
+  res.json(req.user)
 
 })
 
 router.delete('/logout', async (req, res, next) => {
   try {
     req.session.destroy()
+    res.json('test')
   } catch (err) {
     return res.status(400).json(err);
   } finally {
