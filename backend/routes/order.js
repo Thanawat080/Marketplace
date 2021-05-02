@@ -184,7 +184,7 @@ router.post("/info/:orderId", async function(req,res,next){
   const conn = await pool.getConnection();
   await conn.beginTransaction();
   try{
-    const order_detail = await conn.query("select * FROM `order_detail` join product on(order_detail.product_id = product.id)  WHERE `order_id` = ?", [req.params.orderId]);
+    const order_detail = await conn.query("select *,order_detail.quantity FROM `order_detail` join product on(order_detail.product_id = product.id)  WHERE `order_id` = ?", [req.params.orderId]);
     await conn.commit()
     res.send(order_detail[0]);
   }catch (err) {

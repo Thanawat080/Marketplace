@@ -22,7 +22,6 @@ router.put("/addstore", upload.single('Pic'),async function(req, res, next){
   const conn = await pool.getConnection();
   await conn.beginTransaction();
   try {
-    console.log("DSadsa")
     const rows = await pool.query(
       "SELECT seller_id FROM store WHERE seller_id = ?",
       [req.session.userdata.id]
@@ -30,8 +29,8 @@ router.put("/addstore", upload.single('Pic'),async function(req, res, next){
     console.log(rows[0])
     const file = req.file;
     if(rows[0].length < 1){
-    await conn.query("INSERT INTO store (subscription_type, store_name, description, seller_id, owner_marketplace_id, store_picture) VALUES(?, ?, ?, ?, ?,?);", 
-    [rent_type, storename,description, req.session.userdata.id, 1,file.path.substr(6)]) 
+    await conn.query("INSERT INTO store (subscription_type, store_name, description, seller_id, owner_marketplace_id, store_picture,reportnumber) VALUES(?, ?, ?, ?, ?,?,?);", 
+    [rent_type, storename,description, req.session.userdata.id, 1,file.path.substr(6),0]) 
     res.send("Success")
     }else{
       throw res.status(400).json(err);
