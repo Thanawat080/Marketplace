@@ -1,45 +1,55 @@
 <template>
   <div>
-      <div class="container">
-        <div class="columns">
-          <div class="column is-three-fifths is-offset-one-fifth">
-            <input class="input is-primary" type="text" placeholder="Search" v-model="search" style="width:550px;"/>
-            &nbsp;
-            <button class="button is-primary" @click="clickSearch">Search</button>
-            &nbsp;
-            <div class="select" style="width: 150px">
-              <select @change="category" v-model="select_type_product">
-                <option value=''>All categories</option>
-                <option v-for='value in categorys' :key='value.id'>{{value.category_name}}</option>
-              </select>
+    <div class="container">
+      <div class="columns">
+        <div class="column is-three-fifths is-offset-one-fifth">
+          <div class="level-item">
+            <div class="field has-addons">
+              <p class="control">
+                <input
+                  class="input"
+                  type="text"
+                  placeholder="Find"
+                  v-model="search"
+                  style="width: 550px"
+                />
+              </p>
+              <p class="control">
+                <button class="button" @click="clickSearch">Search</button>
+              </p>
+              <div class="select" style="width: 150px">
+                <select @change="category" v-model="select_type_product">
+                  <option value="">All categories</option>
+                  <option v-for="value in categorys" :key="value.id">
+                    {{ value.category_name }}
+                  </option>
+                </select>
+              </div>
             </div>
           </div>
         </div>
       </div>
+    </div>
     <br>
     <div class="container">
       <div class="columns">
         <div class="column is-three-fifths is-offset-one-fifth">
           <div v-if="detail_seller.length < 2" >
-            <div v-for="seller in detail_seller" :key="seller.store_name">
-              <div v-if="seller.subscription_type == 'epic'">
+            <div v-for="seller in detail_seller" :key="seller.store_name"  v-show="seller.subscription_type == 'epic'">
               <router-link :to="`/store_seller/${seller.id}`"
                 ><img
                   :src="'http://localhost:3000' + seller.store_picture"
                   style="width: 800px; height: 240px"
               /></router-link>
-              </div>
             </div>
           </div>
           <div id="slideshow" v-else>
-            <div v-for="seller in detail_seller" :key="seller.store_name">
-              <div v-if="seller.subscription_type == 'epic'">
+            <div v-for="seller in detail_seller" :key="seller.store_name" v-show="seller.subscription_type == 'epic'">
               <router-link :to="`/store_seller/${seller.id}`"
                 ><img
                   :src="'http://localhost:3000' + seller.store_picture"
                   style="width: 800px; height: 240px"
               /></router-link>
-              </div>
             </div>
           </div>
         </div>
@@ -59,7 +69,6 @@
                 <div class="card-image">
                   <figure class="image is-1by1">
                     <img
-                      style="height: 120px"
                       :src="'http://localhost:3000' + product.picture"
                       alt="Placeholder image"
                     />

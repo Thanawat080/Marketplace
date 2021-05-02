@@ -37,11 +37,11 @@
               <label class="label">Password</label>
               <div class="control">
                 <input
-            class="input"
-            type="text"
-            placeholder="รหัสผ่านเก่า"
-            v-model="password"
-          />
+                  class="input"
+                  type="text"
+                  placeholder="รหัสผ่านเก่า"
+                  v-model="password"
+                />
               </div>
             </div>
 
@@ -49,11 +49,11 @@
               <label class="label">Comfirm Password</label>
               <div class="control">
                 <input
-            class="input"
-            type="text"
-            placeholder="ยืนยันรหัสผ่านเก่า"
-            v-model="cf_password"
-          />
+                  class="input"
+                  type="text"
+                  placeholder="ยืนยันรหัสผ่านเก่า"
+                  v-model="cf_password"
+                />
               </div>
             </div>
 
@@ -61,20 +61,22 @@
               <label class="label">New Password</label>
               <div class="control">
                 <input
-            class="input"
-            type="text"
-            placeholder="รหัสผ่านใหม่"
-            v-model="new_password"
-          />
+                  class="input"
+                  type="text"
+                  placeholder="รหัสผ่านใหม่"
+                  v-model="new_password"
+                />
               </div>
             </div>
 
-             <button class="button is-warning" @click="savePassword">แก้ไขรหัสผ่าน</button>
+            <button class="button is-warning" @click="savePassword">
+              แก้ไขรหัสผ่าน
+            </button>
           </form>
         </div>
       </div>
     </div>
-    <br>
+    <br />
   </div>
 </template>
 

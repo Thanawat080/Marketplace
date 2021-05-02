@@ -97,6 +97,7 @@ export default {
           id: this.getid,
         })
         .then((res) => {
+          console.log(res.data)
           this.idcard = res.data.cardId
           this.picidcard = res.data.cardId_pic
         })

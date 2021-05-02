@@ -32,11 +32,11 @@
             <router-link class="card-footer-item navbar-item" to="/register"
                v-if='!user.id'>Register</router-link
             >
-           <router-link class="card-footer-item navbar-item" to="/checkout"
-              v-if='user.usertype == "buy" || user.usertype == "seller" || user.usertype == "owner_marketplace"'><i class="fas fa-shopping-cart"></i>{{'\xa0'}}{{ count }}</router-link
+            <router-link class="card-footer-item navbar-item" to="/checkout"
+              v-if='user.usertype == "buyer"'><a style="color:black;"> <span class="fas fa-shopping-cart"></span></a>{{'\xa0'}}{{ count }} </router-link
             >
-            <div class="navbar-item has-dropdown is-hoverable" v-if='user.usertype == "buy" || user.usertype == "seller" || user.usertype == "owner_marketplace"'>
-              <a class="navbar-link"> <i class="fas fa-user"></i>{{'\xa0'}} </a>
+            <div class="navbar-item has-dropdown is-hoverable"  v-if='user.id'>
+              <a class="navbar-link"> <i class="fas fa-user"></i>{{'\xa0'}}{{user.f_name}} </a>
 
               <div class="navbar-dropdown">
                 <router-link class="navbar-item" to="/profile"
@@ -44,7 +44,7 @@
                 >
                 <a class="navbar-item"> Help </a>
                 <hr class="navbar-divider" />
-                <router-link class="navbar-item" to="/login" style="text-decoration: none" >Logout</router-link>
+                <a class="navbar-item"  style="text-decoration: none" @click="logout">Logout</a>
               </div>
             </div>
           </div>
@@ -82,7 +82,17 @@ export default {
       axios.get('http://localhost:3000/login').then(res => {
         this.user = res.data
       })
+    },logout(){
+        axios
+        .delete("http://localhost:3000/logout")
+        .then(() => {
+          this.user={}
+          this.$router.push({ name: "login" });
+        })
+        .catch((eer) => console.log(eer));
     }
+  },mounted(){
+    this.onAuthChange()
   }
 };
 </script>
