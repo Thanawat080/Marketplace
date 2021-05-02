@@ -1,6 +1,7 @@
 const express = require("express")
 var cors = require('cors')
 const path = require("path")
+const{ logger } = require("./middlewares")
 
 const session = require('express-session')
 const { MemoryStore } = require('express-session')
@@ -20,6 +21,7 @@ app.use(cors({
   origin:true,
   credentials:true
 }))
+app.use(logger)
 
 // Statics
 app.use(express.static('static'))
