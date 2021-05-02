@@ -23,7 +23,7 @@ router.post("/login", async function (req, res, next) {
         let order = await conn.query('SELECT * FROM `order` WHERE buyer_id = ?', [req.session.userdata.id])
         console.log(order[0].length)
         if (order[0].length == 0) {
-          await conn.query("INSERT INTO `order`(`buyer_id`, `order_price`, `date`, `address`) VALUES(?, ?, ?, ?);",
+          await conn.query("INSERT INTO `order`(`buyer_id`, `order_price`, `date`, `address`) VALUES(?, ?, ?, ?)",
             [req.session.userdata.id, null, null, null])
           res.send("success")
         }

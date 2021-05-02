@@ -228,12 +228,11 @@ router.put("/addcheck/openstore", upload.single('Pic'), async function(req, res,
   const conn = await pool.getConnection();
   await conn.beginTransaction();
   try{
-    let idseller = await conn.query("SELECT MAX(id) id FROM seller")
     const file = req.file;
     console.log(req.body)
     if (file) {
        console.log(file)
-         const result = await pool.query("update seller set cardID = ?, cardId_pic = ? ,status = ? where id = ?",[cardId,file.path.substr(6),false,idseller[0][0].id])
+         const result = await pool.query("update seller set cardID = ?, cardId_pic = ? ,status = ? where id = ?",[cardId,file.path.substr(6),false,req.session.userdata.id])
          res.send(result[0][0])
      }else{     
       console.log("fail")
@@ -274,6 +273,24 @@ router.get("/picture/:productId", async (req,res,next)=>{
   try{
     const result = await pool.query("SELECT * FROM product_picture WHERE product_id = ?", [req.params.productId])
 
+    await conn.commit()
+    res.send(result[0])
+  }catch (err) {
+    console.log(err)
+    await conn.rollback();
+    return res.status(500).json(err);
+  } finally {
+    conn.release();
+  }
+})
+
+
+
+router.get("/detail/store1", async (req,res,next)=>{
+  const conn = await pool.getConnection();
+  await conn.beginTransaction
+  try{
+    const result = await pool.query("SELECT * FROM store WHERE seller_id = ?", [req.session.userdata.id])
     await conn.commit()
     res.send(result[0])
   }catch (err) {
