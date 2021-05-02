@@ -20,22 +20,26 @@
     <div class="container">
       <div class="columns">
         <div class="column is-three-fifths is-offset-one-fifth">
-          <div v-if="detail_seller.length < 2">
+          <div v-if="detail_seller.length < 2" >
             <div v-for="seller in detail_seller" :key="seller.store_name">
+              <div v-if="seller.subscription_type == 'epic'">
               <router-link :to="`/store_seller/${seller.id}`"
                 ><img
                   :src="'http://localhost:3000' + seller.store_picture"
                   style="width: 800px; height: 240px"
               /></router-link>
+              </div>
             </div>
           </div>
           <div id="slideshow" v-else>
             <div v-for="seller in detail_seller" :key="seller.store_name">
+              <div v-if="seller.subscription_type == 'epic'">
               <router-link :to="`/store_seller/${seller.id}`"
                 ><img
                   :src="'http://localhost:3000' + seller.store_picture"
                   style="width: 800px; height: 240px"
               /></router-link>
+              </div>
             </div>
           </div>
         </div>
