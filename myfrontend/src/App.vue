@@ -43,7 +43,7 @@
                 >
                 <a class="navbar-item"> Help </a>
                 <hr class="navbar-divider" />
-                <router-link class="card-footer-item" to="/login" style="text-decoration: none" >Logout</router-link>
+                <router-link class="navbar-item" to="/login" style="text-decoration: none" >Logout</router-link>
               </div>
             </div>
           </div>
