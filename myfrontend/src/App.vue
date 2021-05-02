@@ -32,10 +32,10 @@
             <router-link class="card-footer-item navbar-item" to="/register"
                v-if='!user.id'>Register</router-link
             >
-            <router-link class="card-footer-item navbar-item" to="/checkout"
-              ><i class="fas fa-shopping-cart"></i>{{'\xa0'}}{{ count }}</router-link
+           <router-link class="card-footer-item navbar-item" to="/checkout"
+              v-if='user.usertype == "buy" || user.usertype == "seller" || user.usertype == "owner_marketplace"'><i class="fas fa-shopping-cart"></i>{{'\xa0'}}{{ count }}</router-link
             >
-            <div class="navbar-item has-dropdown is-hoverable">
+            <div class="navbar-item has-dropdown is-hoverable" v-if='user.usertype == "buy" || user.usertype == "seller" || user.usertype == "owner_marketplace"'>
               <a class="navbar-link"> <i class="fas fa-user"></i>{{'\xa0'}} </a>
 
               <div class="navbar-dropdown">
