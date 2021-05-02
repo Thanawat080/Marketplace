@@ -53,18 +53,9 @@
                     </button>
                   </div>
                   <div class="column">
-                    <router-link
-                      class="card-footer-item"
-                      to="/login"
-                      style="text-decoration: none"
-                      ><button
-                        class="button is-danger"
-                        style="margin-top: -10px"
-                        @click="logout"
-                      >
+                    <button class="button is-danger" style="margin-top: -10px" @click="logout">
                         Logout
-                      </button></router-link
-                    >
+                      </button>
                   </div>
                 </div>
               </div>
@@ -207,13 +198,9 @@ export default {
     logout() {
       axios
         .delete("http://localhost:3000/logout")
-        .then((res) => {
-          console.log(res);
-          this.f_name = "";
-          this.l_name = "";
-          this.phone_number = "";
-          this.username = "";
-          this.email = "";
+        .then(() => {
+          this.$parent._data.user = {}
+          this.$router.push({ name: "login" });
         })
         .catch((eer) => console.log(eer));
     },
