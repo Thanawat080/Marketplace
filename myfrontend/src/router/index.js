@@ -83,6 +83,14 @@ const routes = [
     name: 'history',
     component: () => import('../views/orderHistory.vue')
   }
+  ,
+  {
+    path: '/RecommendStore',
+    name: 'RecommendStore',
+    component: () => import('../views/RecommendStore.vue')
+  }
+
+
 ]
 
 
