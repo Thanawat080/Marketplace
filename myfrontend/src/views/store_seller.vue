@@ -101,7 +101,7 @@ export default {
         });
     },report(){
       axios.put(`http://localhost:3000/report`,{
-        id:this.id 
+        id:this.$route.params.sellerId
       })
         .then((res) => {
       
