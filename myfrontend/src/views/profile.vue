@@ -53,7 +53,7 @@
                     </button>
                   </div>
                   <div class="column">
-                    <button class="button is-danger" style="margin-top: -10px" @click="logout">
+                    <button class="button is-danger"  @click="logout">
                         Logout
                       </button>
                   </div>
