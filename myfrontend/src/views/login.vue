@@ -57,7 +57,10 @@ export default {
           if (res.data === "success") {
             axios
               .get("http://localhost:3000/login")
-              .then(() => {
+              .then((res) => {
+                localStorage.setItem('userId', res.data.id)
+                localStorage.setItem('type', res.data.usertype)
+                this.$emit('auth-change')
                 this.$router.push({ name: "Home" });
               })
               .catch((err) => {
