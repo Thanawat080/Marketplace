@@ -41,7 +41,11 @@
                               <input class="file-input" type="file" name="resume" accept="image/png, image/jpeg, image/webp" @change="selectImages"> 
                         </label>
                     </div>
-                    เลขบัตรประชาชน<input class="input" type="text" placeholder="เลขบัตรประชาชน" v-model="idcard_number">
+                    เลขบัตรประชาชน<input class="input" type="text" placeholder="เลขบัตรประชาชน" v-model="$v.idcard_number.$model" :class="{'is-danger': $v.idcard_number.$error}">
+                    <template v-if="$v.idcard_number.$error">
+                      <p class="help is-danger" v-if="!$v.idcard_number.required">This field is required</p>
+                      <p class="help is-danger" v-if="!$v.idcard_number.idcard_number">The ID card number must be 13 numbers.</p>
+                    </template>
                     <hr>
                     <button class="button is-warning" @click='confirm'>ยืนยันตัวตน</button>
                 </div>
@@ -53,6 +57,7 @@
 
 <script>
 import axios from "axios";
+import { required, minLength, maxLength, numeric } from "vuelidate/lib/validators";
 
 export default {
   data() {
@@ -61,16 +66,26 @@ export default {
       pic: "",
     };
   },
+    validations: {
+    idcard_number: {
+      required,
+      minLength: minLength(13),
+      maxLength: maxLength(13),
+      numeric,
+    }
+  },
   methods: {
     selectImages(event){
         this.pic = event.target.files;
     },
     confirm() {
-      let formData = new FormData();
-      formData.append("cardId", this.idcard_number);
-     this.pic.forEach((value) => {
-        formData.append("Pic", value);
-      });
+         this.$v.$touch();
+        if (!this.$v.$invalid) {
+            let formData = new FormData();
+            formData.append("cardId", this.idcard_number);
+            this.pic.forEach((value) => {
+              formData.append("Pic", value);
+              });
       axios
         .put("http://localhost:3000/addcheck/openstore", formData)
         .then((res) => {
@@ -80,9 +95,11 @@ export default {
           this.idcard_number = ''
         })
         .catch((err) => {
+          alert("CardId is required or Does not meet the conditions")
           console.log(err);
         });
-
+      }else{
+       console.log("CardId is required or Does not meet the conditions")}
     },
   },
 };

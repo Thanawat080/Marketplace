@@ -19,12 +19,12 @@
         </aside>
       </div>
 
-      <div class="column is-two-thirds notification is-primary is-light" >
-        <div class="message-header" >
+      <div class="column is-two-thirds notification is-primary is-light">
+        <div class="message-header">
           <p>สร้างร้านค้า</p>
         </div>
         <br />
-        <form class="box" v-show='store_name_show == ""'>
+        <div class="box" v-show="store_name_show == ''">
           <div class="field">
             <label class="file-label">
               <input class="file-input" type="file" name="resume" />
@@ -51,9 +51,15 @@
                 class="input"
                 type="text"
                 placeholder="ชื่อร้าน"
-                v-model="store_name"
+                v-model="$v.store_name.$model"
+                :class="{ 'is-danger': $v.store_name.$error }"
               />
             </div>
+            <template v-if="$v.store_name.$error">
+              <p class="help is-danger" v-if="!$v.store_name.required">
+                This field is required
+              </p>
+            </template>
           </div>
 
           <div class="field">
@@ -63,16 +69,26 @@
                 class="textarea"
                 placeholder="รายละเอียดร้านค้า"
                 rows="5"
-                v-model="store_detail"
+                v-model="$v.store_detail.$model"
+                :class="{ 'is-danger': $v.store_detail.$error }"
               ></textarea>
             </div>
+            <template v-if="$v.store_detail.$error">
+              <p class="help is-danger" v-if="!$v.store_detail.required">
+                This field is required
+              </p>
+            </template>
           </div>
 
           <div class="field">
             <label class="label">ประเภทการเช่า</label>
             <div class="control">
-              <div class="select is-primary">
-                <select v-model="rent_type">
+              <div
+                :class="{ 'select is-danger': $v.rent_type.$error }"
+                class="select is-primary"
+                style="width: 1000px"
+              >
+                <select v-model="$v.rent_type.$model" style="width: 1000px">
                   <option>Select dropdown</option>
                   <option>free</option>
                   <option>normal</option>
@@ -80,98 +96,28 @@
                 </select>
               </div>
             </div>
+            <template v-if="$v.rent_type.$error">
+              <p class="help is-danger" v-if="!$v.rent_type.required">
+                This field is required
+              </p>
+              <p class="help is-danger" v-if="!$v.rent_type.rent_type">
+                Invalid type must be select free type or normal type or epic
+                type
+              </p>
+            </template>
           </div>
 
           <hr />
 
           <button class="button is-warning" @click="addstore">บันทึก</button>
-        </form>
+        </div>
 
         <div class="box" v-show="store_name_show != ''">
-          <img  :src="'http://localhost:3000' + store_pic_show" />
-          <p>ชื่อร้าน : {{store_name_show}}</p>
-          <p>รายละเอียด : {{store_detail_show}}</p>
-          <p>ประเภทการเช่า : {{store_type_show}}</p>
+          <img :src="'http://localhost:3000' + store_pic_show" />
+          <p>ชื่อร้าน : {{ store_name_show }}</p>
+          <p>รายละเอียด : {{ store_detail_show }}</p>
+          <p>ประเภทการเช่า : {{ store_type_show }}</p>
         </div>
-      </div>
-    </div>
-
-    <div class="modal">
-      <div class="modal-background"></div>
-      <div class="modal-card">
-        <header class="modal-card-head">
-          <p class="modal-card-title">แก้ไขร้านค้า</p>
-          <button class="delete" aria-label="close"></button>
-        </header>
-        <section class="modal-card-body">
-          <!-- Content ... -->
-          <form class="box">
-          <div class="field">
-            <label class="file-label">
-              <input class="file-input" type="file" name="resume" />
-              <span class="file-cta">
-                <span class="file-icon">
-                  <i class="fas fa-upload"></i>
-                </span>
-                <span class="file-label"> รูปโปรไฟล์ร้าน </span>
-              </span>
-              <input
-                class="file-input"
-                type="file"
-                name="resume"
-                accept="image/png, image/jpeg, image/webp"
-                @change="selectImages"
-              />
-            </label>
-          </div>
-
-          <div class="field">
-            <label class="label">Password</label>
-            <div class="control">
-              <input
-                class="input"
-                type="text"
-                placeholder="ชื่อร้าน"
-                v-model="store_name"
-              />
-            </div>
-          </div>
-
-          <div class="field">
-            <label class="label">รายละเอียดร้านค้า</label>
-            <div class="control">
-              <textarea
-                class="textarea"
-                placeholder="รายละเอียดร้านค้า"
-                rows="5"
-                v-model="store_detail"
-              ></textarea>
-            </div>
-          </div>
-
-          <div class="field">
-            <label class="label">ประเภทการเช่า</label>
-            <div class="control">
-              <div class="select is-primary">
-                <select v-model="rent_type">
-                  <option>Select dropdown</option>
-                  <option>free</option>
-                  <option>normal</option>
-                  <option>epic</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <hr />
-
-          <button class="button is-warning" @click="addstore">บันทึก</button>
-        </form>
-        </section>
-        <footer class="modal-card-foot">
-          <button class="button is-success">Save changes</button>
-          <button class="button">Cancel</button>
-        </footer>
       </div>
     </div>
   </div>
@@ -179,6 +125,15 @@
 
 <script>
 import axios from "axios";
+import { required } from "vuelidate/lib/validators";
+
+function rent_type(value) {
+  if (value == "free" || value == "epic" || value == "normal") {
+    return true;
+  }
+  return false;
+}
+
 export default {
   data() {
     return {
@@ -186,54 +141,72 @@ export default {
       store_detail: "",
       rent_type: "",
       pic: "",
-      store_pic_show:'',
-      store_name_show:'',
-      store_detail_show:'',
-      store_type_show:'',
+      store_pic_show: "",
+      store_name_show: "",
+      store_detail_show: "",
+      store_type_show: "",
     };
+  },
+  validations: {
+    store_name: {
+      required,
+    },
+    store_detail: {
+      required,
+    },
+    rent_type: {
+      required,
+      rent_type: rent_type,
+    },
   },
   methods: {
     selectImages(event) {
       this.pic = event.target.files;
     },
     addstore() {
-      let formData = new FormData();
-      this.pic.forEach((value) => {
-        formData.append("Pic", value);
-      });
-      formData.append("storename", this.store_name);
-      formData.append("description", this.store_detail);
-      formData.append("rent_type", this.rent_type);
-      axios
-        .put("http://localhost:3000/addstore", formData)
-        .then((res) => {
-          alert("Add store is success.");
-          this.rent_type = "";
-          this.store_detail = "";
-          this.store_name = "";
-          this.pic = "";
-          console.log(res.data)
-        })
-        .catch((err) => {
-          alert("1 user can add 1 store.");
-          console.log(err);
+      this.$v.$touch();
+      if (!this.$v.$invalid) {
+        let formData = new FormData();
+        this.pic.forEach((value) => {
+          formData.append("Pic", value);
         });
-        this.getdeatilstore()
-    },getdeatilstore(){
+        formData.append("storename", this.store_name);
+        formData.append("description", this.store_detail);
+        formData.append("rent_type", this.rent_type);
         axios
+          .put("http://localhost:3000/addstore", formData)
+          .then(() => {
+            alert("Add store is success.");
+            this.rent_type = "";
+            this.store_detail = "";
+            this.store_name = "";
+            this.pic = "";
+            this.getdeatilstore();
+          })
+          .catch((err) => {
+            alert("1 user can add 1 store.");
+            console.log(err);
+          });
+      } else {
+        console.log("Invalid data");
+      }
+    },
+    getdeatilstore() {
+      axios
         .get("http://localhost:3000/detail/store1")
         .then((res) => {
-            this.store_name_show = res.data[0].store_name
-            this.store_detail_show = res.data[0].description
-            this.store_type_show = res.data[0].subscription_type
-            this.store_pic_show = res.data[0].store_picture
+          this.store_name_show = res.data[0].store_name;
+          this.store_detail_show = res.data[0].description;
+          this.store_type_show = res.data[0].subscription_type;
+          this.store_pic_show = res.data[0].store_picture;
         })
         .catch((err) => {
           console.log(err);
         });
-    }
-  },created(){
-        this.getdeatilstore()
     },
+  },
+  mounted() {
+    this.getdeatilstore();
+  },
 };
 </script>
