@@ -2,9 +2,12 @@ const express = require("express");
 const path = require("path");
 const pool = require("../config");
 const fs = require("fs");
+const Joi = require('joi')
+
 
 router = express.Router();
-const multer = require('multer')
+const multer = require('multer');
+const { string } = require("joi");
 var storage = multer.diskStorage({
   destination: function (req, file, callback) {
     callback(null, './static/uploads')
@@ -15,7 +18,21 @@ var storage = multer.diskStorage({
 })
 const upload = multer({ storage: storage })
 
+
+const storeSchema = Joi.object({
+  storename: Joi.string().required(),
+  description: Joi.string().required(),
+  rent_type: Joi.string().required().valid("free", "normal", "epic"),
+})
+
 router.put("/addstore", upload.single('Pic'),async function(req, res, next){
+  try {
+    await storeSchema.validateAsync(req.body, { abortEarly: false })
+  } catch (err) {
+    return console.log(err)
+    
+  }
+
   const storename = req.body.storename;
   const description = req.body.description;
   const rent_type = req.body.rent_type;
@@ -64,7 +81,24 @@ router.get("/category", async function(req, res, next){
 
 })
 
+
+const productSchema = Joi.object({
+  pame: Joi.string().required(),
+  description: Joi.string().required(),
+  price:Joi.number().required().max(1000000),
+  category: Joi.string().required(),
+  quantity: Joi.number().integer(),
+})
+
+
 router.put("/addproduct", upload.array('Pic'), async function(req, res, next){
+
+  try {
+    await productSchema.validateAsync(req.body, { abortEarly: false })
+  } catch (err) {
+    return console.log(err)
+    
+  }
   const p_name = req.body.pame;
   const description = req.body.description;
   const price1 = req.body.price;
@@ -175,27 +209,44 @@ router.get("/getproduct/:productId", async function(req, res, next){
   }
 })
 
+
+
+const editproductSchema = Joi.object({
+  p_name: Joi.string().required(),
+  description: Joi.string().required(),
+  price:Joi.number().required().max(1000000),
+  category: Joi.string().required(),
+  quantity: Joi.number().integer(),
+})
+
+
 router.post("/editproduct/:productId", async function (req, res, next) {
-  const conn = await pool.getConnection();
-  await conn.beginTransaction();
+  try {
+    await editproductSchema.validateAsync(req.body, { abortEarly: false })
+  } catch (err) {
+    return console.log(err)
+  }
   const p_name = req.body.p_name
   const price = req.body.price
   const description = req.body.description
   const quantity = req.body.quantity
-  const categorys = req.body.category
+  const category = req.body.category
+  const conn = await pool.getConnection();
+  await conn.beginTransaction();
   try{
-    const test = await conn.query("select * from event") 
-    console.log(test[0].length)
-    if(test[0].length === 1){ 
-    const category = await conn.query("SELECT * FROM category WHERE category_name = ?", [categorys])
+    const event = await conn.query("select * from event") 
+    if(event[0].length === 1){ 
+    const value = await conn.query("SELECT * FROM category WHERE category_name = ?", [category])
     await conn.query('UPDATE product SET p_name=?, price=?, description=?,  quantity=?, category_id=? WHERE id=?', 
-    [p_name, (price*((100-test[0][0].discount)/100)), description, quantity, category[0][0].id, req.params.productId])
-  }else{
-    const category = await conn.query("SELECT * FROM category WHERE category_name = ?", [categorys])
-    await conn.query('UPDATE product SET p_name=?, price=?, description=?,  quantity=?, category_id=? WHERE id=?', 
-    [p_name, price, description, quantity, category[0][0].id, req.params.productId])
-  }
+    [p_name, (price*((100-event[0][0].discount)/100)), description, quantity, value[0][0].id, req.params.productId])
     res.send('update complete')
+  }
+  else{
+    const value = await conn.query("SELECT * FROM category WHERE category_name = ?", [category])
+    await conn.query('UPDATE product SET p_name=?, price=?, description=?,  quantity=?, category_id=? WHERE id=?', 
+    [p_name, price, description, quantity, value[0][0].id, req.params.productId])
+    res.send('update complete')
+  }
   }catch (err) {
     console.log(err)
     await conn.rollback();
@@ -222,8 +273,24 @@ router.get("/getproduct1/:productId", async function(req, res, next){
 })
 
 
+
+
+const mainsellerSchema = Joi.object({
+  cardId: Joi.number().min(1000000000000).required(),
+ 
+})
+
+
+
 router.put("/addcheck/openstore", upload.single('Pic'), async function(req, res, next){
+  try {
+    await mainsellerSchema.validateAsync(req.body, { abortEarly: false })
+  } catch (err) {
+    return console.log(err)
+    
+  }
   const cardId = req.body.cardId;
+  
   const conn = await pool.getConnection();
   await conn.beginTransaction();
   try{
@@ -245,6 +312,7 @@ router.put("/addcheck/openstore", upload.single('Pic'), async function(req, res,
     conn.release();
   }
 })
+
 
 
 
@@ -300,6 +368,44 @@ router.get("/detail/store1", async (req,res,next)=>{
     conn.release();
   }
 })
+
+
+
+// const passwordValidator = (value, helpers) => {
+//   if (value.length < 8) {
+//     throw new Joi.ValidationError('Password must contain at least 8 characters')
+//   }
+//   if (!(value.match(/[a-z]/) && value.match(/[A-Z]/) && value.match(/[0-9]/))) {
+//     throw new Joi.ValidationError('Password must be harder')
+//   }
+//   return value
+// }
+
+
+// const usernameValidator = async (value, helpers) => {
+//   const rows = await pool.query(
+//     "SELECT username FROM user WHERE username = ?",
+//     [value]
+//   )
+//   console.log(rows[0])
+//   if (rows[0].length > 0) {
+//     const message = 'This user is already taken'
+//     throw new Joi.ValidationError(message, { message })
+//   }
+//   return value
+// }
+
+
+// const signupSchema = Joi.object({
+//   f_name: Joi.string().required().max(150),
+//   l_name: Joi.string().required().max(150),
+//   username: Joi.string().required().min(5).external(usernameValidator),
+//   password: Joi.string().required().custom(passwordValidator),
+//   confirm_password: Joi.string().required().valid(Joi.ref('password')),
+//   email: Joi.string().required().email(),
+//   usertype: Joi.string().required().valid("seller", "buyer"),
+//   phone_number: Joi.string().required().pattern(/0[0-9]{9}/),
+// })
 
 
 exports.router = router;
