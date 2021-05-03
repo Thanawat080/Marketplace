@@ -1,38 +1,39 @@
 <template>
   <div class="container">
     <br />
-    <h1 class="title">Sign in</h1>
-    <p class="aligncenter">
-      Sign in to or &nbsp;
-      <router-link to="/register">create an account</router-link>
-    </p>
-    <br>
-
-    <div class="columns aligncenter">
-      <div class="column is-4">
-        <input
-          class="input is-primary"
-          type="text"
-          placeholder="Username"
-          v-model="username"
-        />
-      </div>
-    </div>
-
-    <div class="columns aligncenter">
-      <div class="column is-4">
-        <input
-          class="input is-primary"
-          type="text"
-          placeholder="Password"
-          v-model="password"
-        />
-      </div>
-    </div>
-
     <center>
-      <button class="button is-primary" @click="cf_login">Login</button>
+      Sign in or
+      <router-link to="/register">
+        create an account
+      </router-link>
     </center>
+    <br>
+    <div class="columns">
+      <div class="column is-half is-offset-one-quarter">
+        <div class="box">
+          <div class="field">
+            <label class="label">Username</label>
+            <div class="control">
+              <input
+                class="input"
+                type="text"
+                placeholder="Username"
+                v-model="username"/>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label">Password</label>
+            <div class="control">
+              <input class="input" type="password" placeholder="********" v-model="password"/>
+            </div>
+          </div>
+
+          <button class="button is-primary" @click="cf_login">Sign in</button>
+        </div>
+      </div>
+    </div>
+    <br>
   </div>
 </template>
 
@@ -58,9 +59,9 @@ export default {
             axios
               .get("http://localhost:3000/login")
               .then((res) => {
-                localStorage.setItem('userId', res.data.id)
-                localStorage.setItem('type', res.data.usertype)
-                this.$emit('auth-change')
+                localStorage.setItem("userId", res.data.id);
+                localStorage.setItem("type", res.data.usertype);
+                this.$emit("auth-change");
                 this.$router.push({ name: "Home" });
               })
               .catch((err) => {
@@ -71,7 +72,6 @@ export default {
         .catch((err) => {
           console.log(err);
         });
-
     },
   },
 };
