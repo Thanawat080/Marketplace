@@ -1,126 +1,128 @@
 <template>
   <div class="container">
     <br />
-    <center>
-      Create an account or
-      <router-link to="/login" >
-        sign in
-      </router-link>
-    </center>
-    <br>
-    <div class="columns">
-      <div class="column is-half is-offset-one-quarter">
-        <div class="box">
-          <div class="field">
-            <label class="label">First Name</label>
-            <div class="control">
-              <input
-                class="input"
-                type="text"
-                placeholder="First Name"
-                v-model="$v.f_name.$model" :class="{'is-danger': $v.f_name.$error}"/>
+    <h1 class="title">Register</h1>
+    <p class="aligncenter">
+      Create an account or &nbsp;<router-link to="/login"
+        >sign in to</router-link
+      >
+      <br />
+      <br />
+    </p>
+         <center><div class="field column is-4">
+            <div class="control has-icons-left">
+              <input  v-model="$v.f_name.$model" :class="{'is-danger': $v.f_name.$error}" class="input is-primary" placeholder="First Name" type="text" />
+                <span class="icon is-small is-left">
+                <i class="fas fa-file-signature"></i>
+              </span>
             </div>
-            <template v-if="$v.f_name.$error">
+              <template v-if="$v.f_name.$error">
               <p class="help is-danger" v-if="!$v.f_name.required">This field is required</p>
               <p class="help is-danger" v-if="!$v.f_name.f_name">Invalid FirstName at least 5 characters</p>
               </template>
-          </div>
+          </div></center>
 
-          <div class="field">
-            <label class="label">Last Name</label>
-            <div class="control">
-              <input
-                class="input"
-                type="text"
-                placeholder="Last Name"
-                v-model="$v.l_name.$model" :class="{'is-danger': $v.l_name.$error}"/>
+         <center><div class="field column is-4">
+            <div class="control has-icons-left">
+              <input  v-model="$v.l_name.$model" :class="{'is-danger': $v.l_name.$error}" class="input is-primary" placeholder="Last Name" type="text" />
+            <span class="icon is-small is-left">
+                <i class="fas fa-file-signature"></i>
+              </span>
             </div>
-            <template v-if="$v.l_name.$error">
+              <template v-if="$v.l_name.$error">
               <p class="help is-danger" v-if="!$v.l_name.required">This field is required</p>
               <p class="help is-danger" v-if="!$v.l_name.l_name">Invalid LastName at least 5 characters</p>
               </template>
-          </div>
+          </div></center>
+          
 
-          <div class="field">
-            <label class="label">Username</label>
-            <div class="control">
-              <input
-                class="input"
-                type="text"
-                placeholder="Username"
-                v-model="$v.username.$model" :class="{'is-danger': $v.username.$error}"/>
+         <center><div class="field column is-4">
+            <div class="control has-icons-left">
+              <input  v-model="$v.username.$model" :class="{'is-danger': $v.username.$error}" class="input is-primary" placeholder="UserName" type="text" />
+               <span class="icon is-small is-left">
+                <i class="fas fa-user"></i>
+              </span>
             </div>
-            <template v-if="$v.username.$error">
+              <template v-if="$v.username.$error">
               <p class="help is-danger" v-if="!$v.username.required">This field is required</p>
               <p class="help is-danger" v-if="!$v.username.username">Invalid username at least 5 characters</p>
               </template>
-          </div>
+          </div></center>
 
-          <div class="field">
-            <label class="label">Password</label>
-            <div class="control">
-              <input class="input" type="password" placeholder="********" v-model="$v.password.$model" :class="{'is-danger': $v.password.$error}"/>
+
+         <center><div class="field column is-4">
+            <div class="control has-icons-left">
+              <input  v-model="$v.password.$model" :class="{'is-danger': $v.password.$error}" class="input is-primary" placeholder="Password" type="text" />
+               <span class="icon is-small is-left">
+                <i class="fas fa-lock"></i>
+              </span>
             </div>
-            <template v-if="$v.password.$error">
+              <template v-if="$v.password.$error">
               <p class="help is-danger" v-if="!$v.password.required">This field is required</p>
               <p class="help is-danger" v-if="!$v.password.password">Invalid password at least 8 characters and Must have lowercase, uppercase, numbers</p>
               </template>
-          </div>
+          </div></center>
 
-          <div class="field">
-            <label class="label">Confirm Password</label>
-            <div class="control">
-              <input class="input" type="password" placeholder="********" v-model="$v.confirm_password.$model" :class="{'is-danger': $v.confirm_password.$error}"/>
+
+        <center><div class="field column is-4">
+            <div class="control has-icons-left">
+              <input  v-model="$v.confirm_password.$model" :class="{'is-danger': $v.confirm_password.$error}" class="input is-primary" placeholder="ConfirmPassword" type="text" />
+               <span class="icon is-small is-left">
+                <i class="fas fa-lock"></i>
+              </span>
             </div>
-            <template v-if="$v.confirm_password.$error">
+              <template v-if="$v.confirm_password.$error">
               <p class="help is-danger" v-if="!$v.confirm_password.required">This field is required</p>
               <p class="help is-danger" v-if="!$v.confirm_password.confirm_password">Invalid ConfirmPassword Must be the same as password</p>
               </template>
-          </div>
+          </div></center>
 
-          <div class="field">
-            <label class="label">Email</label>
-            <div class="control">
-              <input class="input" type="email" placeholder="Email" v-model="$v.email.$model" :class="{'is-danger': $v.email.$error}"/>
+
+        <center><div class="field column is-4">
+            <div class="control has-icons-left">
+              <input  v-model="$v.email.$model" :class="{'is-danger': $v.email.$error}" class="input is-primary" placeholder="Email" type="text" />
+               <span class="icon is-small is-left">
+                <i class="fas fa-envelope"></i>
+              </span>
             </div>
-            <template v-if="$v.email.$error">
+              <template v-if="$v.email.$error">
               <p class="help is-danger" v-if="!$v.email.required">This field is required</p>
               <p class="help is-danger" v-if="!$v.email.email">Invalid Email Must be the same as the form of Email</p>
               </template>
-          </div>
+          </div></center>
 
-          <div class="field">
-            <label class="label">Phone</label>
-            <div class="control">
-              <input class="input" type="text" placeholder="0XX-XXX-XXXX" v-model="$v.phoneNum.$model" :class="{'is-danger': $v.phoneNum.$error}"/>
+        <center><div class="field column is-4">
+            <div class="control has-icons-left">
+              <input  v-model="$v.phoneNum.$model" :class="{'is-danger': $v.phoneNum.$error}" class="input is-primary" placeholder="Phone" type="text" />
+               <span class="icon is-small is-left">
+                <i class="fas fa-mobile"></i>
+              </span>
             </div>
-            <template v-if="$v.phoneNum.$error">
+              <template v-if="$v.phoneNum.$error">
               <p class="help is-danger" v-if="!$v.phoneNum.required">This field is required</p>
               <p class="help is-danger" v-if="!$v.phoneNum.phoneNum">Invalid phone number, there must be 10 numbers and 0 is the first number</p>
               </template>
-          </div>
+        </div></center>
 
-          <div class="field">
-            <label class="label">Status</label>
-            <div class="control">
-              <div class="select">
-                <select v-model="$v.usertype.$model">
-                  <option value>Select Status</option>
-                  <option value="buyer">buyer</option>
-                  <option value="seller">seller</option>
-                </select>
-              </div>
+        <center><div class="field column is-4">
+            <div :class="{'select is-danger': $v.usertype.$error}" class="select is-primary" style="width:1000px;">
+              <select v-model="$v.usertype.$model" style="width:1000px;"> 
+                <option>Select dropdown</option>
+                <option value="buyer">buyer</option>
+                <option value="seller">seller</option>
+              </select>
             </div>
-            <template v-if="$v.usertype.$error">
+              <template v-if="$v.usertype.$error">
               <p class="help is-danger" v-if="!$v.usertype.usertype">Invalid usertype must be select buyer type or seller type</p>
               </template>
-          </div>
+        </div></center>
 
-          <button class="button is-primary" @click="cf_register">Register</button>
-        </div>
-      </div>
-    </div>
-    <br>
+
+
+    <center>
+      <button class="button is-primary" @click="cf_register">Register</button>
+    </center>
+    <br />
   </div>
 </template>
 
