@@ -147,17 +147,12 @@ CREATE TABLE `order_detail` (
   REFERENCES `order`(`order_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
-
+-- admin password == Password123
 INSERT INTO `user` (`id`, `f_name`, `l_name`, `username`, `password`, `email`, `phone_number`, `usertype`) VALUES
-('1', 'admin', 'test', 'admin', 'password', 'admin@email.com', '0123456789', 'owner_marketplace'),
-('2', 'seller', 'test', 'seller', 'password', 'seller@email.com', '0254687910', 'seller');
+('1', 'admin', 'test', 'admin', `$2b$05$uJRB4.I7QucwCHcSEdNUt.9GhJnHbyc3lV9lJCpJKINZZx9xpDRsu`, 'admin@email.com', '0123456789', 'owner_marketplace')
 
 INSERT INTO `owner_marketplace` (`id`) VALUES
 ('1');
-
-INSERT INTO `seller` (`id`) VALUES
-('2');
-
 
 
 INSERT INTO `category` (`category_name`) VALUES
