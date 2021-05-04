@@ -199,6 +199,8 @@ export default {
       axios
         .delete("http://localhost:3000/logout")
         .then(() => {
+          localStorage.removeItem("userId");
+          localStorage.removeItem("type");
           this.$parent._data.user = {}
           this.$router.push({ name: "login" });
         })
