@@ -140,8 +140,8 @@ export default {
   },
   methods: {
     onAuthChange() {
-      const token = localStorage.getItem("userId");
-      if (token) {
+      const id = localStorage.getItem("userId");
+      if (id) {
         this.getUser();
       }
     },
@@ -154,6 +154,8 @@ export default {
       axios
         .delete("http://localhost:3000/logout")
         .then(() => {
+          localStorage.removeItem("userId");
+          localStorage.removeItem("type");
           this.user = {};
           this.$router.push({ name: "login" });
         })
