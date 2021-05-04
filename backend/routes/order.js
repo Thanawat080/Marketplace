@@ -2,8 +2,9 @@ const express = require('express')
 const pool = require("../config");
 router = express.Router();
 const { isLoggedIn } = require('../middlewares')
+const { isBuyer } = require('../middlewares')
 
-router.put("/addorder/:productId", isLoggedIn, async (req,res,next) => {
+router.put("/addorder/:productId", isLoggedIn, isBuyer, async (req,res,next) => {
 
     const quantity = req.body.quantity
     const price  = req.body.price
@@ -16,14 +17,18 @@ router.put("/addorder/:productId", isLoggedIn, async (req,res,next) => {
         const orderD = await conn.query("SELECT * FROM order_detail where product_id = ? AND order_id = ?", [req.params.productId, orderId[0][0].id])
         if(orderD[0].length == 0){
           await conn.query("INSERT INTO order_detail(product_id, order_id, total_price, quantity, price) VALUES (?, ?, ?, ?, ?)",
-        [req.params.productId, orderId[0][0].id, quantity * price, quantity, price])
+          [req.params.productId, orderId[0][0].id, quantity * price, quantity, price])
+          conn.commit()
+          res.send('new product')
         }
         else{
           await conn.query("UPDATE order_detail set total_price = ?, quantity = ? where id = ?", [orderD[0][0].total_price + (quantity*price), (parseInt(orderD[0][0].quantity) + parseInt(quantity)), orderD[0][0].id])
+          conn.commit()
+          res.send('have product')
         }
         
-        conn.commit()
-        res.json(orderId[0][0].id)
+        
+        
         
     }
     catch (err) {

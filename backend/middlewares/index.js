@@ -14,7 +14,16 @@ async function isLoggedIn (req, res, next) {
     next()
 }
 
+async function isBuyer (req, res, next) {
+    let buyer = req.session.userdata
+    console.log(buyer)
+    if (buyer.usertype !== 'buyer') {
+       return res.status(403).send('You do not have permission to perform this action')
+    }
+    next()
+}
+
 
 module.exports = {
-    logger, isLoggedIn
+    logger, isLoggedIn, isBuyer
 }
