@@ -1,9 +1,9 @@
 const express = require('express')
 const pool = require("../config");
 router = express.Router();
+const { isLoggedIn } = require('../middlewares')
 
-
-router.put("/addorder/:productId", async (req,res,next) => {
+router.put("/addorder/:productId", isLoggedIn, async (req,res,next) => {
 
     const quantity = req.body.quantity
     const price  = req.body.price
@@ -56,7 +56,7 @@ router.get("/checkout", async (req, res, next) => {
 
 })
 
-router.post("/order/:orderId", async (req, res, next) => {
+router.post("/order/:orderId", isLoggedIn ,async (req, res, next) => {
   const address = req.body.address
 
   const conn = await pool.getConnection();
