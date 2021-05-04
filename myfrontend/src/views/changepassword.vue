@@ -32,7 +32,7 @@
           <p>แก้ไขรหัสผ่าน</p>
         </div>
         <div class="column is-full">
-          <form class="box">
+          
             <div class="field">
               <label class="label">Password</label>
               <div class="control">
@@ -72,7 +72,7 @@
             <button class="button is-warning" @click="savePassword">
               แก้ไขรหัสผ่าน
             </button>
-          </form>
+     
         </div>
       </div>
     </div>
@@ -98,17 +98,18 @@ export default {
         axios
           .put("http://localhost:3000/changepassword", {
             password: this.new_password,
+            oldpassword: this.password
           })
           .then((res) => {
             console.log(res.data);
+            this.password = "";
+            this.cf_password = "";
+            this.new_password = "";
           })
           .catch((err) => {
             console.log(err);
           });
       }
-      this.password = "";
-      this.cf_password = "";
-      this.new_password = "";
     },
   },
 };
