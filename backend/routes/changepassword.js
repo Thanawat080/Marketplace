@@ -3,14 +3,20 @@ const path = require("path");
 const pool = require("../config");
 const fs = require("fs");
 router = express.Router();
-
+const bcrypt = require('bcrypt');
 
 router.put("/changepassword", async function(req,res,next){
-    const password = req.body.password;
+    const password = await bcrypt.hash(req.body.password, 5);
+    const old = req.body.oldpassword;
     const conn = await pool.getConnection();
     await conn.beginTransaction();
    
     try {
+        console.log(req.session.userdata.password)
+        if (!(await bcrypt.compare(old, req.session.userdata.password))) {
+            throw new Error('incorrectpassword')
+        }
+
         await conn.query('UPDATE user SET password=? WHERE id=?', [password, req.session.userdata.id])
         await conn.commit()
         req.session.userdata.password = req.body.password
