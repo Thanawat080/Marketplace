@@ -107,12 +107,14 @@ export default {
         alert("This product have only " + this.product.quantity + "piece")
       }
       else{
-        this.$parent._data.count++
         axios.put(`http://localhost:3000/addorder/${this.$route.params.productId}`,{
           quantity: this.quantity,
           price: this.product.price
         })
-        .then(()=>{
+        .then((res)=>{
+          if(res.data == 'new product'){
+            this.$parent._data.count++
+          }
           axios
           .post(`http://localhost:3000/product/${this.$route.params.productId}`,{
             quantity: this.product.quantity - this.quantity
@@ -125,7 +127,20 @@ export default {
           });
           this.$router.push({ name: "Home" });
         })
-        .catch((eer) => {console.log(eer)})
+        .catch((eer) => {
+          if(eer == 'Error: Request failed with status code 403'){
+            alert("You are not buyer")
+            this.$router.push({ name: "Home" });
+          }
+          else if(eer == 'Error: Request failed with status code 401'){
+            alert("You are not Login")
+            this.$router.push({ name: "login" });
+          }
+          else{
+            console.log('f')
+          }
+          
+          })
       }
       
     }
