@@ -3,6 +3,7 @@ const path = require("path");
 const pool = require("../config");
 const fs = require("fs");
 const Joi = require('joi')
+const bcrypt = require('bcrypt')
 
 router = express.Router();
 
@@ -57,7 +58,7 @@ router.post("/register", async function (req, res, next) {
   const f_name = req.body.f_name;
   const l_name = req.body.l_name;
   const username = req.body.username;
-  const password = req.body.password;
+  const password = await bcrypt.hash(req.body.password, 5)
   const email = req.body.email;
   const phone_number = req.body.phone_number;
   const usertype = req.body.usertype;
