@@ -3,7 +3,7 @@ const path = require("path");
 const pool = require("../config");
 const fs = require("fs");
 const { isLoggedIn } = require('../middlewares')
-
+const bcrypt = require('bcrypt');
 
 
 router = express.Router();
@@ -16,7 +16,10 @@ router.post("/login", async function (req, res, next) {
   const conn = await pool.getConnection();
   await conn.beginTransaction();
   try {
-    let result = await conn.query('SELECT * FROM user WHERE username = ? AND password = ?', [username, password])
+    let result = await conn.query('SELECT * FROM user WHERE username = ?', [username])
+    if (!(await bcrypt.compare(password, result[0][0].password))) {
+            throw new Error('Incorrect username or password')
+        }
     if (result[0].length > 0) {
       req.session.userdata = result[0][0]
       if (req.session.userdata.usertype == 'buyer') {
