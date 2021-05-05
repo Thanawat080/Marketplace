@@ -5,6 +5,7 @@
                     <thead>
                         <tr>
                             <th>สินค้า</th>
+                            <th>ชิ้นละ</th>
                             <th>จำนวน</th>
                             <th>ราคารวม</th>
                             <th>ลบสินค้า</th>
@@ -13,6 +14,7 @@
                     <tbody>
                         <tr v-for='value in orderdetail' :key="value.id">
                             <td style="width: 20%;">{{value.p_name}}</td>
+                            <td style="width: 20%;">{{value.price}}</td>
                             <td style="width: 20%;">{{value.quantity}}</td>
                             <td style="width: 20%;">{{value.total_price}}</td>
                             <td style="width: 1%;"><button class="button is-danger" @click="delete_orderdetail(value.id)">ลบออกจากตะกร้า</button></td>
