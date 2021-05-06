@@ -78,7 +78,9 @@
                   <router-link class="navbar-item" to="/profile"
                     ><i class="fas fa-user"></i>{{ "\xa0" }}Profile</router-link
                   >
-                  <a class="navbar-item"><i class="fas fa-question"></i>{{ "\xa0" }}Help </a>
+                   <router-link class="navbar-item" to="/help"
+                    ><i class="fas fa-question"></i>{{ "\xa0" }}Help</router-link
+                  >
                   <hr class="navbar-divider" />
                   <a
                     class="navbar-item"
