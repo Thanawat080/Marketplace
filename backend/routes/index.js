@@ -62,7 +62,7 @@ router.get("/index/seller/store", async function(req,res,next){
   await conn.beginTransaction();
   try {
       const rows = await pool.query(
-        `select * from store`
+        `select * from store where subscription_type = 'epic'`
       );
 
     await conn.commit()
