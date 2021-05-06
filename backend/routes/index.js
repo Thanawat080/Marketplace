@@ -87,7 +87,7 @@ router.post("/search/type", async function(req,res,next){
   await conn.beginTransaction();
   try {
     const rows1 = await pool.query(
-      `select *,product.id from product join product_picture on(product.id = product_picture.product_id) join category on (product.category_id = category.id) where category_name = ?`,[search_type]
+      `select *,product.id from product join product_picture on(product.id = product_picture.product_id) join category on (product.category_id = category.id) where category_name = ? group by product.id`,[search_type]
     );
     await conn.commit()
     res.send(rows1[0]) 
