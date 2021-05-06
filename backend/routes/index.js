@@ -42,7 +42,7 @@ router.post("/search", async function (req, res, next) {
   try {
     const rows1 = await pool.query(
       `SELECT a.*, b.picture FROM product AS a LEFT JOIN 
-            (SELECT * FROM product_picture) AS b ON a.id = b.product_id where p_name like ?;`,['%'+search+'%']
+            (SELECT * FROM product_picture) AS b ON a.id = b.product_id where p_name like ? group by product.id`,['%'+search+'%']
     );
     res.send(rows1[0])
     console.log(search)
