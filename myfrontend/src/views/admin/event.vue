@@ -30,7 +30,7 @@
           <div class="field">
               <label class="label">ลดราคา %</label>
               <div class="control">
-                <input class="input" v-model="discount" />
+                <input type="number" class="input" v-model="discount" />
               </div>
             </div>
           <div class="columns">
