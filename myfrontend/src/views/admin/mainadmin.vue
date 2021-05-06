@@ -30,9 +30,6 @@
                 <button class="button is-warning" @click="precon(store.seller_id)">ยืนยันตัวตน</button>
                 <div><span v-show="store.status" style="color:green;"><i class="fas fa-check" style="color:green;"></i> ยืนยันตัวตนแล้ว</span></div>
               </td>
-              <td style="width: 25%">
-                <!-- <button class="button is-danger" @click="deletestore(store.id)">ลบร้านค้า</button> -->
-              </td>
             </tr>
           </tbody>
         </table>
