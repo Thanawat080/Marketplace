@@ -29,7 +29,7 @@
       </div>
       <div class="column is-two-thirds notification is-primary is-light">
         <div class="message-header">
-          <p>แก้ไขรหัสผ่าน</p>
+          <p>ประวัติส่วนตัว</p>
         </div>
         <div class="column is-full box">
             <div class="columns">
