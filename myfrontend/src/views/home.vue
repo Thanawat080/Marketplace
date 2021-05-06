@@ -34,7 +34,7 @@
     <div class="container">
       <div class="columns">
         <div class="column is-three-fifths is-offset-one-fifth">
-          <div v-if="detail_seller.length < 2" >
+          <div v-if="detail_seller.length < 2">
             <div v-for="seller in detail_seller" :key="seller.store_name"  v-show="seller.subscription_type == 'epic'">
               <router-link :to="`/store_seller/${seller.id}`"
                 ><img

@@ -23,8 +23,7 @@
                     <div class="message-header">
                         <p>ประวัติการซื้อ</p>
                     </div>
-                    <div class="column is-full">
-                        <div class="box">
+                    <div class="column is-full box">
                             <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth"
                                 style="width: 100%;">
                                 <!-- Your table content -->
@@ -45,7 +44,6 @@
                                     </tr>
                                 </tbody>
                             </table>
-                        </div>
 
                     </div>
                 </div>

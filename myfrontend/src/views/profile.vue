@@ -31,8 +31,7 @@
         <div class="message-header">
           <p>แก้ไขรหัสผ่าน</p>
         </div>
-        <div class="column is-full">
-          <div class="box">
+        <div class="column is-full box">
             <div class="columns">
               <div class="column is-one-third">
                 <figure class="image is-128x128">
@@ -60,7 +59,6 @@
                 </div>
               </div>
             </div>
-          </div>
         </div>
       </div>
     </div>

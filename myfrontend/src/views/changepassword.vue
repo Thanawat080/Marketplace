@@ -31,7 +31,7 @@
         <div class="message-header">
           <p>แก้ไขรหัสผ่าน</p>
         </div>
-        <div class="column is-full">
+        <div class="column is-full box">
           
             <div class="field">
               <label class="label">Password</label>

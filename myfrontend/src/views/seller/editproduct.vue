@@ -1,6 +1,5 @@
 <template>
   <div class="container is-max-desktop">
-    <br /><br />
     <div class="columns">
       <div class="column is-one-third">
         <aside class="menu">
@@ -23,8 +22,7 @@
         <div class="message-header">
           <p>แก้ไขและลบสินค้า</p>
         </div>
-        <br />
-        <div class="column is-full">
+        <div class="column is-full box">
           <table
             class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth"
             style="width: 100%"
@@ -35,8 +33,8 @@
                 <td>ลำดับ</td>
                 <td>ชื่อสินค้า</td>
                 <td>จำนวนคงเหลือ</td>
-                <td></td>
-                <td></td>
+                <td>แก้ไข</td>
+                <td>ลบ</td>
               </tr>
               <tr v-for="(value, index) in product" :key="value.id">
                 <th>{{ index + 1 }}</th>
@@ -188,6 +186,7 @@
         </div>
       </div>
     </div>
+    <br>
   </div>
 </template>
 <script>

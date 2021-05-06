@@ -1,6 +1,5 @@
 <template>
   <div class="container is-max-desktop">
-    <br /><br />
     <div class="columns">
       <div class="column is-one-third">
         <aside class="menu">
@@ -23,7 +22,6 @@
         <div class="message-header">
           <p>สร้างร้านค้า</p>
         </div>
-        <br />
         <div class="box" v-show="store_name_show == ''">
           <div class="field">
             <label class="file-label">
@@ -106,9 +104,6 @@
               </p>
             </template>
           </div>
-
-          <hr />
-
           <button class="button is-warning" @click="addstore">บันทึก</button>
         </div>
 
@@ -120,6 +115,7 @@
         </div>
       </div>
     </div>
+    <br>
   </div>
 </template>
 
