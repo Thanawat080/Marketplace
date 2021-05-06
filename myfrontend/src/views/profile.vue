@@ -35,7 +35,7 @@
             <div class="columns">
               <div class="column is-one-third">
                 <figure class="image is-128x128">
-                  <img src="https://bulma.io/images/placeholders/128x128.png" />
+                  <img src="https://lh3.googleusercontent.com/proxy/IY2B29gOqjXq2DFrD42NLH3h51VzW3Ncq9J-lXQionUYCiFJKIrf8fpm7Ae_E0spePMLXWpa25iL6PwmJRmDIIiKkyA9" />
                 </figure>
               </div>
               <div class="column is-one-third">
