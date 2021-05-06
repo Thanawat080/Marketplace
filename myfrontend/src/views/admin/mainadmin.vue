@@ -15,7 +15,7 @@
         <div class="message-header">
           <p>จัดการร้าน</p>
         </div>
-        <br />
+        <div class="box">
         <table
           class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth"
           style="width: 100%"
@@ -36,6 +36,7 @@
             </tr>
           </tbody>
         </table>
+        </div>
 
         <div class="modal" v-bind:class='isActive'>
           <div class="modal-background"></div>
@@ -61,6 +62,7 @@
         </div>
       </div>
     </div>
+    <br>
   </div>
 </template>
 
